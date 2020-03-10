@@ -8,6 +8,8 @@ An example of using the single resource defined in this example is in `examples/
 
 This repo does not yet contain a code-generator for generating SDKs in each Pulumi language (TypeScript/Python/Go/.NET).  Instead, the SDK for TypeScript for this example is included in the example in `examples/simple/xyz.ts`.
 
+Note that the generated provider plugin (`pulumi-resource-xyz`) must be on your `PATH` to be used by Pulumi deployments.  If creating a provider for distribution to other users, you should ensure they install this plugin to their `PATH`.
+
 
 ## Build and Test
 
