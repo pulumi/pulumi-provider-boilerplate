@@ -80,7 +80,7 @@ func (k *xyzProvider) StreamInvoke(req *rpc.InvokeRequest, server rpc.ResourcePr
 func (k *xyzProvider) Check(ctx context.Context, req *rpc.CheckRequest) (*rpc.CheckResponse, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 	return &rpc.CheckResponse{Inputs: req.News, Failures: nil}, nil
@@ -90,7 +90,7 @@ func (k *xyzProvider) Check(ctx context.Context, req *rpc.CheckRequest) (*rpc.Ch
 func (k *xyzProvider) Diff(ctx context.Context, req *rpc.DiffRequest) (*rpc.DiffResponse, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 
@@ -120,7 +120,7 @@ func (k *xyzProvider) Diff(ctx context.Context, req *rpc.DiffRequest) (*rpc.Diff
 func (k *xyzProvider) Create(ctx context.Context, req *rpc.CreateRequest) (*rpc.CreateResponse, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 
@@ -160,18 +160,18 @@ func (k *xyzProvider) Create(ctx context.Context, req *rpc.CreateRequest) (*rpc.
 func (k *xyzProvider) Read(ctx context.Context, req *rpc.ReadRequest) (*rpc.ReadResponse, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 
-	panic("Read not implemented for 'xyz:random:Random'")
+	panic("Read not implemented for 'xyz:index:Random'")
 }
 
 // Update updates an existing resource with new values.
 func (k *xyzProvider) Update(ctx context.Context, req *rpc.UpdateRequest) (*rpc.UpdateResponse, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 
@@ -184,7 +184,7 @@ func (k *xyzProvider) Update(ctx context.Context, req *rpc.UpdateRequest) (*rpc.
 func (k *xyzProvider) Delete(ctx context.Context, req *rpc.DeleteRequest) (*pbempty.Empty, error) {
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
-	if ty != "xyz:random:Random" {
+	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
 	}
 

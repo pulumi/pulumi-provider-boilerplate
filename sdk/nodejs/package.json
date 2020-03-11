@@ -1,0 +1,13 @@
+{
+    "name": "@pulumi/xyz",
+    "version": "0.0.1",
+    "scripts": {
+        "build": "tsc"
+    },
+    "peerDependencies": {
+        "@pulumi/pulumi": "latest"
+    },
+    "pulumi": {
+        "resource": true
+    }
+}
