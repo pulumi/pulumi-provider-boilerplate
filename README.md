@@ -27,6 +27,6 @@ $ pulumi up
 ## References
 
 Other resoruces for learning about the Pulumi resource model:
-* [Pulumi Kubernetes provider](https://github.com/pulumi/pulumi-kubernetes/blob/master/pkg/provider/provider.go)
-* [Pulumi Terraform Remote State provider](https://github.com/pulumi/pulumi-terraform/blob/master/pkg/provider/provider.go)
+* [Pulumi Kubernetes provider](https://github.com/pulumi/pulumi-kubernetes/blob/master/provider/pkg/provider/provider.go)
+* [Pulumi Terraform Remote State provider](https://github.com/pulumi/pulumi-terraform/blob/master/provider/cmd/pulumi-resource-terraform/provider.go)
 * [Dynamic Providers](https://www.pulumi.com/docs/intro/concepts/programming-model/#dynamicproviders)
