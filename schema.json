@@ -22,18 +22,11 @@
             },
             "requiredInputs": [
                 "length"
-            ],
-            "stateInputs": {
-                "type": "object",
-                "properties": {
-                    "length": {
-                        "type": "integer"
-                    },
-                    "result": {
-                        "type": "string"
-                    }
-                }
-            }
+            ]
         }
+    },
+    "language": {
+        "nodejs": {},
+        "python": {}
     }
 }

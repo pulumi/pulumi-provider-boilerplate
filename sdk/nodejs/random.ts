@@ -11,10 +11,10 @@ export class Random extends pulumi.CustomResource {
      *
      * @param name The _unique_ name of the resulting resource.
      * @param id The _unique_ provider ID of the resource to lookup.
-     * @param state Any extra arguments used during the lookup.
+     * @param opts Optional settings to control the behavior of the CustomResource.
      */
-    public static get(name: string, id: pulumi.Input<pulumi.ID>, state?: RandomState, opts?: pulumi.CustomResourceOptions): Random {
-        return new Random(name, <any>state, { ...opts, id: id });
+    public static get(name: string, id: pulumi.Input<pulumi.ID>, opts?: pulumi.CustomResourceOptions): Random {
+        return new Random(name, undefined as any, { ...opts, id: id });
     }
 
     /** @internal */
@@ -41,19 +41,16 @@ export class Random extends pulumi.CustomResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: RandomArgs, opts?: pulumi.CustomResourceOptions)
-    constructor(name: string, argsOrState?: RandomArgs | RandomState, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args: RandomArgs, opts?: pulumi.CustomResourceOptions) {
         let inputs: pulumi.Inputs = {};
-        if (opts && opts.id) {
-            const state = argsOrState as RandomState | undefined;
-            inputs["length"] = state ? state.length : undefined;
-            inputs["result"] = state ? state.result : undefined;
-        } else {
-            const args = argsOrState as RandomArgs | undefined;
+        if (!(opts && opts.id)) {
             if (!args || args.length === undefined) {
                 throw new Error("Missing required property 'length'");
             }
             inputs["length"] = args ? args.length : undefined;
+            inputs["result"] = undefined /*out*/;
+        } else {
+            inputs["length"] = undefined /*out*/;
             inputs["result"] = undefined /*out*/;
         }
         if (!opts) {
@@ -65,11 +62,6 @@ export class Random extends pulumi.CustomResource {
         }
         super(Random.__pulumiType, name, inputs, opts);
     }
-}
-
-export interface RandomState {
-    readonly length?: pulumi.Input<number>;
-    readonly result?: pulumi.Input<string>;
 }
 
 /**

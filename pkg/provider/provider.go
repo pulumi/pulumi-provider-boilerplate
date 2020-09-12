@@ -20,10 +20,10 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/pulumi/pulumi/pkg/resource"
-	"github.com/pulumi/pulumi/pkg/resource/plugin"
-	"github.com/pulumi/pulumi/pkg/resource/provider"
-	rpc "github.com/pulumi/pulumi/sdk/proto/go"
+	"github.com/pulumi/pulumi/pkg/v2/resource/provider"
+	"github.com/pulumi/pulumi/sdk/v2/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v2/go/common/resource/plugin"
+	rpc "github.com/pulumi/pulumi/sdk/v2/proto/go"
 
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 )
@@ -190,6 +190,11 @@ func (k *xyzProvider) Delete(ctx context.Context, req *rpc.DeleteRequest) (*pbem
 
 	// Note that for our Random resource, we don't have to do anything on Delete.
 	return &pbempty.Empty{}, nil
+}
+
+// Construct creates a new component resource.
+func (k *xyzProvider) Construct(_ context.Context, _ *rpc.ConstructRequest) (*rpc.ConstructResponse, error) {
+	panic("Construct not implemented")
 }
 
 // GetPluginInfo returns generic information about this plugin, like its version.

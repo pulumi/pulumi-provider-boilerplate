@@ -9,12 +9,14 @@ import pkg_resources
 from semver import VersionInfo as SemverVersion
 from parver import Version as PEP440Version
 
+
 def get_env(*args):
     for v in args:
         value = os.getenv(v)
         if value is not None:
             return value
     return None
+
 
 def get_env_bool(*args):
     str = get_env(*args)
@@ -27,6 +29,7 @@ def get_env_bool(*args):
             return False
     return None
 
+
 def get_env_int(*args):
     str = get_env(*args)
     if str is not None:
@@ -35,6 +38,7 @@ def get_env_int(*args):
         except:
             return None
     return None
+
 
 def get_env_float(*args):
     str = get_env(*args)
@@ -45,9 +49,10 @@ def get_env_float(*args):
             return None
     return None
 
+
 def get_version():
     # __name__ is set to the fully-qualified name of the current module, In our case, it will be
-    # <some module>.utilities. <some module> is the module we want to query the version for.
+    # <some module>._utilities. <some module> is the module we want to query the version for.
     root_package, *rest = __name__.split('.')
 
     # pkg_resources uses setuptools to inspect the set of installed packages. We use it here to ask

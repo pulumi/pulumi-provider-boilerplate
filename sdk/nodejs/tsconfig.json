@@ -14,8 +14,7 @@
     },
     "files": [
         "index.ts",
-        "providers/index.ts",
-        "providers/provider.ts",
+        "provider.ts",
         "random.ts",
         "utilities.ts"
     ]

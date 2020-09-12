@@ -21,15 +21,15 @@ import (
 	"os"
 	"path"
 
-	"github.com/pulumi/pulumi/pkg/tools"
-	"github.com/pulumi/pulumi/pkg/util/contract"
+	"github.com/pulumi/pulumi/sdk/v2/go/common/tools"
+	"github.com/pulumi/pulumi/sdk/v2/go/common/util/contract"
 
 	"github.com/pkg/errors"
-	dotnetgen "github.com/pulumi/pulumi/pkg/codegen/dotnet"
-	gogen "github.com/pulumi/pulumi/pkg/codegen/go"
-	nodejsgen "github.com/pulumi/pulumi/pkg/codegen/nodejs"
-	pygen "github.com/pulumi/pulumi/pkg/codegen/python"
-	pschema "github.com/pulumi/pulumi/pkg/codegen/schema"
+	dotnetgen "github.com/pulumi/pulumi/pkg/v2/codegen/dotnet"
+	gogen "github.com/pulumi/pulumi/pkg/v2/codegen/go"
+	nodejsgen "github.com/pulumi/pulumi/pkg/v2/codegen/nodejs"
+	pygen "github.com/pulumi/pulumi/pkg/v2/codegen/python"
+	pschema "github.com/pulumi/pulumi/pkg/v2/codegen/schema"
 )
 
 // emitPackage emits an entire package pack into the configured output directory with the configured settings.
@@ -45,7 +45,7 @@ func emitPackage(schemaPath, targetSdkFolder string) error {
 		return errors.Wrap(err, "reading schema")
 	}
 
-	ppkg, err := pschema.ImportSpec(spec)
+	ppkg, err := pschema.ImportSpec(spec, nil)
 	if err != nil {
 		return errors.Wrap(err, "reading schema")
 	}
