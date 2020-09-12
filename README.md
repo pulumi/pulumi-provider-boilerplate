@@ -21,6 +21,7 @@ $ go install ./cmd/pulumi-resource-xyz
 $ go install ./cmd/pulumi-sdkgen-xyz
 
 # regenerate the SDK
+$ rm -rf ./sdk
 $ pulumi-sdkgen-xyz ./schema.json ./sdk
 
 # test
