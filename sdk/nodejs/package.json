@@ -4,8 +4,11 @@
     "scripts": {
         "build": "tsc"
     },
-    "peerDependencies": {
-        "@pulumi/pulumi": "latest"
+    "dependencies": {
+        "@pulumi/pulumi": "^3.0.0"
+    },
+    "devDependencies": {
+        "typescript": "^4.3.5"
     },
     "pulumi": {
         "resource": true

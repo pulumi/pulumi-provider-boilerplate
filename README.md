@@ -6,23 +6,21 @@ Most of the code for the provider implementation is in `pkg/provider/provider.go
 
 An example of using the single resource defined in this example is in `examples/simple`.
 
-A code generator is available which generates SDKs in TypeScript, Python, Go and .NET which are also checked in to the `sdk` folder.  The SDKs are generated from a schema in `schema.json`.  This file shoudl be kept aligned with the resources, functions and types supported by the provider implementation.
+A code generator is available which generates SDKs in TypeScript, Python, Go and .NET which are also checked in to the `sdk` folder.  The SDKs are generated from a schema in `provider/cmd/pulumi-resource-xyz/schema.json`.  This file should be kept aligned with the resources, functions and types supported by the provider implementation.
 
 Note that the generated provider plugin (`pulumi-resource-xyz`) must be on your `PATH` to be used by Pulumi deployments.  If creating a provider for distribution to other users, you should ensure they install this plugin to their `PATH`.
 
+## Pre-requisites
+
+Install the `pulumictl` cli from the [releases](https://github.com/pulumi/pulumictl/releases) page or follow the [install instructions](https://github.com/pulumi/pulumictl#installation)
+
+> NB: Usage of `pulumictl` is optional. If not using it, hard code the version in the [Makefile](Makefile) of when building explicitly pass version as `VERSION=0.0.1 make build`
 
 ## Build and Test
 
 ```bash
-# build the resource provider plugin
-$ go install ./cmd/pulumi-resource-xyz
-
-# build the SDK generator
-$ go install ./cmd/pulumi-sdkgen-xyz
-
-# regenerate the SDK
-$ rm -rf ./sdk
-$ pulumi-sdkgen-xyz ./schema.json ./sdk
+# build and install the resource provider plugin
+$ make build install
 
 # test
 $ cd examples/simple
