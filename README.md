@@ -24,7 +24,8 @@ $ make build install
 
 # test
 $ cd examples/simple
-$ npm install
+$ yarn link @pulumi/xyz
+$ yarn install
 $ pulumi stack init test
 $ pulumi up
 ```

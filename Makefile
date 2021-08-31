@@ -60,8 +60,7 @@ nodejs_sdk::
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
 python_sdk::
-	# Delete only files and folders that are generated.
-	rm -r sdk/python/pulumi_kubernetes/*/ sdk/python/pulumi_kubernetes/__init__.py
+	rm -rf sdk/python
 	$(WORKING_DIR)/bin/$(CODEGEN) -version=${VERSION} python $(SCHEMA_FILE) $(CURDIR)
 	cp README.md ${PACKDIR}/python/
 	cd ${PACKDIR}/python/ && \
