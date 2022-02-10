@@ -42,22 +42,20 @@ export class Random extends pulumi.CustomResource {
      * @param opts A bag of options that control this resource's behavior.
      */
     constructor(name: string, args: RandomArgs, opts?: pulumi.CustomResourceOptions) {
-        let inputs: pulumi.Inputs = {};
+        let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
             if ((!args || args.length === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'length'");
             }
-            inputs["length"] = args ? args.length : undefined;
-            inputs["result"] = undefined /*out*/;
+            resourceInputs["length"] = args ? args.length : undefined;
+            resourceInputs["result"] = undefined /*out*/;
         } else {
-            inputs["length"] = undefined /*out*/;
-            inputs["result"] = undefined /*out*/;
+            resourceInputs["length"] = undefined /*out*/;
+            resourceInputs["result"] = undefined /*out*/;
         }
-        if (!opts.version) {
-            opts = pulumi.mergeOptions(opts, { version: utilities.getVersion()});
-        }
-        super(Random.__pulumiType, name, inputs, opts);
+        opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
+        super(Random.__pulumiType, name, resourceInputs, opts);
     }
 }
 
