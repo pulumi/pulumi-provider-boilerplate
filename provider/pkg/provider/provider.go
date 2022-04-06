@@ -22,7 +22,6 @@ import (
 
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -31,10 +30,25 @@ import (
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 )
 
+var PulumiResources = []xyzResource{
+	&xyzRandomResource{},
+}
+
 type xyzProvider struct {
 	host    *provider.HostClient
 	name    string
 	version string
+}
+
+type xyzResource interface {
+	Configure(config xyzConfig)
+	Diff(req *pulumirpc.DiffRequest) (*pulumirpc.DiffResponse, error)
+	Create(req *pulumirpc.CreateRequest) (*pulumirpc.CreateResponse, error)
+	Delete(req *pulumirpc.DeleteRequest) (*pbempty.Empty, error)
+	Check(req *pulumirpc.CheckRequest) (*pulumirpc.CheckResponse, error)
+	Update(req *pulumirpc.UpdateRequest) (*pulumirpc.UpdateResponse, error)
+	Read(req *pulumirpc.ReadRequest) (*pulumirpc.ReadResponse, error)
+	Name() string
 }
 
 func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.ResourceProviderServer, error) {
@@ -91,117 +105,45 @@ func (k *xyzProvider) StreamInvoke(req *pulumirpc.InvokeRequest, server pulumirp
 // required for correctness, violations thereof can negatively impact the end-user experience, as
 // the provider inputs are using for detecting and rendering diffs.
 func (k *xyzProvider) Check(ctx context.Context, req *pulumirpc.CheckRequest) (*pulumirpc.CheckResponse, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-	return &pulumirpc.CheckResponse{Inputs: req.News, Failures: nil}, nil
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Check(req)
 }
 
 // Diff checks what impacts a hypothetical update will have on the resource's properties.
 func (k *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pulumirpc.DiffResponse, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-
-	olds, err := plugin.UnmarshalProperties(req.GetOlds(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
-	if err != nil {
-		return nil, err
-	}
-
-	news, err := plugin.UnmarshalProperties(req.GetNews(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
-	if err != nil {
-		return nil, err
-	}
-
-	d := olds.Diff(news)
-	changes := pulumirpc.DiffResponse_DIFF_NONE
-	if d.Changed("length") {
-		changes = pulumirpc.DiffResponse_DIFF_SOME
-	}
-
-	return &pulumirpc.DiffResponse{
-		Changes:  changes,
-		Replaces: []string{"length"},
-	}, nil
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Diff(req)
 }
 
 // Create allocates a new instance of the provided resource and returns its unique ID afterwards.
 func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) (*pulumirpc.CreateResponse, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-
-	inputs, err := plugin.UnmarshalProperties(req.GetProperties(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
-	if err != nil {
-		return nil, err
-	}
-
-	if !inputs["length"].IsNumber() {
-		return nil, fmt.Errorf("Expected input property 'length' of type 'number' but got '%s", inputs["length"].TypeString())
-	}
-
-	n := int(inputs["length"].NumberValue())
-
-	// Actually "create" the random number
-	result := makeRandom(n)
-
-	outputs := map[string]interface{}{
-		"length": n,
-		"result": result,
-	}
-
-	outputProperties, err := plugin.MarshalProperties(
-		resource.NewPropertyMapFromMap(outputs),
-		plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true},
-	)
-	if err != nil {
-		return nil, err
-	}
-	return &pulumirpc.CreateResponse{
-		Id:         result,
-		Properties: outputProperties,
-	}, nil
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Create(req)
 }
 
 // Read the current live state associated with a resource.
 func (k *xyzProvider) Read(ctx context.Context, req *pulumirpc.ReadRequest) (*pulumirpc.ReadResponse, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-	return nil, status.Error(codes.Unimplemented, "Read is not yet implemented for 'xyz:index:Random'")
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Read(req)
 }
 
 // Update updates an existing resource with new values.
 func (k *xyzProvider) Update(ctx context.Context, req *pulumirpc.UpdateRequest) (*pulumirpc.UpdateResponse, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-
-	// Our Random resource will never be updated - if there is a diff, it will be a replacement.
-	return nil, status.Error(codes.Unimplemented, "Update is not yet implemented for 'xyz:index:Random'")
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Update(req)
 }
 
 // Delete tears down an existing resource with the given ID.  If it fails, the resource is assumed
 // to still exist.
 func (k *xyzProvider) Delete(ctx context.Context, req *pulumirpc.DeleteRequest) (*pbempty.Empty, error) {
-	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
-	}
-
-	// Note that for our Random resource, we don't have to do anything on Delete.
-	return &pbempty.Empty{}, nil
+	rn := getResourceNameFromRequest(req)
+	res := getResource(rn)
+	return res.Delete(req)
 }
 
 // GetPluginInfo returns generic information about this plugin, like its version.
@@ -235,4 +177,23 @@ func makeRandom(length int) string {
 		result[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(result)
+}
+
+func getResourceNameFromRequest(req ResourceBase) string {
+	urn := resource.URN(req.GetUrn())
+	return urn.Type().String()
+}
+
+type ResourceBase interface {
+	GetUrn() string
+}
+
+func getResource(name string) xyzResource {
+	for _, r := range PulumiResources {
+		if r.Name() == name {
+			return r
+		}
+	}
+
+	return &xyzUnknownResource{}
 }
