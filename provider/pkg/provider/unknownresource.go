@@ -12,7 +12,7 @@ type xyzUnknownResource struct{}
 type xyzUnknownFunction struct{}
 
 func (c xyzUnknownResource) Name() string {
-	return "XYZ:index:Unknown"
+	return "xyz:index:Unknown"
 }
 
 func (u *xyzUnknownResource) Configure(config xyzConfig) {
