@@ -17,6 +17,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"google.golang.org/protobuf/types/known/emptypb"
 	"math/rand"
 	"time"
 
@@ -44,6 +45,15 @@ func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.Re
 		name:    name,
 		version: version,
 	}, nil
+}
+
+func (k *xyzProvider) Attach(context context.Context, req *pulumirpc.PluginAttach) (*emptypb.Empty, error) {
+	host, err := provider.NewHostClient(req.GetAddress())
+	if err != nil {
+		return nil, err
+	}
+	k.host = host
+	return &pbempty.Empty{}, nil
 }
 
 // Call dynamically executes a method in the provider associated with a component resource.
