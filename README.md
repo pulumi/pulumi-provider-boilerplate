@@ -40,6 +40,12 @@ $ pulumi stack init test
 $ pulumi up
 ```
 
+## Configuring CI and releases
+
+### Third-party providers
+
+1. Follow the instructions laid out in the [deployment templates](./deployment-templates/README-DEPLOYMENT.md).
+
 ## References
 
 Other resources for learning about the Pulumi resource model:
