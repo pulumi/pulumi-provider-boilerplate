@@ -1,6 +1,16 @@
-# xyz Pulumi Provider
+# Pulumi Native Provider Boilerplate
 
-This repo is a boilerplate showing how to create a native Pulumi provider.  You can search-replace `xyz` with the name of your desired provider as a starting point for creating a provider that manages resources in the target cloud.
+This repo is a boilerplate showing how to create a native Pulumi provider.  
+
+### Background
+
+This repository is part of the [guide for authoring and publishing a Pulumi Package](https://www.pulumi.com/docs/guides/pulumi-packages/how-to-author).
+
+Learn about the concepts behind [Pulumi Packages](https://www.pulumi.com/docs/guides/pulumi-packages/#pulumi-packages).
+
+## Creating a Pulumi Native Provider
+
+You can search-replace `xyz` with the name of your desired provider as a starting point for creating a provider that manages resources in the target cloud.
 
 Most of the code for the provider implementation is in `pkg/provider/provider.go`.  
 
@@ -29,6 +39,12 @@ $ yarn install
 $ pulumi stack init test
 $ pulumi up
 ```
+
+## Configuring CI and releases
+
+### Third-party providers
+
+1. Follow the instructions laid out in the [deployment templates](./deployment-templates/README-DEPLOYMENT.md).
 
 ## References
 
