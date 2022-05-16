@@ -31,7 +31,7 @@ env:
   PYPI_REPOSITORY_URL: ""
   PUBLISH_PYPI: true
 jobs:
-  publish-binary:
+  publish_binary:
     name: publish
     runs-on: ubuntu-latest
     steps:
@@ -50,7 +50,7 @@ jobs:
     - name: Run GoReleaser
       uses: goreleaser/goreleaser-action@v2
       with:
-        args: -p 1 release --rm-dist --timeout 90m0s
+        args: -p 3 release --rm-dist
         version: latest
     strategy:
       fail-fast: true
