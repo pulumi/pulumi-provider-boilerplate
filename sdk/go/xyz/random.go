@@ -155,6 +155,14 @@ func (o RandomOutput) ToRandomOutputWithContext(ctx context.Context) RandomOutpu
 	return o
 }
 
+func (o RandomOutput) Length() pulumi.IntOutput {
+	return o.ApplyT(func(v *Random) pulumi.IntOutput { return v.Length }).(pulumi.IntOutput)
+}
+
+func (o RandomOutput) Result() pulumi.StringOutput {
+	return o.ApplyT(func(v *Random) pulumi.StringOutput { return v.Result }).(pulumi.StringOutput)
+}
+
 type RandomArrayOutput struct{ *pulumi.OutputState }
 
 func (RandomArrayOutput) ElementType() reflect.Type {
