@@ -1,4 +1,4 @@
-// Copyright 2016-2020, Pulumi Corporation.
+// Copyright 2016-2022, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,14 +17,14 @@ package provider
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"time"
+
+	"github.com/pulumi/pulumi-xyz/provider/internal"
 
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	pkgerrors "github.com/pkg/errors"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
@@ -181,7 +181,7 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	defer cancel()
 	ctx = context.WithValue(ctx, "host", k.host)
 	ctx = context.WithValue(ctx, "urn", urn)
-	result := makeRandom(ctx, n)
+	result := internal.MakeRandom(ctx, n)
 
 	outputs := map[string]interface{}{
 		"length": n,
@@ -262,47 +262,6 @@ func (k *xyzProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, e
 	return &pbempty.Empty{}, nil
 }
 
-func makeRandom(ctx context.Context, length int) string {
-	done := make(chan string)
-	defer close(done)
-
-	go func() {
-		log(ctx, diag.Info, "beginning random generation")
-		seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-		charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
-		result := make([]rune, length)
-		for i := range result {
-			result[i] = charset[seededRand.Intn(len(charset))]
-		}
-		for i := 0; i <= 10; i++ {
-			log(ctx, diag.Info, fmt.Sprintf("creation in progress %d/10", i))
-			time.Sleep(1 * time.Second)
-		}
-		clearStatus(ctx)
-		done <- string(result)
-	}()
-
-	select {
-	case <-ctx.Done():
-		return "CANCELLED"
-	case r := <-done:
-		return r
-	}
-}
-
-func log(ctx context.Context, severity diag.Severity, message string) {
-	host, ok := ctx.Value("host").(*provider.HostClient)
-	if !ok {
-		return
-	}
-	urn, ok := ctx.Value("urn").(resource.URN)
-	if !ok {
-		return
-	}
-	_ = host.LogStatus(ctx, severity, urn, message)
-}
-
 // partialError creates an error for resources that did not complete an operation in progress.
 // The last known state of the object is included in the error so that it can be checkpointed.
 func partialError(id string, err error, state *structpb.Struct, inputs *structpb.Struct) error {
@@ -315,9 +274,4 @@ func partialError(id string, err error, state *structpb.Struct, inputs *structpb
 		Inputs:     inputs,
 	}
 	return rpcerror.WithDetails(rpcerror.New(codes.Unknown, err.Error()), &detail)
-}
-
-// clearStatus will clear the `Info` column of the CLI of all statuses and messages.
-func clearStatus(ctx context.Context) {
-	log(ctx, diag.Info, "")
 }
