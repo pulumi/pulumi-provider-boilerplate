@@ -17,22 +17,26 @@ package provider
 import (
 	"context"
 	"fmt"
-	"google.golang.org/protobuf/types/known/emptypb"
 	"math/rand"
 	"time"
 
+	pbempty "github.com/golang/protobuf/ptypes/empty"
+	structpb "github.com/golang/protobuf/ptypes/struct"
+	pkgerrors "github.com/pkg/errors"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
+	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-
-	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
-
-	pbempty "github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type xyzProvider struct {
+	ctx     context.Context
+	cancel  context.CancelFunc
 	host    *provider.HostClient
 	name    string
 	version string
@@ -40,7 +44,10 @@ type xyzProvider struct {
 
 func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.ResourceProviderServer, error) {
 	// Return the new provider
+	ctx, cancel := context.WithCancel(context.Background())
 	return &xyzProvider{
+		ctx:     ctx,
+		cancel:  cancel,
 		host:    host,
 		name:    name,
 		version: version,
@@ -159,7 +166,22 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	n := int(inputs["length"].NumberValue())
 
 	// Actually "create" the random number
-	result := makeRandom(n)
+	// TODO:
+	//   1. handle method ctx
+	//   2. handle timeout for create, update, delete
+	//   3. callee should handle retries and partial state
+	//   4. should define a common pattern for signaling error
+	var cancel context.CancelFunc
+	if req.GetTimeout() != 0 {
+		timeout := time.Duration(int(req.GetTimeout())) * time.Second
+		ctx, cancel = context.WithTimeout(k.ctx, timeout)
+	} else {
+		ctx, cancel = context.WithCancel(k.ctx)
+	}
+	defer cancel()
+	ctx = context.WithValue(ctx, "host", k.host)
+	ctx = context.WithValue(ctx, "urn", urn)
+	result := makeRandom(ctx, n)
 
 	outputs := map[string]interface{}{
 		"length": n,
@@ -172,6 +194,10 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	)
 	if err != nil {
 		return nil, err
+	}
+	if result == "CANCELLED" {
+		return nil, partialError("1234", fmt.Errorf("cancelled in progress"),
+			outputProperties, req.GetProperties())
 	}
 	return &pulumirpc.CreateResponse{
 		Id:         result,
@@ -232,17 +258,66 @@ func (k *xyzProvider) GetSchema(ctx context.Context, req *pulumirpc.GetSchemaReq
 // to the host to decide how long to wait after Cancel is called before (e.g.)
 // hard-closing any gRPC connection.
 func (k *xyzProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, error) {
-	// TODO
+	k.cancel()
 	return &pbempty.Empty{}, nil
 }
 
-func makeRandom(length int) string {
-	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+func makeRandom(ctx context.Context, length int) string {
+	done := make(chan string)
+	defer close(done)
 
-	result := make([]rune, length)
-	for i := range result {
-		result[i] = charset[seededRand.Intn(len(charset))]
+	go func() {
+		log(ctx, diag.Info, "beginning random generation")
+		seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
+		charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+
+		result := make([]rune, length)
+		for i := range result {
+			result[i] = charset[seededRand.Intn(len(charset))]
+		}
+		for i := 0; i <= 10; i++ {
+			log(ctx, diag.Info, fmt.Sprintf("creation in progress %d/10", i))
+			time.Sleep(1 * time.Second)
+		}
+		clearStatus(ctx)
+		done <- string(result)
+	}()
+
+	select {
+	case <-ctx.Done():
+		return "CANCELLED"
+	case r := <-done:
+		return r
 	}
-	return string(result)
+}
+
+func log(ctx context.Context, severity diag.Severity, message string) {
+	host, ok := ctx.Value("host").(*provider.HostClient)
+	if !ok {
+		return
+	}
+	urn, ok := ctx.Value("urn").(resource.URN)
+	if !ok {
+		return
+	}
+	_ = host.LogStatus(ctx, severity, urn, message)
+}
+
+// partialError creates an error for resources that did not complete an operation in progress.
+// The last known state of the object is included in the error so that it can be checkpointed.
+func partialError(id string, err error, state *structpb.Struct, inputs *structpb.Struct) error {
+	reasons := []string{err.Error()}
+	err = pkgerrors.Cause(err)
+	detail := pulumirpc.ErrorResourceInitFailed{
+		Id:         id,
+		Properties: state,
+		Reasons:    reasons,
+		Inputs:     inputs,
+	}
+	return rpcerror.WithDetails(rpcerror.New(codes.Unknown, err.Error()), &detail)
+}
+
+// clearStatus will clear the `Info` column of the CLI of all statuses and messages.
+func clearStatus(ctx context.Context) {
+	log(ctx, diag.Info, "")
 }
