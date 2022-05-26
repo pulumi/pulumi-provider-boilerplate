@@ -22,7 +22,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 )
 
-func Log(ctx context.Context, severity diag.Severity, message string) {
+func log(ctx context.Context, severity diag.Severity, message string) {
 	host, ok := ctx.Value("host").(*provider.HostClient)
 	if !ok {
 		return
@@ -34,7 +34,19 @@ func Log(ctx context.Context, severity diag.Severity, message string) {
 	_ = host.LogStatus(ctx, severity, urn, message)
 }
 
+func Debug(ctx context.Context, message string) {
+	log(ctx, diag.Debug, message)
+}
+
+func Info(ctx context.Context, message string) {
+	log(ctx, diag.Info, message)
+}
+
+func Error(ctx context.Context, message string) {
+	log(ctx, diag.Error, message)
+}
+
 // ClearStatus will clear the `Info` column of the CLI of all statuses and messages.
 func ClearStatus(ctx context.Context) {
-	Log(ctx, diag.Info, "")
+	log(ctx, diag.Info, "")
 }

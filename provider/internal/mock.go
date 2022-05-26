@@ -21,7 +21,6 @@ import (
 	"time"
 
 	"github.com/pulumi/pulumi-xyz/provider/pkg/logging"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 )
 
 func MakeRandom(ctx context.Context, length int) string {
@@ -32,7 +31,7 @@ func MakeRandom(ctx context.Context, length int) string {
 	// 		 1. need channel as arg
 	//		 2. need to return partial state on failure
 	go func() {
-		logging.Log(ctx, diag.Info, "beginning random generation")
+		logging.Info(ctx, "beginning random generation")
 		seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
 		charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
@@ -41,7 +40,7 @@ func MakeRandom(ctx context.Context, length int) string {
 			result[i] = charset[seededRand.Intn(len(charset))]
 		}
 		for i := 0; i <= 5; i++ {
-			logging.Log(ctx, diag.Info, fmt.Sprintf("creation in progress %d/5", i))
+			logging.Info(ctx, fmt.Sprintf("creation in progress %d/5", i))
 			time.Sleep(1 * time.Second)
 		}
 		logging.ClearStatus(ctx)
