@@ -54,10 +54,11 @@ nodejs_sdk::
 	$(WORKING_DIR)/bin/$(CODEGEN) -version=${VERSION} nodejs $(SCHEMA_FILE) $(CURDIR)
 	cd ${PACKDIR}/nodejs/ && \
 		yarn install && \
-		yarn run tsc
+		yarn run tsc && \
 		cp -R scripts/ bin && \
-	cp README.md LICENSE ${PACKDIR}/nodejs/package.json ${PACKDIR}/nodejs/yarn.lock ${PACKDIR}/nodejs/bin/
-	sed -i.bak 's/$${VERSION}/$(VERSION)/g' ${PACKDIR}/nodejs/bin/package.json
+		cp ../../README.md ../../LICENSE package.json yarn.lock bin/ && \
+		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
+		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
 python_sdk::
