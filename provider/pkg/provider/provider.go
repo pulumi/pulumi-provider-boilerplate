@@ -143,10 +143,10 @@ func (k *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pu
 
 // Create allocates a new instance of the provided resource and returns its unique ID afterwards.
 func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) (*pulumirpc.CreateResponse, error) {
+	ctx, cancel := k.requestContext(ctx, req.GetUrn(), req.GetTimeout())
+	defer cancel()
+
 	urn := resource.URN(req.GetUrn())
-
-	ctx = k.requestContext(ctx, urn, req.GetTimeout())
-
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
@@ -260,11 +260,11 @@ func partialError(id string, err error, state *structpb.Struct, inputs *structpb
 
 func (k *xyzProvider) requestContext(
 	ctx context.Context,
-	urn resource.URN,
+	urn string,
 	timeout float64,
-) context.Context {
+) (context.Context, context.CancelFunc) {
 	ctx = context.WithValue(ctx, "host", k.host)
-	ctx = context.WithValue(ctx, "urn", urn)
+	ctx = context.WithValue(ctx, "urn", resource.URN(urn))
 
 	return k.session.Join(ctx, int(timeout))
 }

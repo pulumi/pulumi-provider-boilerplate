@@ -40,10 +40,7 @@ func (s *SessionContext) Cancel() {
 // Join merges the cancellation context of a request and the session. This method should be called at the beginning of
 // each gRPC method in a provider to ensure that cancellations are handled from either context. If timeoutSeconds
 // argument is greater than 0, then the cancellation will be triggered automatically once that time has elapsed.
-//
-// Note that the join does not copy any values from the session context, so be sure to set values on the request
-// context instead.
-func (s *SessionContext) Join(ctx context.Context, timeoutSeconds int) context.Context {
+func (s *SessionContext) Join(ctx context.Context, timeoutSeconds int) (context.Context, context.CancelFunc) {
 	var joined context.Context
 	var cancel context.CancelFunc
 
@@ -54,11 +51,15 @@ func (s *SessionContext) Join(ctx context.Context, timeoutSeconds int) context.C
 	}
 
 	// Start a goroutine that blocks on the session context. If the session is cancelled, then cancel the joined
-	// context.
+	// context. The goroutine exits once the joined context completes.
 	go func() {
-		<-s.session.Done()
-		cancel()
+		select {
+		case <-ctx.Done():
+			return
+		case <-s.session.Done():
+			cancel()
+		}
 	}()
 
-	return joined
+	return joined, cancel
 }
