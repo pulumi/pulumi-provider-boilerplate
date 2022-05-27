@@ -14,20 +14,54 @@
 
 package await
 
-type PartialError interface {
-	Error() string
-	Object() any
+import (
+	"fmt"
+)
+
+type foo interface {
+	string | map[string]any
 }
 
-type PartialStringError struct {
-	Result string
+type ResourceError[T foo] interface {
+	Error() string
+	Object() T
+}
+
+type CancellationError[T foo] struct {
+	Result T
 	Err    error
 }
 
-func (e PartialStringError) Error() string {
-	return e.Err.Error()
+func (e CancellationError[T]) Error() string {
+	return fmt.Sprint("resource operation was cancelled")
 }
 
-func (e PartialStringError) Object() any {
+func (e CancellationError[T]) Object() T {
 	return e.Result
 }
+
+type TimeoutError[T foo] struct {
+	Result T
+	Err    error
+}
+
+func (e TimeoutError[T]) Error() string {
+	return fmt.Sprint("resource operation timed out")
+}
+
+func (e TimeoutError[T]) Object() T {
+	return e.Result
+}
+
+//type PartialStringError struct {
+//	Result string
+//	Err    error
+//}
+//
+//func (e PartialStringError) Error() string {
+//	return e.Err.Error()
+//}
+//
+//func (e PartialStringError) Object() any {
+//	return e.Result
+//}

@@ -27,7 +27,7 @@ import (
 func genRandom(
 	ctx context.Context,
 	resultCh chan<- string,
-	errCh chan<- await.PartialError,
+	errCh chan<- await.ResourceError[string],
 	length int,
 ) {
 	logging.Info(ctx, "beginning random generation")
@@ -38,7 +38,7 @@ func genRandom(
 	for i := range result {
 		select {
 		case <-ctx.Done():
-			errCh <- await.PartialStringError{Result: string(result), Err: fmt.Errorf("CANCELLED")}
+			errCh <- await.CancellationError[string]{Result: string(result), Err: fmt.Errorf("CANCELLED")}
 			return
 		default:
 			logging.Info(ctx, fmt.Sprintf("creation in progress %d/5", i))
@@ -51,18 +51,48 @@ func genRandom(
 	resultCh <- string(result)
 }
 
-func MakeRandom(ctx context.Context, length int) (map[string]any, await.PartialError) {
-	resultCh := make(chan string)
-	errCh := make(chan await.PartialError)
+/*
+Want:
 
+1. Consistent cancellation handling
+2. Retries
+3. Consistent partial state checkpointing
+4. Optional dispatch to awaiter
+5. Consistent error handling
+
+TODO:
+
+1. Allow author to separate the operation from awaiting ready
+2. Where to put retry logic? Should this be specific to await logic?
+ 1. Want transport to automatically refresh / handle transient network error
+3. Get current state on cancel
+4. Different kinds of error that implement ResourceError interface. This is mostly useful to print a meaningful message.  Provider should just save checkpoint and quit.
+ 1. Cancellation error - operation was cancelled by the user
+ 2. Timeout error - operation timed out
+ 3. Fatal error - operation encountered a fatal error that can't be resolved on retry
+
+*/
+
+func MakeRandom(ctx context.Context, length int) (map[string]any, await.ResourceError[string]) {
+	resultCh := make(chan string)
+	errCh := make(chan await.ResourceError[string])
+
+	// TODO: retry logic here?
 	go genRandom(ctx, resultCh, errCh, length)
 
 	select {
 	case <-ctx.Done():
 		// TODO: This should get the current state before exiting
-		return map[string]any{}, await.PartialStringError{
-			Result: "TODO",
-			Err:    ctx.Err(),
+		if ctx.Err().Error() == "context deadline exceeded" {
+			return map[string]any{}, await.TimeoutError[string]{
+				Result: "TODO",
+				Err:    ctx.Err(),
+			}
+		} else {
+			return map[string]any{}, await.CancellationError[string]{
+				Result: "TODO",
+				Err:    ctx.Err(),
+			}
 		}
 	case r := <-resultCh:
 		return map[string]any{"result": r}, nil
