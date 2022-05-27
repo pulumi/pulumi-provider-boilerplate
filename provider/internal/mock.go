@@ -20,37 +20,54 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/pulumi/pulumi-xyz/provider/pkg/await"
 	"github.com/pulumi/pulumi-xyz/provider/pkg/logging"
 )
 
-func MakeRandom(ctx context.Context, length int) string {
-	done := make(chan string)
-	defer close(done)
+func genRandom(
+	ctx context.Context,
+	resultCh chan<- string,
+	errCh chan<- await.PartialError,
+	length int,
+) {
+	logging.Info(ctx, "beginning random generation")
+	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
+	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
-	// TODO: pull this logic into a separate function and generalize the cancellation wrapper
-	// 		 1. need channel as arg
-	//		 2. need to return partial state on failure
-	go func() {
-		logging.Info(ctx, "beginning random generation")
-		seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-		charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
-		result := make([]rune, length)
-		for i := range result {
-			result[i] = charset[seededRand.Intn(len(charset))]
-		}
-		for i := 0; i <= 5; i++ {
+	result := make([]rune, length)
+	for i := range result {
+		select {
+		case <-ctx.Done():
+			errCh <- await.PartialStringError{Result: string(result), Err: fmt.Errorf("CANCELLED")}
+			return
+		default:
 			logging.Info(ctx, fmt.Sprintf("creation in progress %d/5", i))
 			time.Sleep(1 * time.Second)
 		}
-		logging.ClearStatus(ctx)
-		done <- string(result)
-	}()
+		result[i] = charset[seededRand.Intn(len(charset))]
+	}
+
+	logging.ClearStatus(ctx)
+	resultCh <- string(result)
+}
+
+func MakeRandom(ctx context.Context, length int) (map[string]any, await.PartialError) {
+	resultCh := make(chan string)
+	errCh := make(chan await.PartialError)
+
+	go genRandom(ctx, resultCh, errCh, length)
 
 	select {
 	case <-ctx.Done():
-		return "CANCELLED"
-	case r := <-done:
-		return r
+		// TODO: This should get the current state before exiting
+		return map[string]any{}, await.PartialStringError{
+			Result: "TODO",
+			Err:    ctx.Err(),
+		}
+	case r := <-resultCh:
+		return map[string]any{"result": r}, nil
+	case err := <-errCh:
+		// TODO: This should get the current state before exiting
+		return map[string]any{}, err
 	}
 }

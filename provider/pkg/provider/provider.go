@@ -17,13 +17,11 @@ package provider
 import (
 	"context"
 	"fmt"
-	"time"
-
-	"github.com/pulumi/pulumi-xyz/provider/internal"
 
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	structpb "github.com/golang/protobuf/ptypes/struct"
 	pkgerrors "github.com/pkg/errors"
+	"github.com/pulumi/pulumi-xyz/provider/internal"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
@@ -35,8 +33,7 @@ import (
 )
 
 type xyzProvider struct {
-	ctx     context.Context
-	cancel  context.CancelFunc
+	session *internal.SessionContext
 	host    *provider.HostClient
 	name    string
 	version string
@@ -44,10 +41,8 @@ type xyzProvider struct {
 
 func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.ResourceProviderServer, error) {
 	// Return the new provider
-	ctx, cancel := context.WithCancel(context.Background())
 	return &xyzProvider{
-		ctx:     ctx,
-		cancel:  cancel,
+		session: internal.NewSessionContext(),
 		host:    host,
 		name:    name,
 		version: version,
@@ -149,6 +144,9 @@ func (k *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pu
 // Create allocates a new instance of the provided resource and returns its unique ID afterwards.
 func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) (*pulumirpc.CreateResponse, error) {
 	urn := resource.URN(req.GetUrn())
+
+	ctx = k.requestContext(ctx, urn, req.GetTimeout())
+
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
 		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
@@ -166,41 +164,25 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	n := int(inputs["length"].NumberValue())
 
 	// Actually "create" the random number
-	// TODO:
-	//   1. handle method ctx
-	//   2. handle timeout for create, update, delete
-	//   3. callee should handle retries and partial state
-	//   4. should define a common pattern for signaling error
-	var cancel context.CancelFunc
-	if req.GetTimeout() != 0 {
-		timeout := time.Duration(int(req.GetTimeout())) * time.Second
-		ctx, cancel = context.WithTimeout(k.ctx, timeout)
-	} else {
-		ctx, cancel = context.WithCancel(k.ctx)
-	}
-	defer cancel()
-	ctx = context.WithValue(ctx, "host", k.host)
-	ctx = context.WithValue(ctx, "urn", urn)
-	result := internal.MakeRandom(ctx, n)
+	result, opErr := internal.MakeRandom(ctx, n)
 
-	outputs := map[string]interface{}{
-		"length": n,
-		"result": result,
-	}
+	//outputs := map[string]interface{}{
+	//	"length": n,
+	//	"result": result,
+	//}
 
 	outputProperties, err := plugin.MarshalProperties(
-		resource.NewPropertyMapFromMap(outputs),
+		resource.NewPropertyMapFromMap(result),
 		plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true},
 	)
 	if err != nil {
 		return nil, err
 	}
-	if result == "CANCELLED" {
-		return nil, partialError("1234", fmt.Errorf("cancelled in progress"),
-			outputProperties, req.GetProperties())
+	if opErr != nil {
+		return nil, partialError("TODO", opErr, outputProperties, req.GetProperties())
 	}
 	return &pulumirpc.CreateResponse{
-		Id:         result,
+		Id:         "TODO",
 		Properties: outputProperties,
 	}, nil
 }
@@ -258,7 +240,7 @@ func (k *xyzProvider) GetSchema(ctx context.Context, req *pulumirpc.GetSchemaReq
 // to the host to decide how long to wait after Cancel is called before (e.g.)
 // hard-closing any gRPC connection.
 func (k *xyzProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, error) {
-	k.cancel()
+	k.session.Cancel()
 	return &pbempty.Empty{}, nil
 }
 
@@ -274,4 +256,15 @@ func partialError(id string, err error, state *structpb.Struct, inputs *structpb
 		Inputs:     inputs,
 	}
 	return rpcerror.WithDetails(rpcerror.New(codes.Unknown, err.Error()), &detail)
+}
+
+func (k *xyzProvider) requestContext(
+	ctx context.Context,
+	urn resource.URN,
+	timeout float64,
+) context.Context {
+	ctx = context.WithValue(ctx, "host", k.host)
+	ctx = context.WithValue(ctx, "urn", urn)
+
+	return k.session.Join(ctx, int(timeout))
 }
