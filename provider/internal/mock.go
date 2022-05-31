@@ -66,10 +66,6 @@ TODO:
 2. Where to put retry logic? Should this be specific to await logic?
  1. Want transport to automatically refresh / handle transient network error
 3. Get current state on cancel
-4. Different kinds of error that implement ResourceError interface. This is mostly useful to print a meaningful message.  Provider should just save checkpoint and quit.
- 1. Cancellation error - operation was cancelled by the user
- 2. Timeout error - operation timed out
- 3. Fatal error - operation encountered a fatal error that can't be resolved on retry
 
 */
 

@@ -18,10 +18,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
-
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	"github.com/pulumi/pulumi-xyz/provider/internal"
+	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
@@ -165,7 +164,6 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	// Actually "create" the random number
 	result, opErr := internal.MakeRandom(ctx, n)
 
-	// TODO: move this logic into PartialError
 	outputProperties, err := plugin.MarshalProperties(
 		resource.NewPropertyMapFromMap(result),
 		plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true},
@@ -240,6 +238,8 @@ func (k *xyzProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, e
 	return &pbempty.Empty{}, nil
 }
 
+// requestContext creates a per-request context to be used by provider methods that includes logging and timeout
+// information.
 func (k *xyzProvider) requestContext(
 	ctx context.Context,
 	urn string,
