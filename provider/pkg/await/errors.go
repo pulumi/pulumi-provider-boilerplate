@@ -18,16 +18,20 @@ import (
 	"fmt"
 )
 
-type foo interface {
-	string | map[string]any
+type resource interface {
+	string | int | map[string]any
 }
 
-type ResourceError[T foo] interface {
+// ResourceError includes information about an error that occurred during a Pulumi update, and an object representing
+// the most recent state of the corresponding resource. This allows the provider to save partial state for operations
+// that failed to complete so that they can be resumed in another update.
+type ResourceError[T resource] interface {
 	Error() string
 	Object() T
 }
 
-type CancellationError[T foo] struct {
+// CancellationError indicates that the resource operation was cancelled before it completed.
+type CancellationError[T resource] struct {
 	Result T
 	Err    error
 }
@@ -40,7 +44,8 @@ func (e CancellationError[T]) Object() T {
 	return e.Result
 }
 
-type TimeoutError[T foo] struct {
+// TimeoutError indicates that the resource operation timed out.
+type TimeoutError[T resource] struct {
 	Result T
 	Err    error
 }
@@ -53,15 +58,40 @@ func (e TimeoutError[T]) Object() T {
 	return e.Result
 }
 
-//type PartialStringError struct {
-//	Result string
-//	Err    error
-//}
-//
-//func (e PartialStringError) Error() string {
-//	return e.Err.Error()
-//}
-//
-//func (e PartialStringError) Object() any {
-//	return e.Result
-//}
+// OperationError indicates that the resource operation failed.
+type OperationError[T resource] struct {
+	Result T
+	Err    error
+}
+
+func (e OperationError[T]) Error() string {
+	return fmt.Sprintf("resource operation failed: %s", e.Err)
+}
+
+func (e OperationError[T]) Object() T {
+	return e.Result
+}
+
+// ReadinessError indicates that a resource was created, but failed to become ready.
+type ReadinessError[T resource] struct {
+	Result T
+	Err    error
+}
+
+func (e ReadinessError[T]) Error() string {
+	return fmt.Sprintf("resource was created but failed to become ready: %s", e.Err)
+}
+
+func (e ReadinessError[T]) Object() T {
+	return e.Result
+}
+
+// Statically verify that the error types implement the expected interfaces.
+var _ error = (*CancellationError[string])(nil)
+var _ ResourceError[string] = (*CancellationError[string])(nil)
+var _ error = (*TimeoutError[string])(nil)
+var _ ResourceError[string] = (*TimeoutError[string])(nil)
+var _ error = (*OperationError[string])(nil)
+var _ ResourceError[string] = (*OperationError[string])(nil)
+var _ error = (*ReadinessError[string])(nil)
+var _ ResourceError[string] = (*ReadinessError[string])(nil)
