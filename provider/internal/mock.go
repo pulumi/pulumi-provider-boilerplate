@@ -20,14 +20,14 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/pulumi/pulumi-xyz/provider/pkg/await"
+	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
 	"github.com/pulumi/pulumi-xyz/provider/pkg/logging"
 )
 
 func genRandom(
 	ctx context.Context,
 	resultCh chan<- string,
-	errCh chan<- await.ResourceError[string],
+	errCh chan<- errors.ResourceError[string],
 	length int,
 ) {
 	logging.Info(ctx, "beginning random generation")
@@ -38,7 +38,7 @@ func genRandom(
 	for i := range result {
 		select {
 		case <-ctx.Done():
-			errCh <- await.CancellationError[string]{Result: string(result), Err: fmt.Errorf("CANCELLED")}
+			errCh <- errors.CancellationError[string]{Result: string(result), Err: fmt.Errorf("CANCELLED")}
 			return
 		default:
 			logging.Info(ctx, fmt.Sprintf("creation in progress %d/5", i))
@@ -73,9 +73,9 @@ TODO:
 
 */
 
-func MakeRandom(ctx context.Context, length int) (map[string]any, await.ResourceError[string]) {
+func MakeRandom(ctx context.Context, length int) (map[string]any, errors.ResourceError[string]) {
 	resultCh := make(chan string)
-	errCh := make(chan await.ResourceError[string])
+	errCh := make(chan errors.ResourceError[string])
 
 	// TODO: retry logic here?
 	go genRandom(ctx, resultCh, errCh, length)
@@ -84,12 +84,12 @@ func MakeRandom(ctx context.Context, length int) (map[string]any, await.Resource
 	case <-ctx.Done():
 		// TODO: This should get the current state before exiting
 		if ctx.Err().Error() == "context deadline exceeded" {
-			return map[string]any{}, await.TimeoutError[string]{
+			return map[string]any{}, errors.TimeoutError[string]{
 				Result: "TODO",
 				Err:    ctx.Err(),
 			}
 		} else {
-			return map[string]any{}, await.CancellationError[string]{
+			return map[string]any{}, errors.CancellationError[string]{
 				Result: "TODO",
 				Err:    ctx.Err(),
 			}

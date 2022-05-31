@@ -18,14 +18,13 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
+
 	pbempty "github.com/golang/protobuf/ptypes/empty"
-	structpb "github.com/golang/protobuf/ptypes/struct"
-	pkgerrors "github.com/pkg/errors"
 	"github.com/pulumi/pulumi-xyz/provider/internal"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/util/rpcutil/rpcerror"
 	pulumirpc "github.com/pulumi/pulumi/sdk/v3/proto/go"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -166,11 +165,7 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	// Actually "create" the random number
 	result, opErr := internal.MakeRandom(ctx, n)
 
-	//outputs := map[string]interface{}{
-	//	"length": n,
-	//	"result": result,
-	//}
-
+	// TODO: move this logic into PartialError
 	outputProperties, err := plugin.MarshalProperties(
 		resource.NewPropertyMapFromMap(result),
 		plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true},
@@ -178,8 +173,9 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	if err != nil {
 		return nil, err
 	}
+
 	if opErr != nil {
-		return nil, partialError("TODO", opErr, outputProperties, req.GetProperties())
+		return nil, errors.PartialError("TODO", opErr, outputProperties, req.GetProperties())
 	}
 	return &pulumirpc.CreateResponse{
 		Id:         "TODO",
@@ -242,20 +238,6 @@ func (k *xyzProvider) GetSchema(ctx context.Context, req *pulumirpc.GetSchemaReq
 func (k *xyzProvider) Cancel(context.Context, *pbempty.Empty) (*pbempty.Empty, error) {
 	k.session.Cancel()
 	return &pbempty.Empty{}, nil
-}
-
-// partialError creates an error for resources that did not complete an operation in progress.
-// The last known state of the object is included in the error so that it can be checkpointed.
-func partialError(id string, err error, state *structpb.Struct, inputs *structpb.Struct) error {
-	reasons := []string{err.Error()}
-	err = pkgerrors.Cause(err)
-	detail := pulumirpc.ErrorResourceInitFailed{
-		Id:         id,
-		Properties: state,
-		Reasons:    reasons,
-		Inputs:     inputs,
-	}
-	return rpcerror.WithDetails(rpcerror.New(codes.Unknown, err.Error()), &detail)
 }
 
 func (k *xyzProvider) requestContext(
