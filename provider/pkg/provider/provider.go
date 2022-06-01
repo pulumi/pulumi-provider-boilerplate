@@ -19,8 +19,8 @@ import (
 	"fmt"
 
 	pbempty "github.com/golang/protobuf/ptypes/empty"
-	"github.com/pulumi/pulumi-xyz/provider/internal"
 	"github.com/pulumi/pulumi-xyz/provider/internal/errors"
+	"github.com/pulumi/pulumi-xyz/provider/internal/middleware"
 	"github.com/pulumi/pulumi-xyz/provider/internal/session"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
@@ -156,17 +156,11 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 		return nil, err
 	}
 
-	if !inputs["length"].IsNumber() {
-		return nil, fmt.Errorf("Expected input property 'length' of type 'number' but got '%s", inputs["length"].TypeString())
-	}
-
-	n := int(inputs["length"].NumberValue())
-
 	// Actually "create" the random number
-	result, opErr := internal.MakeRandom(ctx, n)
+	result, opErr := middleware.Create(ctx, inputs)
 
 	outputProperties, err := plugin.MarshalProperties(
-		resource.NewPropertyMapFromMap(result),
+		result,
 		plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true},
 	)
 	if err != nil {
