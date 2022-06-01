@@ -20,7 +20,8 @@ import (
 
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	"github.com/pulumi/pulumi-xyz/provider/internal"
-	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
+	"github.com/pulumi/pulumi-xyz/provider/internal/errors"
+	"github.com/pulumi/pulumi-xyz/provider/internal/session"
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource/plugin"
@@ -31,7 +32,7 @@ import (
 )
 
 type xyzProvider struct {
-	session *internal.SessionContext
+	session *session.Context
 	host    *provider.HostClient
 	name    string
 	version string
@@ -40,7 +41,7 @@ type xyzProvider struct {
 func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.ResourceProviderServer, error) {
 	// Return the new provider
 	return &xyzProvider{
-		session: internal.NewSessionContext(),
+		session: session.NewContext(),
 		host:    host,
 		name:    name,
 		version: version,

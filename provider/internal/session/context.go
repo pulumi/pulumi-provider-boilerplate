@@ -12,41 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package internal
+package session
 
 import (
 	"context"
 	"time"
 )
 
-// SessionContext contains a context to manage the session for a provider.
-type SessionContext struct {
+// Context contains a session context for a provider.
+type Context struct {
 	session context.Context
 	cancel  context.CancelFunc
 }
 
-// NewSessionContext creates a context to manage the session for a provider. This session is created when a provider
-// starts and can be used to signal for early cancellation of any ongoing operations.
-func NewSessionContext() *SessionContext {
+// NewContext creates a session context for a provider. This session is created when a provider starts and can be used
+// to signal for early cancellation of any ongoing operations.
+func NewContext() *Context {
 	ctx, cancel := context.WithCancel(context.Background())
-	return &SessionContext{session: ctx, cancel: cancel}
+	return &Context{session: ctx, cancel: cancel}
 }
 
 // Cancel signals the termination of the session context.
-func (s *SessionContext) Cancel() {
+func (s *Context) Cancel() {
 	s.cancel()
 }
 
 // Join merges the cancellation context of a request and the session. This method should be called at the beginning of
 // each gRPC method in a provider to ensure that cancellations are handled from either context. If timeoutSeconds
 // argument is greater than 0, then the cancellation will be triggered automatically once that time has elapsed.
-func (s *SessionContext) Join(ctx context.Context, timeoutSeconds int) (context.Context, context.CancelFunc) {
+func (s *Context) Join(ctx context.Context, timeoutSeconds int) (context.Context, context.CancelFunc) {
 	var joined context.Context
 	var cancel context.CancelFunc
 
 	if timeoutSeconds > 0 {
 		joined, cancel = context.WithTimeout(ctx, time.Duration(timeoutSeconds)*time.Second)
-	} else {
+	} else { // TODO: set a sensible default timeout (30 mins?)
 		joined, cancel = context.WithCancel(ctx)
 	}
 

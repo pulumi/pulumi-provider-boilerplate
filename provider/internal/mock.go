@@ -20,9 +20,17 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/pulumi/pulumi-xyz/provider/pkg/errors"
-	"github.com/pulumi/pulumi-xyz/provider/pkg/logging"
+	"github.com/pulumi/pulumi-xyz/provider/internal/errors"
+	"github.com/pulumi/pulumi-xyz/provider/internal/logging"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 )
+
+/*
+CRUD method
+- idempotent
+- optionally handle context cancellation
+- transparently handle credential refresh here
+*/
 
 func genRandom(
 	ctx context.Context,
@@ -35,14 +43,15 @@ func genRandom(
 	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 	result := make([]rune, length)
+	// This simulates a retry loop. A real example would include the cancellation context on any network requests.
 	for i := range result {
 		select {
 		case <-ctx.Done():
 			errCh <- errors.CancellationError[string]{Result: string(result), Err: fmt.Errorf("CANCELLED")}
 			return
 		default:
-			logging.Info(ctx, fmt.Sprintf("creation in progress %d/5", i))
-			time.Sleep(1 * time.Second)
+			logging.Info(ctx, fmt.Sprintf("creation in progress %d/%d", i, length))
+			time.Sleep(500 * time.Millisecond)
 		}
 		result[i] = charset[seededRand.Intn(len(charset))]
 	}
@@ -52,34 +61,46 @@ func genRandom(
 }
 
 /*
-Want:
-
-1. Consistent cancellation handling
-2. Retries
-3. Consistent partial state checkpointing
-4. Optional dispatch to awaiter
-5. Consistent error handling
-
-TODO:
-
-1. Allow author to separate the operation from awaiting ready
-2. Where to put retry logic? Should this be specific to await logic?
- 1. Want transport to automatically refresh / handle transient network error
-3. Get current state on cancel
-
+Middleware params
+- context (includes URN, host)
+- arg bag (resource.PropertyMap)
+- optional retry config -- TODO: maybe not needed
 */
 
-func MakeRandom(ctx context.Context, length int) (map[string]any, errors.ResourceError[string]) {
+// TODO: retry args needed? maybe just default to something sensible and set overall timeout using context
+//type RetryArgs struct {
+//	Count int
+//}
+
+func getState(ctx context.Context) {
+
+}
+
+func Middleware(ctx context.Context, input resource.PropertyMap) (map[string]any, error) {
+	return nil, nil
+}
+
+func MakeRandom(ctx context.Context, length int) (map[string]any, error) {
 	resultCh := make(chan string)
 	errCh := make(chan errors.ResourceError[string])
 
-	// TODO: retry logic here?
+	// TODO: getter -- need a way to lookup current state for a URN for checkpointing
+
+	// TODO: configure with retry args -- default to something sensible if not provided (no retry?)
+	for i := 0; i < 3; i++ {
+
+	}
+	// TODO: this function should be looked up from a provider-specific mapping. probably use a function to abstract the lookup by URN
 	go genRandom(ctx, resultCh, errCh, length)
+
+	// TODO: readiness check. same as above, look up from function by URN
+
+	// (context, result, err) could be common args for CRUD + readiness functions
 
 	select {
 	case <-ctx.Done():
 		// TODO: This should get the current state before exiting
-		if ctx.Err().Error() == "context deadline exceeded" {
+		if ctx.Err().Error() == context.DeadlineExceeded.Error() {
 			return map[string]any{}, errors.TimeoutError[string]{
 				Result: "TODO",
 				Err:    ctx.Err(),

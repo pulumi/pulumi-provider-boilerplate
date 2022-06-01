@@ -20,17 +20,15 @@ import (
 	"github.com/pulumi/pulumi/pkg/v3/resource/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 )
 
 func log(ctx context.Context, severity diag.Severity, message string) {
-	host, ok := ctx.Value("host").(*provider.HostClient)
-	if !ok {
-		return
-	}
 	urn, ok := ctx.Value("urn").(resource.URN)
-	if !ok {
-		return
-	}
+	contract.Assertf(ok, "context missing required value: urn")
+	host, ok := ctx.Value("host").(*provider.HostClient)
+	contract.Assertf(ok, "context missing required value: host")
+
 	_ = host.LogStatus(ctx, severity, urn, message)
 }
 
