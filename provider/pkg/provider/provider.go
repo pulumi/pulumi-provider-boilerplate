@@ -18,6 +18,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/pulumi/pulumi-xyz/provider/pkg/resources"
+
 	pbempty "github.com/golang/protobuf/ptypes/empty"
 	"github.com/pulumi/pulumi-xyz/provider/internal/errors"
 	"github.com/pulumi/pulumi-xyz/provider/internal/middleware"
@@ -157,7 +159,7 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	}
 
 	// Actually "create" the random number
-	result, opErr := middleware.Create(ctx, inputs)
+	result, opErr := middleware.Create(ctx, resources.Create(ctx), inputs)
 
 	outputProperties, err := plugin.MarshalProperties(
 		result,

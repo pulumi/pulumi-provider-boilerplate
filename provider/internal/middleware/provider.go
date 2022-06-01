@@ -17,65 +17,15 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"math/rand"
 	"time"
 
 	"github.com/jpillora/backoff"
 	"github.com/pulumi/pulumi-xyz/provider/internal/errors"
 	"github.com/pulumi/pulumi-xyz/provider/internal/logging"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/util/contract"
 )
 
-type createFunction func(context.Context, chan<- resource.PropertyMap, chan<- error, resource.PropertyMap)
-
-func createRandom(ctx context.Context, resultCh chan<- resource.PropertyMap, errCh chan<- error, inputs resource.PropertyMap) {
-	length := int(inputs["length"].NumberValue()) // TODO: validate inputs
-
-	logging.Info(ctx, "beginning random generation")
-	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
-	result := make([]rune, length)
-	// This simulates a retry loop. A real example would include the cancellation context on any network requests.
-	for i := range result {
-		select {
-		case <-ctx.Done():
-			errCh <- errors.CancellationError[string]{Result: string(result), Err: fmt.Errorf("CANCELLED")}
-			return
-		default:
-			logging.Info(ctx, fmt.Sprintf("creation in progress %d/%d", i, length))
-			//if i == 2 {
-			//	errCh <- errors.OperationError[string]{Result: string(result), Err: fmt.Errorf("Simulated")}
-			//	return
-			//}
-			time.Sleep(500 * time.Millisecond)
-		}
-		result[i] = charset[seededRand.Intn(len(charset))]
-	}
-
-	logging.ClearStatus(ctx)
-	resultMap := resource.NewPropertyMapFromMap(map[string]any{
-		"result": string(result),
-	})
-	resultCh <- resultMap
-}
-
-func create(ctx context.Context) createFunction {
-	urn, ok := ctx.Value("urn").(resource.URN)
-	contract.Assertf(ok, "context missing required value: urn")
-
-	logging.Info(ctx, fmt.Sprintf("urn type: %s", urn.Type().String()))
-	switch urn.Type().String() {
-	case "xyz:index:Random":
-		return createRandom
-	default:
-		return func(ctx context.Context, resultCh chan<- resource.PropertyMap, errCh chan<- error, inputs resource.PropertyMap) {
-		}
-	}
-}
-
-func Create(ctx context.Context, inputs resource.PropertyMap) (resource.PropertyMap, error) {
+func Create(ctx context.Context, fn CreateFunction, inputs resource.PropertyMap) (resource.PropertyMap, error) {
 	// TODO: getter -- need a way to lookup current state for a URN for checkpointing
 
 	retryPolicy := backoff.Backoff{
@@ -85,12 +35,10 @@ func Create(ctx context.Context, inputs resource.PropertyMap) (resource.Property
 		Jitter: true,
 	}
 
-	createFunc := create(ctx)
-
 	resultCh := make(chan resource.PropertyMap)
 	errCh := make(chan error)
 
-	go createFunc(ctx, resultCh, errCh, inputs)
+	go fn(ctx, resultCh, errCh, inputs)
 
 	var result resource.PropertyMap
 
@@ -127,7 +75,7 @@ CREATE:
 				time.Sleep(duration)
 
 				logging.Info(ctx, fmt.Sprintf("retrying create, attempt %d", attempt))
-				go createFunc(ctx, resultCh, errCh, inputs)
+				go fn(ctx, resultCh, errCh, inputs)
 			}()
 
 			// TODO: return now if non-retryable
@@ -159,14 +107,17 @@ READY:
 	return result, nil
 }
 
-func Read(ctx context.Context, input resource.PropertyMap) (map[string]any, error) {
+// TODO: Read
+func Read(ctx context.Context, fn ReadFunction) (map[string]any, error) {
 	return nil, nil
 }
 
-func Update(ctx context.Context, input resource.PropertyMap) (map[string]any, error) {
+// TODO: Update
+func Update(ctx context.Context, fn UpdateFunction, inputs, olds resource.PropertyMap) (map[string]any, error) {
 	return nil, nil
 }
 
-func Delete(ctx context.Context, input resource.PropertyMap) (map[string]any, error) {
+// TODO: Delete
+func Delete(ctx context.Context, fn DeleteFunction, inputs resource.PropertyMap) (map[string]any, error) {
 	return nil, nil
 }
