@@ -31,7 +31,7 @@ func Create(ctx context.Context, fn CreateFunction, inputs resource.PropertyMap)
 	retryPolicy := backoff.Backoff{
 		Min:    1 * time.Second,
 		Max:    30 * time.Second,
-		Factor: 1.5,
+		Factor: 2,
 		Jitter: true,
 	}
 
@@ -75,7 +75,7 @@ CREATE:
 				time.Sleep(duration)
 
 				logging.Info(ctx, fmt.Sprintf("retrying create, attempt %d", attempt))
-				go fn(ctx, resultCh, errCh, inputs)
+				fn(ctx, resultCh, errCh, inputs)
 			}()
 
 			// TODO: return now if non-retryable
