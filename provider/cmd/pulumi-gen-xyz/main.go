@@ -34,7 +34,7 @@ import (
 // TemplateDir is the path to the base directory for code generator templates.
 var TemplateDir string
 
-// BaseDir is the path to the base pulumi-provider directory.
+// BaseDir is the path to the base pulumi-xyz directory.
 var BaseDir string
 
 // Language is the SDK language.
@@ -49,7 +49,7 @@ const (
 
 func main() {
 	flag.Usage = func() {
-		const usageFormat = "Usage: %s <language> <swagger-or-schema-file> <root-pulumi-provider-dir>"
+		const usageFormat = "Usage: %s <language> <swagger-or-schema-file> <root-pulumi-xyz-dir>"
 		_, err := fmt.Fprintf(flag.CommandLine.Output(), usageFormat, os.Args[0])
 		contract.IgnoreError(err)
 		flag.PrintDefaults()
