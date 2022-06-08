@@ -47,6 +47,7 @@ func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.Re
 	}, nil
 }
 
+// Attach sends the engine address to an already running plugin.
 func (k *xyzProvider) Attach(context context.Context, req *pulumirpc.PluginAttach) (*emptypb.Empty, error) {
 	host, err := provider.NewHostClient(req.GetAddress())
 	if err != nil {
