@@ -59,12 +59,12 @@ func (k *xyzProvider) Attach(context context.Context, req *pulumirpc.PluginAttac
 
 // Call dynamically executes a method in the provider associated with a component resource.
 func (k *xyzProvider) Call(ctx context.Context, req *pulumirpc.CallRequest) (*pulumirpc.CallResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "Call is not yet implemented")
+	return nil, status.Error(codes.Unimplemented, "call is not yet implemented")
 }
 
 // Construct creates a new component resource.
 func (k *xyzProvider) Construct(ctx context.Context, req *pulumirpc.ConstructRequest) (*pulumirpc.ConstructResponse, error) {
-	return nil, status.Error(codes.Unimplemented, "Construct is not yet implemented")
+	return nil, status.Error(codes.Unimplemented, "construct is not yet implemented")
 }
 
 // CheckConfig validates the configuration for this provider.
@@ -85,14 +85,14 @@ func (k *xyzProvider) Configure(_ context.Context, req *pulumirpc.ConfigureReque
 // Invoke dynamically executes a built-in function in the provider.
 func (k *xyzProvider) Invoke(_ context.Context, req *pulumirpc.InvokeRequest) (*pulumirpc.InvokeResponse, error) {
 	tok := req.GetTok()
-	return nil, fmt.Errorf("Unknown Invoke token '%s'", tok)
+	return nil, fmt.Errorf("unknown Invoke token '%s'", tok)
 }
 
 // StreamInvoke dynamically executes a built-in function in the provider. The result is streamed
 // back as a series of messages.
 func (k *xyzProvider) StreamInvoke(req *pulumirpc.InvokeRequest, server pulumirpc.ResourceProvider_StreamInvokeServer) error {
 	tok := req.GetTok()
-	return fmt.Errorf("Unknown StreamInvoke token '%s'", tok)
+	return fmt.Errorf("unknown StreamInvoke token '%s'", tok)
 }
 
 // Check validates that the given property bag is valid for a resource of the given type and returns
@@ -105,7 +105,7 @@ func (k *xyzProvider) Check(ctx context.Context, req *pulumirpc.CheckRequest) (*
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 	return &pulumirpc.CheckResponse{Inputs: req.News, Failures: nil}, nil
 }
@@ -115,7 +115,7 @@ func (k *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pu
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 
 	olds, err := plugin.UnmarshalProperties(req.GetOlds(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
@@ -145,7 +145,7 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 
 	inputs, err := plugin.UnmarshalProperties(req.GetProperties(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
@@ -154,7 +154,7 @@ func (k *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 	}
 
 	if !inputs["length"].IsNumber() {
-		return nil, fmt.Errorf("Expected input property 'length' of type 'number' but got '%s", inputs["length"].TypeString())
+		return nil, fmt.Errorf("expected input property 'length' of type 'number' but got '%s", inputs["length"].TypeString())
 	}
 
 	n := int(inputs["length"].NumberValue())
@@ -185,7 +185,7 @@ func (k *xyzProvider) Read(ctx context.Context, req *pulumirpc.ReadRequest) (*pu
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 	return nil, status.Error(codes.Unimplemented, "Read is not yet implemented for 'xyz:index:Random'")
 }
@@ -195,7 +195,7 @@ func (k *xyzProvider) Update(ctx context.Context, req *pulumirpc.UpdateRequest) 
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 
 	// Our Random resource will never be updated - if there is a diff, it will be a replacement.
@@ -208,7 +208,7 @@ func (k *xyzProvider) Delete(ctx context.Context, req *pulumirpc.DeleteRequest) 
 	urn := resource.URN(req.GetUrn())
 	ty := urn.Type()
 	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("Unknown resource type '%s'", ty)
+		return nil, fmt.Errorf("unknown resource type '%s'", ty)
 	}
 
 	// Note that for our Random resource, we don't have to do anything on Delete.
