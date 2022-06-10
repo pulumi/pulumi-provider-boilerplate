@@ -12,15 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:generate go run ./generate.go
 package main
 
 import (
+	_ "embed"
 	"github.com/pulumi/pulumi-xyz/provider/pkg/provider"
 	"github.com/pulumi/pulumi-xyz/provider/pkg/version"
 )
 
 var providerName = "xyz"
 
+//go:embed schema-embed.json
+var pulumiSchema []byte
+
 func main() {
-	provider.Serve(providerName, version.Version)
+	provider.Serve(providerName, version.Version, pulumiSchema)
 }

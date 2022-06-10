@@ -36,14 +36,16 @@ type xyzProvider struct {
 	host    *provider.HostClient
 	name    string
 	version string
+	schema  []byte
 }
 
-func makeProvider(host *provider.HostClient, name, version string) (pulumirpc.ResourceProviderServer, error) {
+func makeProvider(host *provider.HostClient, name, version string, pulumiSchema []byte) (pulumirpc.ResourceProviderServer, error) {
 	// Return the new provider
 	return &xyzProvider{
 		host:    host,
 		name:    name,
 		version: version,
+		schema:  pulumiSchema,
 	}, nil
 }
 
@@ -224,7 +226,10 @@ func (p *xyzProvider) GetPluginInfo(context.Context, *pbempty.Empty) (*pulumirpc
 
 // GetSchema returns the JSON-serialized schema for the provider.
 func (p *xyzProvider) GetSchema(ctx context.Context, req *pulumirpc.GetSchemaRequest) (*pulumirpc.GetSchemaResponse, error) {
-	return &pulumirpc.GetSchemaResponse{}, nil
+	if v := req.GetVersion(); v != 0 {
+		return nil, fmt.Errorf("unsupported schema version %d", v)
+	}
+	return &pulumirpc.GetSchemaResponse{Schema: string(p.schema)}, nil
 }
 
 // Cancel signals the provider to gracefully shut down and abort any ongoing resource operations.
