@@ -24,8 +24,9 @@ to [Terraform based providers](https://github.com/pulumi/pulumi-tf-provider-boil
 The following instructions cover providers maintained by Pulumi (denoted with a "Pulumi Official" checkmark on the Pulumi registry).
 In the future, we will add instruction for providers published and maintained by the Pulumi community, referred to as "third-party" providers.
 
-This boilerplate creates a Pulumi-owned provider named `xyz`. 
-For a stand-alone example please see the [random-native provider repository](https://github.com/pulumi/pulumi-random-native).
+This boilerplate creates a working Pulumi-owned provider named `xyz`.
+It implements a random number generator that you can [build and test out for yourself](#test-against-the-example) and then replace the Random code with code specific to your provider.
+
 
 ### Prerequisites
 
