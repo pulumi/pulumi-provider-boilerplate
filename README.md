@@ -25,7 +25,7 @@ The following instructions cover providers maintained by Pulumi (denoted with a 
 In the future, we will add instruction for providers published and maintained by the Pulumi community, referred to as "third-party" providers.
 
 This boilerplate creates a Pulumi-owned provider named `xyz`. 
-For a stand-alone example please see the [random-native provider repository](https://github.com/pulumi/random-native).
+For a stand-alone example please see the [random-native provider repository](https://github.com/pulumi/pulumi-random-native).
 
 ### Prerequisites
 
@@ -62,21 +62,22 @@ From the templated repository:
    $ make build install
    ```
    
-   This will:
-   1. Create the SDK codegen binary and place it in a `./bin` folder (gitignored)
-   2. Create the provider binary and place it in the `./bin` folder (gitignored)
-   3. Generate the dotnet, Go, Node, and Python SDKs and place them in the `./sdk` folder
-   4. Install the provider on your machine.
+This will:
+
+1. Create the SDK codegen binary and place it in a `./bin` folder (gitignored)
+2. Create the provider binary and place it in the `./bin` folder (gitignored)
+3. Generate the dotnet, Go, Node, and Python SDKs and place them in the `./sdk` folder
+4. Install the provider on your machine.
 
 #### Test against the example
    
-      ```bash
-      $ cd examples/simple
-      $ yarn link @pulumi/xyz
-      $ yarn install
-      $ pulumi stack init test
-      $ pulumi up
-      ```
+```bash
+$ cd examples/simple
+$ yarn link @pulumi/xyz
+$ yarn install
+$ pulumi stack init test
+$ pulumi up
+```
 
 Now that you have completed all of the above steps, you have a working provider that generates a random string for you.
 
