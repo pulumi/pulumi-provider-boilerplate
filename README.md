@@ -14,7 +14,7 @@ A Pulumi Resource Provider:
 - is a gRPC server which allows for the Pulumi engine to create resources in a specific cloud
 - holds the lifecycle logic for these cloud resources
 - holds a pulumi JSON schema that describes the provider
-- provides language-specific SDKs so resources can be created in whichever language you prefer.
+- provides language-specific SDKs so resources can be created in whichever language you prefer
 
 When we speak of a "native" provider, we mean that all implementation is native to Pulumi, as opposed 
 to [Terraform based providers](https://github.com/pulumi/pulumi-tf-provider-boilerplate).
@@ -99,11 +99,11 @@ You now have:
 ### Writing the schema
 
 The [JSON schema file](https://www.pulumi.com/docs/guides/pulumi-packages/schema) is used by `pulumi-gen-xyz` to create language-specific SDKs. 
-It is therefore a central requirement for any resource provider.
-For a native resource provider, you must create a schema by hand to describe the provider package.
+It is, therefore, a central requirement for any resource provider.
+Provider schemas can be machine-generated from an API specification, or handwritten.
 This repository provides the [xyz example schema](./provider/cmd/pulumi-resource-xyz/schema.json) to get you started.
 [The Azure Native Provider schema](https://raw.githubusercontent.com/pulumi/pulumi-azure-native/master/provider/cmd/pulumi-resource-azure-native/schema.json) provides a much larger example.
-Refer to the [package schema documentation](https://www.pulumi.com/docs/guides/pulumi-packages/schema/#pulumi-package-schema).
+Refer to the [package schema documentation](https://www.pulumi.com/docs/guides/pulumi-packages/schema/#pulumi-package-schema) for additional details.
 
 ### Implementing the gRPC methods
 
@@ -144,7 +144,7 @@ You need to provide the following methods _for each resource_:
 5. Read
 6. Delete
 
-[Resource lifecycle methods are documented here](https://pulumi-developer-docs.readthedocs.io/en/latest/providers/implementers-guide.html#component-resource-lifecycle).
+[Resource lifecycle methods are documented here](https://pulumi-developer-docs.readthedocs.io/en/stable/providers/implementers-guide.html#custom-resource-lifecycle).
 
 The following methods are necessary for every provider and are already implemented:
 
@@ -156,7 +156,7 @@ The following methods are necessary for every provider and are already implement
 
 The [resource provider service](https://github.com/pulumi/pulumi/blob/master/sdk/proto/provider.proto) includes a few more gRPC methods that you may need to implement and can read more about.
 
-### Build out Examples
+### Build Examples
 
 Create an example program using the resources defined in your provider, and place it in the `examples/` folder.
 
