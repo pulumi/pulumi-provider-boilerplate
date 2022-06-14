@@ -104,6 +104,8 @@ func (p *xyzProvider) StreamInvoke(req *pulumirpc.InvokeRequest, server pulumirp
 // required for correctness, violations thereof can negatively impact the end-user experience, as
 // the provider inputs are using for detecting and rendering diffs.
 func (p *xyzProvider) Check(ctx context.Context, req *pulumirpc.CheckRequest) (*pulumirpc.CheckResponse, error) {
+	urn := resource.URN(req.GetUrn())
+	fmt.Printf("Check validation for resource %s", urn.URNName())
 
 	return &pulumirpc.CheckResponse{Inputs: req.News, Failures: nil}, nil
 }
