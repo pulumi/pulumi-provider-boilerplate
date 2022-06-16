@@ -17,6 +17,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/util/logging"
 	"google.golang.org/protobuf/types/known/emptypb"
 	"math/rand"
 	"time"
@@ -105,20 +106,17 @@ func (p *xyzProvider) StreamInvoke(req *pulumirpc.InvokeRequest, server pulumirp
 // the provider inputs are using for detecting and rendering diffs.
 func (p *xyzProvider) Check(ctx context.Context, req *pulumirpc.CheckRequest) (*pulumirpc.CheckResponse, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
+	label := fmt.Sprintf("%s.Create(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
+
 	return &pulumirpc.CheckResponse{Inputs: req.News, Failures: nil}, nil
 }
 
 // Diff checks what impacts a hypothetical update will have on the resource's properties.
 func (p *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pulumirpc.DiffResponse, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
+	label := fmt.Sprintf("%s.Diff(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
 
 	olds, err := plugin.UnmarshalProperties(req.GetOlds(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
 	if err != nil {
@@ -132,6 +130,8 @@ func (p *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pu
 
 	d := olds.Diff(news)
 	changes := pulumirpc.DiffResponse_DIFF_NONE
+
+	// Replace the below condition with logic specific to your provider
 	if d.Changed("length") {
 		changes = pulumirpc.DiffResponse_DIFF_SOME
 	}
@@ -145,16 +145,15 @@ func (p *xyzProvider) Diff(ctx context.Context, req *pulumirpc.DiffRequest) (*pu
 // Create allocates a new instance of the provided resource and returns its unique ID afterwards.
 func (p *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) (*pulumirpc.CreateResponse, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
+	label := fmt.Sprintf("%s.Create(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
 
 	inputs, err := plugin.UnmarshalProperties(req.GetProperties(), plugin.MarshalOptions{KeepUnknowns: true, SkipNulls: true})
 	if err != nil {
 		return nil, err
 	}
 
+	// Replace the below random number implementation with logic specific to your provider
 	if !inputs["length"].IsNumber() {
 		return nil, fmt.Errorf("expected input property 'length' of type 'number' but got '%s", inputs["length"].TypeString())
 	}
@@ -185,34 +184,29 @@ func (p *xyzProvider) Create(ctx context.Context, req *pulumirpc.CreateRequest) 
 // Read the current live state associated with a resource.
 func (p *xyzProvider) Read(ctx context.Context, req *pulumirpc.ReadRequest) (*pulumirpc.ReadResponse, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
-	return nil, status.Error(codes.Unimplemented, "Read is not yet implemented for 'xyz:index:Random'")
+	label := fmt.Sprintf("%s.Read(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
+	msg := fmt.Sprintf("Read is not yet implemented for %s", urn.Type())
+	return nil, status.Error(codes.Unimplemented, msg)
 }
 
 // Update updates an existing resource with new values.
 func (p *xyzProvider) Update(ctx context.Context, req *pulumirpc.UpdateRequest) (*pulumirpc.UpdateResponse, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
-
-	// Our Random resource will never be updated - if there is a diff, it will be a replacement.
-	return nil, status.Error(codes.Unimplemented, "Update is not yet implemented for 'xyz:index:Random'")
+	label := fmt.Sprintf("%s.Update(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
+	// Our example Random resource will never be updated - if there is a diff, it will be a replacement.
+	msg := fmt.Sprintf("Update is not yet implemented for %s", urn.Type())
+	return nil, status.Error(codes.Unimplemented, msg)
 }
 
 // Delete tears down an existing resource with the given ID.  If it fails, the resource is assumed
 // to still exist.
 func (p *xyzProvider) Delete(ctx context.Context, req *pulumirpc.DeleteRequest) (*pbempty.Empty, error) {
 	urn := resource.URN(req.GetUrn())
-	ty := urn.Type()
-	if ty != "xyz:index:Random" {
-		return nil, fmt.Errorf("unknown resource type '%s'", ty)
-	}
-
+	label := fmt.Sprintf("%s.Update(%s)", p.name, urn)
+	logging.V(9).Infof("%s executing", label)
+	// Implement Delete logic specific to your provider.
 	// Note that for our Random resource, we don't have to do anything on Delete.
 	return &pbempty.Empty{}, nil
 }
