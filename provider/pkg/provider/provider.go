@@ -34,6 +34,8 @@ import (
 )
 
 type xyzProvider struct {
+	pulumirpc.UnimplementedResourceProviderServer
+
 	host    *provider.HostClient
 	name    string
 	version string
