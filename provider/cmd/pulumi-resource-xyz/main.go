@@ -23,7 +23,7 @@ import (
 )
 
 // Version is initialized by the Go linker to contain the semver of this build.
-var Version string = "0.0.1"
+var Version string
 
 func main() {
 	p.RunProvider("xyz", Version,
@@ -37,6 +37,15 @@ func main() {
 }
 
 // Each resource has a controlling struct.
+// Resource behavior is determined by implementing methods on the controlling struct.
+// The `Create` method is mandatory, but other methods are optional.
+// - Check: Remap inputs before they are typed.
+// - Diff: Change how instances of a resource are compared.
+// - Update: Mutate a resource in place.
+// - Read: Get the state of a resource from the backing provider.
+// - Delete: Custom logic when the resource is deleted.
+// - Annotate: Describe fields and set defaults for a resource.
+// - WireDependencies: Control how outputs and secrets flows through values.
 type Random struct{}
 
 // Each resource has in input struct, defining what arguments it accepts.
