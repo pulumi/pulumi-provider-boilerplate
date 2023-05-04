@@ -27,7 +27,7 @@ Pulumi offers this repository as a [GitHub template repository](https://docs.git
 
 1. Click "Use this template".
 1. Set the following options:
-   * Owner: pulumi 
+   * Owner: pulumi
    * Repository name: pulumi-xyz-native (replace "xyz" with the name of your provider)
    * Description: Pulumi provider for xyz
    * Repository type: Public
@@ -42,7 +42,7 @@ From the templated repository:
    ```bash
    $ make build install
    ```
-   
+
 This will:
 
 1. Create the SDK codegen binary and place it in a `./bin` folder (gitignored)
@@ -51,7 +51,7 @@ This will:
 4. Install the provider on your machine.
 
 #### Test against the example
-   
+
 ```bash
 $ cd examples/simple
 $ yarn link @pulumi/xyz
@@ -84,7 +84,7 @@ Create an example program using the resources defined in your provider, and plac
 
 You can now repeat the steps for [build, install, and test](#test-against-the-example).
 
-## Configuring CI and releases
+## Configuring CI and upgrades/ releases
 
 1. Follow the instructions laid out in the [deployment templates](./deployment-templates/README-DEPLOYMENT.md).
 
