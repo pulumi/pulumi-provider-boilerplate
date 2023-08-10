@@ -84,7 +84,7 @@ jobs:
       - name: Setup DotNet
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{matrix.dotnetverson}}
+          dotnet-version: ${{matrix.dotnetversion}}
       - name: Setup Python
         uses: actions/setup-python@v1
         with:
@@ -113,7 +113,7 @@ jobs:
         with:
           user: ${{ env.PYPI_USERNAME }}
           password: ${{ env.PYPI_PASSWORD }}
-          packages_dir: ${{github.workspace}}/sdk/python/bin/dist
+          packages-dir: ${{github.workspace}}/sdk/python/bin/dist
       - if: ${{ matrix.language == 'nodejs' && env.PUBLISH_NPM == 'true' }}
         uses: JS-DevTools/npm-publish@v1
         with:
