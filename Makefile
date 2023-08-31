@@ -9,7 +9,7 @@ NUGET_PKG_NAME   := Pulumi.Xyz
 PROVIDER        := pulumi-resource-${PACK}
 VERSION         ?= $(shell pulumictl get version)
 PROVIDER_PATH   := provider
-VERSION_PATH     := ${PROVIDER_PATH}/cmd/main.Version
+VERSION_PATH    := ${PROVIDER_PATH}.Version
 
 GOPATH			:= $(shell go env GOPATH)
 
@@ -28,7 +28,7 @@ provider_debug::
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
 test_provider::
-	cd provider/pkg && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} ./...
+	cd tests && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} ./...
 
 dotnet_sdk:: DOTNET_VERSION := $(shell pulumictl get version --language dotnet)
 dotnet_sdk::
@@ -84,8 +84,7 @@ install:: install_nodejs_sdk install_dotnet_sdk
 
 GO_TEST 	 := go test -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM}
 
-test_all::
-	cd provider/pkg && $(GO_TEST) ./...
+test_all:: test_provider
 	cd tests/sdk/nodejs && $(GO_TEST) ./...
 	cd tests/sdk/python && $(GO_TEST) ./...
 	cd tests/sdk/dotnet && $(GO_TEST) ./...
