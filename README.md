@@ -13,7 +13,7 @@ It implements a random number generator that you can [build and test out for you
 Ensure the following tools are installed and present in your `$PATH`:
 
 * [`pulumictl`](https://github.com/pulumi/pulumictl#installation)
-* [Go 1.17](https://golang.org/dl/) or 1.latest
+* [Go 1.21](https://golang.org/dl/) or 1.latest
 * [NodeJS](https://nodejs.org/en/) 14.x.  We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage NodeJS installations.
 * [Yarn](https://yarnpkg.com/)
 * [TypeScript](https://www.typescriptlang.org/)
