@@ -28,17 +28,6 @@ import (
 	xyz "github.com/pulumi/pulumi-xyz/provider"
 )
 
-// urn is a helper function to build an urn for running integration tests.
-func urn(typ string) resource.URN {
-	return resource.NewURN("stack", "proj", "",
-		tokens.Type("test:index:"+typ), "name")
-}
-
-// Create a test server.
-func provider() integration.Server {
-	return integration.NewServer(xyz.Name, semver.MustParse("1.0.0"), xyz.Provider())
-}
-
 func TestRandomCreate(t *testing.T) {
 	prov := provider()
 
@@ -53,4 +42,15 @@ func TestRandomCreate(t *testing.T) {
 	require.NoError(t, err)
 	result := response.Properties["result"].StringValue()
 	assert.Len(t, result, 12)
+}
+
+// urn is a helper function to build an urn for running integration tests.
+func urn(typ string) resource.URN {
+	return resource.NewURN("stack", "proj", "",
+		tokens.Type("test:index:"+typ), "name")
+}
+
+// Create a test server.
+func provider() integration.Server {
+	return integration.NewServer(xyz.Name, semver.MustParse("1.0.0"), xyz.Provider())
 }
