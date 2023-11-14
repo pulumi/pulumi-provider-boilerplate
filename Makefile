@@ -65,7 +65,44 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
+gen_examples::
+	cd ${WORKING_DIR}/examples/yaml && \
+	rm -rf ${WORKING_DIR}/examples/{go,nodejs,python,dotnet} && \
+	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language go --out ${WORKING_DIR}/examples/go 2>&1 && \
+	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language nodejs --out ${WORKING_DIR}/examples/nodejs 2>&1 && \
+	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language python --out ${WORKING_DIR}/examples/python 2>&1 && \
+	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language dotnet --out ${WORKING_DIR}/examples/dotnet 2>&1
+
+pulumi_login::
+	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
+	pulumi login
+
+pulumi_up::
+	cd ${WORKING_DIR}/examples/yaml && \
+	pulumi stack init dev && \
+	pulumi stack select dev && \
+	pulumi config set name dev && \
+	pulumi up -y
+
+pulumi_down::
+	cd ${WORKING_DIR}/examples/yaml && \
+	pulumi destroy -y && \
+	pulumi stack select dev && \
+	pulumi stack rm dev -y
+
+devcontainer::
+	git submodule update --init --recursive .devcontainer && \
+	git submodule update --remote --merge .devcontainer && \
+	cp -f .devcontainer/devcontainer.json .devcontainer.json
+
 .PHONY: build
+
+up:: pulumi_login pulumi_up
+
+down:: pulumi_login pulumi_down
+
+deploy:: pulumi_login pulumi_up pulumi_down
+
 build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
 
 # Required for the codegen action that runs in pulumi/pulumi
@@ -76,10 +113,8 @@ lint::
 		pushd $$DIR && golangci-lint run -c ../.golangci.yml --timeout 10m && popd ; \
 	done
 
-
 install:: install_nodejs_sdk install_dotnet_sdk
 	cp $(WORKING_DIR)/bin/${PROVIDER} ${GOPATH}/bin
-
 
 GO_TEST 	 := go test -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM}
 
