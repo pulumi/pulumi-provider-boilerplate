@@ -1,0 +1,6 @@
+name: provider-xyz-native
+runtime: nodejs
+plugins:
+  providers:
+    - name: xyz
+      path: ../../bin
