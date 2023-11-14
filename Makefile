@@ -78,6 +78,7 @@ pulumi_login::
 	pulumi login --local
 
 pulumi_up::
+	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
 	cd ${WORKING_DIR}/examples/yaml && \
 	pulumi stack init dev && \
 	pulumi stack select dev && \
@@ -85,6 +86,7 @@ pulumi_up::
 	pulumi up -y
 
 pulumi_down::
+	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
 	cd ${WORKING_DIR}/examples/yaml && \
 	pulumi stack select dev && \
 	pulumi destroy -y && \
