@@ -1,6 +1,6 @@
 # Pulumi Native Provider Boilerplate
 
-This repository is a boilerplate showing how to create a native Pulumi provider.
+This repository is a boilerplate showing how to create and locally test a native Pulumi provider.
 
 ## Authoring a Pulumi Native Provider
 
@@ -10,7 +10,9 @@ It implements a random number generator that you can [build and test out for you
 
 ### Prerequisites
 
-Ensure the following tools are installed and present in your `$PATH`:
+Prerequisites for this repository are already satisfied by the [Pulumi Devcontainer](https://github.com/pulumi/devcontainer) if you are using Github Codespaces, or VSCode.
+
+If you are not using VSCode, you will need to ensure the following tools are installed and present in your `$PATH`:
 
 * [`pulumictl`](https://github.com/pulumi/pulumictl#installation)
 * [Go 1.21](https://golang.org/dl/) or 1.latest
@@ -21,7 +23,16 @@ Ensure the following tools are installed and present in your `$PATH`:
 * [.NET](https://dotnet.microsoft.com/download)
 
 
-### Creating and Initializing the Repository
+### Test the boilerplate XYZ provider before making changes
+
+1. Create a new Github CodeSpaces environment using this repository.
+1. Open a terminal in the CodeSpaces environment.
+1. Run `make build install` to build and install the provider.
+1. Run `make gen_examples` to generate the example programs in `examples/` off of the source `examples/yaml` example program.
+1. Run `make up` to run the example program in `examples/yaml`.
+1. Run `make down` to tear down the example program.
+
+### Creating a new provider repository
 
 Pulumi offers this repository as a [GitHub template repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for convenience.  From this repository:
 
