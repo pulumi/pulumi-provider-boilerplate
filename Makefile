@@ -80,22 +80,22 @@ gen_%_example:
 		--language $* \
 		--out ${WORKING_DIR}/examples/go
 
-local_password: export PULUMI_CONFIG_PASSPHRASE = asdfqwerty1234
-
-pulumi_login: local_password
-	pulumi login --local
+define pulumi_login
+    @export PULUMI_CONFIG_PASSPHRASE=asdfqwerty1234; \
+    pulumi login --local;
+endef
 
 pulumi_up::
-	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
-	cd ${WORKING_DIR}/examples/yaml && \
+	$(call pulumi_login) \
+	cd $(EXAMPLES_DIR) && \
 	pulumi stack init dev && \
 	pulumi stack select dev && \
 	pulumi config set name dev && \
 	pulumi up -y
 
 pulumi_down::
-	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
-	cd ${WORKING_DIR}/examples/yaml && \
+	$(call pulumi_login) \
+	cd $(EXAMPLES_DIR) && \
 	pulumi stack select dev && \
 	pulumi destroy -y && \
 	pulumi stack rm dev -y
