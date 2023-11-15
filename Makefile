@@ -80,8 +80,9 @@ gen_%_example:
 		--language $* \
 		--out ${WORKING_DIR}/examples/go
 
-pulumi_login::
-	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
+local_password: export PULUMI_CONFIG_PASSPHRASE = asdfqwerty1234
+
+pulumi_login: local_password
 	pulumi login --local
 
 pulumi_up::
