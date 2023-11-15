@@ -78,7 +78,7 @@ gen_%_example:
 		--generate-only \
 		--non-interactive \
 		--language $* \
-		--out ${WORKING_DIR}/examples/go
+		--out ${WORKING_DIR}/examples/$*
 
 define pulumi_login
     @export PULUMI_CONFIG_PASSPHRASE=asdfqwerty1234; \
