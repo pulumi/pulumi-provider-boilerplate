@@ -85,7 +85,7 @@ define pulumi_login
     pulumi login --local;
 endef
 
-pulumi_up::
+up::
 	$(call pulumi_login) \
 	cd $(EXAMPLES_DIR) && \
 	pulumi stack init dev && \
@@ -93,7 +93,7 @@ pulumi_up::
 	pulumi config set name dev && \
 	pulumi up -y
 
-pulumi_down::
+down::
 	$(call pulumi_login) \
 	cd $(EXAMPLES_DIR) && \
 	pulumi stack select dev && \
@@ -106,12 +106,6 @@ devcontainer::
 	cp -f .devcontainer/devcontainer.json .devcontainer.json
 
 .PHONY: build
-
-up:: pulumi_login pulumi_up
-
-down:: pulumi_login pulumi_down
-
-deploy:: pulumi_login pulumi_up pulumi_down
 
 build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
 
