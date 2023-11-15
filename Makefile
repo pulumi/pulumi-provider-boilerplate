@@ -14,6 +14,7 @@ VERSION_PATH    := ${PROVIDER_PATH}.Version
 GOPATH			:= $(shell go env GOPATH)
 
 WORKING_DIR     := $(shell pwd)
+EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
 
 ensure::
@@ -81,13 +82,13 @@ gen_%_example:
 		--out ${WORKING_DIR}/examples/$*
 
 define pulumi_login
-    @export PULUMI_CONFIG_PASSPHRASE=asdfqwerty1234; \
+    export PULUMI_CONFIG_PASSPHRASE=asdfqwerty1234; \
     pulumi login --local;
 endef
 
 up::
 	$(call pulumi_login) \
-	cd $(EXAMPLES_DIR) && \
+	cd ${EXAMPLES_DIR} && \
 	pulumi stack init dev && \
 	pulumi stack select dev && \
 	pulumi config set name dev && \
@@ -95,7 +96,7 @@ up::
 
 down::
 	$(call pulumi_login) \
-	cd $(EXAMPLES_DIR) && \
+	cd ${EXAMPLES_DIR} && \
 	pulumi stack select dev && \
 	pulumi destroy -y && \
 	pulumi stack rm dev -y
