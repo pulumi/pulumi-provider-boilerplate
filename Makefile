@@ -65,13 +65,20 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
-gen_examples::
-	cd ${WORKING_DIR}/examples/yaml && \
-	rm -rf ${WORKING_DIR}/examples/{go,nodejs,python,dotnet} && \
-	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language go --out ${WORKING_DIR}/examples/go 2>&1 && \
-	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language nodejs --out ${WORKING_DIR}/examples/nodejs 2>&1 && \
-	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language python --out ${WORKING_DIR}/examples/python 2>&1 && \
-	cd ${WORKING_DIR}/examples/yaml && pulumi convert --logtostderr --generate-only --non-interactive --language dotnet --out ${WORKING_DIR}/examples/dotnet 2>&1
+gen_examples: gen_go_example \
+		gen_nodejs_example \
+		gen_python_example \
+		gen_dotnet_example
+
+gen_%_example:
+	rm -rf ${WORKING_DIR}/examples/$*
+	pulumi convert \
+		--cwd ${WORKING_DIR}/examples/yaml \
+		--logtostderr \
+		--generate-only \
+		--non-interactive \
+		--language $* \
+		--out ${WORKING_DIR}/examples/go
 
 pulumi_login::
 	export PULUMI_CONFIG_PASSPHRASE="asdfqwerty1234" && \
