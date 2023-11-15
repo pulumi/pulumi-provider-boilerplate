@@ -52,9 +52,7 @@ jobs:
     -
       name: PulumiUp
       id: deploy
-      run: |
-        set -ex
-        make deploy
+      run: make deploy
     -
       name: Generate multi-language examples from yaml IaC program
       id: examples
