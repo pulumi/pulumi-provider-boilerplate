@@ -5,9 +5,6 @@
 {
   "name": "pulumi",
   "image": "ghcr.io/pulumi/devcontainer",
-  "settings": {
-    "terminal.integrated.shell.linux": "/usr/bin/zsh"
-  },
   "customizations": {
     "vscode": {
       "settings": [
@@ -23,6 +20,7 @@
         "editor.gotoLocation.multipleDeclarations", "goto",
         "editor.gotoLocation.multipleImplementations", "goto",
         "editor.gotoLocation.multipleTypeDefinitions", "goto",
+        "editor.terminal.integrated.shell.linux", "/usr/bin/zsh",
         "files.trimTrailingWhitespace", true,
         "files.trimFinalNewlines", true
       ],
@@ -44,14 +42,27 @@
     }
   },
   "features": {
-    "ghcr.io/devcontainers/features/common-utils:2": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+        "installZsh": true,
+        "configureZshAsDefaultShell": true,
+        "installOhMyZsh": true,
+        "installOhMyZshConfig": true,
+        "upgradePackages": true,
+        "nonFreePackages": true,
+        "username": "vscode",
+        "userUid": "automatic",
+        "userGid": "automatic"
+    },
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-      "version": "latest",
-      "installDockerBuildx": true,
-      "moby": false
+        "moby": false,
+        "installDockerBuildx": true,
+        "version": "latest",
+        "dockerDashComposeVersion": "v2"
     }
   },
   "postCreateCommand": "git submodule update --init --recursive",
   "remoteUser": "vscode",
+  "forwardPorts": [1313],
   "runArgs": ["--network=host"]
 }
+
