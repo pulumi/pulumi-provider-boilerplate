@@ -1,0 +1,62 @@
+name: Makefile
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://ghcr.io/pulumi/devcontainer:latest
+      options: --user root
+    permissions:
+      contents: read
+      packages: read
+      actions: read
+    steps:
+    -
+      name: Checkout repository
+      uses: actions/checkout@v4
+      id: git
+      with:
+        submodules: 'recursive'
+    -
+      name: Unshallow clone for tags
+      id: tags
+      run: |
+        sudo chown -R $(whoami) /__w/pulumi-provider-boilerplate/pulumi-provider-boilerplate
+        git config --global --add safe.directory /__w/pulumi-provider-boilerplate/pulumi-provider-boilerplate
+        git fetch --prune --unshallow --tags
+    -
+      name: Build
+      id: build
+      run: |
+        make build
+    -
+      name: Install
+      id: install
+      run: |
+        set -ex
+        make install
+    -
+      name: PulumiUp
+      id: up
+      run: make up
+    -
+      name: PulumiDown
+      id: down
+      run: make down
+    -
+      name: Generate multi-language examples from yaml IaC program
+      id: examples
+      run: |
+        set -ex
+        make gen_examples

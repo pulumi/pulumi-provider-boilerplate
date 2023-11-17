@@ -1,0 +1,6 @@
+name: provider-xyz-native
+runtime: go
+plugins:
+  providers:
+    - name: xyz
+      path: ../../bin

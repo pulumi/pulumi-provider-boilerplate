@@ -14,6 +14,7 @@ VERSION_PATH    := ${PROVIDER_PATH}.Version
 GOPATH			:= $(shell go env GOPATH)
 
 WORKING_DIR     := $(shell pwd)
+EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
 
 ensure::
@@ -65,7 +66,48 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
+gen_examples: gen_go_example \
+		gen_nodejs_example \
+		gen_python_example \
+		gen_dotnet_example
+
+gen_%_example:
+	rm -rf ${WORKING_DIR}/examples/$*
+	pulumi convert \
+		--cwd ${WORKING_DIR}/examples/yaml \
+		--logtostderr \
+		--generate-only \
+		--non-interactive \
+		--language $* \
+		--out ${WORKING_DIR}/examples/$*
+
+define pulumi_login
+    export PULUMI_CONFIG_PASSPHRASE=asdfqwerty1234; \
+    pulumi login --local;
+endef
+
+up::
+	$(call pulumi_login) \
+	cd ${EXAMPLES_DIR} && \
+	pulumi stack init dev && \
+	pulumi stack select dev && \
+	pulumi config set name dev && \
+	pulumi up -y
+
+down::
+	$(call pulumi_login) \
+	cd ${EXAMPLES_DIR} && \
+	pulumi stack select dev && \
+	pulumi destroy -y && \
+	pulumi stack rm dev -y
+
+devcontainer::
+	git submodule update --init --recursive .devcontainer
+	git submodule update --remote --merge .devcontainer
+	cp -f .devcontainer/devcontainer.json .devcontainer.json
+
 .PHONY: build
+
 build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
 
 # Required for the codegen action that runs in pulumi/pulumi
@@ -76,10 +118,8 @@ lint::
 		pushd $$DIR && golangci-lint run -c ../.golangci.yml --timeout 10m && popd ; \
 	done
 
-
 install:: install_nodejs_sdk install_dotnet_sdk
 	cp $(WORKING_DIR)/bin/${PROVIDER} ${GOPATH}/bin
-
 
 GO_TEST 	 := go test -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM}
 
