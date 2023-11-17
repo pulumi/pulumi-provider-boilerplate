@@ -3,7 +3,7 @@ runtime: yaml
 plugins:
   providers:
     - name: xyz
-      path: ../../bin # Adjust this path to point to your xyz provider binary
+      path: ../../bin
 
 resources:
   myRandomResource:
