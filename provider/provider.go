@@ -53,10 +53,10 @@ func Provider() p.Provider {
 // - WireDependencies: Control how outputs and secrets flows through values.
 type Random struct{}
 
-// Each resource has in input struct, defining what arguments it accepts.
+// Each resource has an input struct, defining what arguments it accepts.
 type RandomArgs struct {
 	// Fields projected into Pulumi must be public and hava a `pulumi:"..."` tag.
-	// The pulumi tag doesn't need to match the field name, but its generally a
+	// The pulumi tag doesn't need to match the field name, but it's generally a
 	// good idea.
 	Length int `pulumi:"length"`
 }
@@ -69,7 +69,7 @@ type RandomState struct {
 	Result string `pulumi:"result"`
 }
 
-// All resources must implement Create at a minumum.
+// All resources must implement Create at a minimum.
 func (Random) Create(ctx p.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {
 	state := RandomState{RandomArgs: input}
 	if preview {
