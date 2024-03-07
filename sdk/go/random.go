@@ -8,15 +8,16 @@ import (
 	"reflect"
 
 	"errors"
+	"github.com/pulumi/pulumi-xyz/sdk/go/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 type Random struct {
 	pulumi.CustomResourceState
 
-	Length pulumi.IntOutput    `pulumi:"length"`
-	Result pulumi.StringOutput `pulumi:"result"`
+	Length pulumix.Output[int]    `pulumi:"length"`
+	Result pulumix.Output[string] `pulumi:"result"`
 }
 
 // NewRandom registers a new resource with the given unique name, arguments, and options.
@@ -67,36 +68,17 @@ type randomArgs struct {
 
 // The set of arguments for constructing a Random resource.
 type RandomArgs struct {
-	Length pulumi.IntInput
+	Length pulumix.Input[int]
 }
 
 func (RandomArgs) ElementType() reflect.Type {
 	return reflect.TypeOf((*randomArgs)(nil)).Elem()
 }
 
-type RandomInput interface {
-	pulumi.Input
-
-	ToRandomOutput() RandomOutput
-	ToRandomOutputWithContext(ctx context.Context) RandomOutput
-}
-
-func (*Random) ElementType() reflect.Type {
-	return reflect.TypeOf((**Random)(nil)).Elem()
-}
-
-func (i *Random) ToRandomOutput() RandomOutput {
-	return i.ToRandomOutputWithContext(context.Background())
-}
-
-func (i *Random) ToRandomOutputWithContext(ctx context.Context) RandomOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(RandomOutput)
-}
-
 type RandomOutput struct{ *pulumi.OutputState }
 
 func (RandomOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**Random)(nil)).Elem()
+	return reflect.TypeOf((*Random)(nil)).Elem()
 }
 
 func (o RandomOutput) ToRandomOutput() RandomOutput {
@@ -107,15 +89,22 @@ func (o RandomOutput) ToRandomOutputWithContext(ctx context.Context) RandomOutpu
 	return o
 }
 
-func (o RandomOutput) Length() pulumi.IntOutput {
-	return o.ApplyT(func(v *Random) pulumi.IntOutput { return v.Length }).(pulumi.IntOutput)
+func (o RandomOutput) ToOutput(ctx context.Context) pulumix.Output[Random] {
+	return pulumix.Output[Random]{
+		OutputState: o.OutputState,
+	}
 }
 
-func (o RandomOutput) Result() pulumi.StringOutput {
-	return o.ApplyT(func(v *Random) pulumi.StringOutput { return v.Result }).(pulumi.StringOutput)
+func (o RandomOutput) Length() pulumix.Output[int] {
+	value := pulumix.Apply[Random](o, func(v Random) pulumix.Output[int] { return v.Length })
+	return pulumix.Flatten[int, pulumix.Output[int]](value)
+}
+
+func (o RandomOutput) Result() pulumix.Output[string] {
+	value := pulumix.Apply[Random](o, func(v Random) pulumix.Output[string] { return v.Result })
+	return pulumix.Flatten[string, pulumix.Output[string]](value)
 }
 
 func init() {
-	pulumi.RegisterInputType(reflect.TypeOf((*RandomInput)(nil)).Elem(), &Random{})
 	pulumi.RegisterOutputType(RandomOutput{})
 }

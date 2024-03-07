@@ -20,6 +20,8 @@ import (
 
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	"github.com/pulumi/pulumi-go-provider/middleware/schema"
+	gen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
@@ -32,6 +34,16 @@ func Provider() p.Provider {
 	// We tell the provider what resources it needs to support.
 	// In this case, a single custom resource.
 	return infer.Provider(infer.Options{
+		Metadata: schema.Metadata{
+			Description: "Provider boilerplate",
+			LanguageMap: map[string]any{
+				"go": gen.GoPackageInfo{
+					Generics:        gen.GenericsSettingGenericsOnly,
+					RootPackageName: "xyz",
+					ImportBasePath:  "github.com/pulumi/pulumi-xyz/sdk/go",
+				},
+			},
+		},
 		Resources: []infer.InferredResource{
 			infer.Resource[Random, RandomArgs, RandomState](),
 		},

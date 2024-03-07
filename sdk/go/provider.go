@@ -7,8 +7,9 @@ import (
 	"context"
 	"reflect"
 
+	"github.com/pulumi/pulumi-xyz/sdk/go/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
+	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 type Provider struct {
@@ -42,29 +43,10 @@ func (ProviderArgs) ElementType() reflect.Type {
 	return reflect.TypeOf((*providerArgs)(nil)).Elem()
 }
 
-type ProviderInput interface {
-	pulumi.Input
-
-	ToProviderOutput() ProviderOutput
-	ToProviderOutputWithContext(ctx context.Context) ProviderOutput
-}
-
-func (*Provider) ElementType() reflect.Type {
-	return reflect.TypeOf((**Provider)(nil)).Elem()
-}
-
-func (i *Provider) ToProviderOutput() ProviderOutput {
-	return i.ToProviderOutputWithContext(context.Background())
-}
-
-func (i *Provider) ToProviderOutputWithContext(ctx context.Context) ProviderOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ProviderOutput)
-}
-
 type ProviderOutput struct{ *pulumi.OutputState }
 
 func (ProviderOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**Provider)(nil)).Elem()
+	return reflect.TypeOf((*Provider)(nil)).Elem()
 }
 
 func (o ProviderOutput) ToProviderOutput() ProviderOutput {
@@ -75,7 +57,12 @@ func (o ProviderOutput) ToProviderOutputWithContext(ctx context.Context) Provide
 	return o
 }
 
+func (o ProviderOutput) ToOutput(ctx context.Context) pulumix.Output[Provider] {
+	return pulumix.Output[Provider]{
+		OutputState: o.OutputState,
+	}
+}
+
 func init() {
-	pulumi.RegisterInputType(reflect.TypeOf((*ProviderInput)(nil)).Elem(), &Provider{})
 	pulumi.RegisterOutputType(ProviderOutput{})
 }

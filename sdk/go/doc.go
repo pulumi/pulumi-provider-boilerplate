@@ -1,0 +1,2 @@
+// Provider boilerplate
+package xyz
