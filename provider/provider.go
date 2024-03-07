@@ -35,12 +35,12 @@ func Provider() p.Provider {
 	// In this case, a single custom resource.
 	return infer.Provider(infer.Options{
 		Metadata: schema.Metadata{
+			DisplayName: "xyz",
 			Description: "Provider boilerplate",
 			LanguageMap: map[string]any{
 				"go": gen.GoPackageInfo{
-					Generics:        gen.GenericsSettingGenericsOnly,
-					RootPackageName: "xyz",
-					ImportBasePath:  "github.com/pulumi/pulumi-xyz/sdk/go",
+					Generics:       gen.GenericsSettingGenericsOnly,
+					ImportBasePath: "github.com/pulumi/pulumi-xyz/sdk/go/xyz",
 				},
 			},
 		},
