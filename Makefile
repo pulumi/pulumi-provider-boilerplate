@@ -3,8 +3,8 @@ PROJECT_NAME := Pulumi Xyz Resource Provider
 PACK             := xyz
 PACKDIR          := sdk
 PROJECT          := github.com/pulumi/pulumi-xyz
-NODE_MODULE_NAME := @pulumi/xyz
-NUGET_PKG_NAME   := Pulumi.Xyz
+NODE_MODULE_NAME := @abc/xyz
+NUGET_PKG_NAME   := Abc.Xyz
 
 PROVIDER        := pulumi-resource-${PACK}
 VERSION         ?= $(shell pulumictl get version)
@@ -16,6 +16,30 @@ GOPATH			:= $(shell go env GOPATH)
 WORKING_DIR     := $(shell pwd)
 EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
+
+OS := $(shell uname)
+EMPTY_TO_AVOID_SED := 
+
+prepare::
+	@if test -z "${NAME}"; then echo "NAME not set"; exit 1; fi
+	@if test -z "${REPOSITORY}"; then echo "REPOSITORY not set"; exit 1; fi
+	@if test -z "${ORG}"; then echo "ORG not set"; exit 1; fi
+	@if test ! -d "provider/cmd/pulumi-resource-x${EMPTY_TO_AVOID_SED}yz"; then "Project already prepared"; exit 1; fi
+
+	mv "provider/cmd/pulumi-resource-x${EMPTY_TO_AVOID_SED}yz" provider/cmd/pulumi-resource-${NAME}
+
+	if [[ "${OS}" != "Darwin" ]]; then \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i 's,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; &> /dev/null; \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i 's/[xX]yz/${NAME}/g' {} \; &> /dev/null; \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i 's/[aA]bc/${ORG}/g' {} \; &> /dev/null; \
+	fi
+
+	# In MacOS the -i parameter needs an empty string to execute in place.
+	if [[ "${OS}" == "Darwin" ]]; then \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' 's,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; &> /dev/null; \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' 's/[xX]yz/${NAME}/g' {} \; &> /dev/null; \
+		find . \( -path './.git' -o -path './sdk' -o -path './examples' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' 's/[aA]bc/${ORG}/g' {} \; &> /dev/null; \
+	fi
 
 ensure::
 	cd provider && go mod tidy
