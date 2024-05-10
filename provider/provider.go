@@ -81,7 +81,7 @@ func (Random) Create(ctx p.Context, name string, input RandomArgs, preview bool)
 
 func makeRandom(length int) string {
 	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") // SED_SKIP
 
 	result := make([]rune, length)
 	for i := range result {
