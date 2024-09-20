@@ -17,7 +17,8 @@ WORKING_DIR     := $(shell pwd)
 EXAMPLES_DIR    := ${WORKING_DIR}/examples/yaml
 TESTPARALLELISM := 4
 
-OS := $(shell uname)
+OS    := $(shell uname)
+SHELL := /bin/bash
 
 prepare::
 	@if test -z "${NAME}"; then echo "NAME not set"; exit 1; fi
