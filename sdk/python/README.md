@@ -23,7 +23,7 @@ If you are not using VSCode, you will need to ensure the following tools are ins
 * [.NET](https://dotnet.microsoft.com/download)
 
 
-### Test the boilerplate XYZ provider before making changes
+### Build & test the boilerplate XYZ provider
 
 1. Create a new Github CodeSpaces environment using this repository.
 1. Open a terminal in the CodeSpaces environment.
@@ -46,7 +46,18 @@ Pulumi offers this repository as a [GitHub template repository](https://docs.git
 
 From the templated repository:
 
-1. Search-replace `xyz` with the name of your desired provider.
+1. Run the following command to update files to use the name of your provider (third-party: use your GitHub organization/username):
+
+    ```bash
+    make prepare NAME=foo REPOSITORY=github.com/pulumi/pulumi-foo ORG=myorg
+    ```
+
+   This will do the following:
+   - rename folders in `provider/cmd` to `pulumi-resource-{NAME}`
+   - replace dependencies in `provider/go.mod` to reflect your repository name
+   - find and replace all instances of the boilerplate `xyz` with the `NAME` of your provider.
+   - find and replace all instances of the boilerplate `abc` with the `ORG` of your provider.
+   - replace all instances of the `github.com/pulumi/pulumi-xyz` repository with the `REPOSITORY` location
 
 #### Build the provider and install the plugin
 

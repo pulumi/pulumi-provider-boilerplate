@@ -7,8 +7,8 @@ import (
 	"context"
 	"reflect"
 
+	"example.com/pulumi-xyz/sdk/go/xyz/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 type Provider struct {
@@ -32,10 +32,12 @@ func NewProvider(ctx *pulumi.Context,
 }
 
 type providerArgs struct {
+	Itsasecret *bool `pulumi:"itsasecret"`
 }
 
 // The set of arguments for constructing a Provider resource.
 type ProviderArgs struct {
+	Itsasecret pulumi.BoolPtrInput
 }
 
 func (ProviderArgs) ElementType() reflect.Type {

@@ -39,6 +39,9 @@ namespace Pulumi.Xyz
 
     public sealed class ProviderArgs : global::Pulumi.ResourceArgs
     {
+        [Input("itsasecret", json: true)]
+        public Input<bool>? Itsasecret { get; set; }
+
         public ProviderArgs()
         {
         }
