@@ -32,15 +32,15 @@ type RandomComponentArgs struct {
 
 // Components also have a state, describing the fields that exist on the created component.
 type RandomComponentState struct {
-	pulumi.ResourceState
-	Length   pulumi.IntOutput    `pulumi:"length"`
-	Password pulumi.StringOutput `pulumi:"password"`
+	pulumi.ResourceState                     // Component state needs this for tracking nested resource states.
+	RandomComponentArgs                      // Include all the input fields in the state.
+	Password             pulumi.StringOutput `pulumi:"password"`
 }
 
 func (r *RandomComponent) Construct(ctx *pulumi.Context, name, typ string, args RandomComponentArgs, opts pulumi.ResourceOption) (*RandomComponentState, error) {
 	// Initialize the component state.
 	comp := &RandomComponentState{
-		Length: args.Length.ToIntOutput(),
+		RandomComponentArgs: args,
 	}
 	// Register the component resource to which we will attach all other resources.
 	err := ctx.RegisterComponentResource(typ, name, comp, opts)
