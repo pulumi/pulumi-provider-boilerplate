@@ -8,8 +8,8 @@ import (
 	"reflect"
 
 	"errors"
+	"example.com/pulumi-xyz/sdk/go/xyz/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 type Random struct {

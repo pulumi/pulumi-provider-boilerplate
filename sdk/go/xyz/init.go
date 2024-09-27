@@ -6,9 +6,9 @@ package xyz
 import (
 	"fmt"
 
+	"example.com/pulumi-xyz/sdk/go/xyz/internal"
 	"github.com/blang/semver"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"internal"
 )
 
 type module struct {
@@ -23,6 +23,8 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 	switch typ {
 	case "xyz:index:Random":
 		r = &Random{}
+	case "xyz:index:RandomComponent":
+		r = &RandomComponent{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}

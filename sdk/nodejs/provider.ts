@@ -31,6 +31,7 @@ export class Provider extends pulumi.ProviderResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         {
+            resourceInputs["itsasecret"] = pulumi.output(args ? args.itsasecret : undefined).apply(JSON.stringify);
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
@@ -41,4 +42,5 @@ export class Provider extends pulumi.ProviderResource {
  * The set of arguments for constructing a Provider resource.
  */
 export interface ProviderArgs {
+    itsasecret?: pulumi.Input<boolean>;
 }
