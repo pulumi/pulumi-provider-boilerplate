@@ -1,4 +1,4 @@
-module provider-xyz-native
+module provider-xyz
 
 go 1.20
 
