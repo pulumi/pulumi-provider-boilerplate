@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-xyz/provider
+module github.com/pulumi/pulumi-xyz
 
 go 1.22
 
