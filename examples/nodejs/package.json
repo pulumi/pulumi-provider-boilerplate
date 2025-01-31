@@ -1,5 +1,5 @@
 {
-	"name": "provider-xyz-native",
+	"name": "provider-xyz",
 	"devDependencies": {
 		"@types/node": "^14"
 	},

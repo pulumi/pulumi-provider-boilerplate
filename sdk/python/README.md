@@ -35,7 +35,7 @@ Pulumi offers this repository as a [GitHub template repository](https://docs.git
 1. Click "Use this template".
 1. Set the following options:
    * Owner: pulumi 
-   * Repository name: pulumi-xyz-native (replace "xyz" with the name of your provider)
+   * Repository name: pulumi-xyz (replace "xyz" with the name of your provider)
    * Description: Pulumi provider for xyz
    * Repository type: Public
 1. Clone the generated repository.
@@ -45,7 +45,7 @@ From the templated repository:
 1. Run the following command to update files to use the name of your provider (third-party: use your GitHub organization/username):
 
     ```bash
-    make prepare NAME=foo REPOSITORY=github.com/pulumi/pulumi-foo ORG=myorg
+    make prepare NAME=foo ORG=myorg REPOSITORY=github.com/myorg/pulumi-foo
     ```
 
    This will do the following:

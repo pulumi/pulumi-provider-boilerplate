@@ -1,4 +1,4 @@
-name: provider-xyz-native
+name: provider-xyz
 runtime: python
 plugins:
   providers:
