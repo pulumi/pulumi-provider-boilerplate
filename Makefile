@@ -46,8 +46,9 @@ ensure:
 	cd sdk && go mod tidy
 	cd tests && go mod tidy
 
-provider:
-	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
+provider: $(WORKING_DIR)/bin/$(PROVIDER)
+$(WORKING_DIR)/bin/$(PROVIDER): $(shell find . -name "*.go")
+	go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER)
 
 provider_debug:
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
@@ -56,7 +57,7 @@ test_provider:
 	cd tests && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} ./...
 
 dotnet_sdk: DOTNET_VERSION := $(shell pulumictl get version --language dotnet)
-dotnet_sdk:
+dotnet_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \
@@ -68,7 +69,7 @@ go_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
 
 nodejs_sdk: VERSION := $(shell pulumictl get version --language javascript)
-nodejs_sdk:
+nodejs_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
@@ -79,7 +80,7 @@ nodejs_sdk:
 		rm ./bin/package.json.bak
 
 python_sdk: PYPI_VERSION := $(shell pulumictl get version --language python)
-python_sdk:
+python_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python
 	cp README.md ${PACKDIR}/python/
