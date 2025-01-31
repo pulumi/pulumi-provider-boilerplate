@@ -1,6 +1,8 @@
 # Pulumi Native Provider Boilerplate
 
-This repository is a boilerplate showing how to create and locally test a native Pulumi provider.
+TEST
+
+This repository is a boilerplate showing how to create and locally test a native Pulumi provider (with examples of both CustomResource and ComponentResource [resource types](https://www.pulumi.com/docs/iac/concepts/resources/)). 
 
 ## Authoring a Pulumi Native Provider
 
