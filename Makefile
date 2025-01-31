@@ -125,11 +125,6 @@ down::
 	pulumi destroy -y && \
 	pulumi stack rm dev -y
 
-devcontainer::
-	git submodule update --init --recursive .devcontainer
-	git submodule update --remote --merge .devcontainer
-	cp -f .devcontainer/devcontainer.json .devcontainer.json
-
 .PHONY: build
 
 build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
