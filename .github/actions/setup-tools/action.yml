@@ -58,7 +58,7 @@ runs:
       if: inputs.tools == 'all' || contains(inputs.tools, 'dotnet')
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 8.0.x
 
     - name: Setup Python
       if: inputs.tools == 'all' || contains(inputs.tools, 'python')
