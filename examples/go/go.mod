@@ -3,5 +3,5 @@ module provider-xyz
 go 1.20
 
 require (
-	github.com/pulumi/pulumi/sdk/v3 v3.156.0
+	github.com/pulumi/pulumi/sdk/v3 v3.157.0
 )
