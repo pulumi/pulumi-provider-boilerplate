@@ -22,6 +22,7 @@ import (
 	"github.com/pulumi/pulumi-go-provider/integration"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
+	"github.com/pulumi/pulumi/sdk/v3/go/property"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -33,14 +34,14 @@ func TestRandomCreate(t *testing.T) {
 
 	response, err := prov.Create(p.CreateRequest{
 		Urn: urn("Random"),
-		Properties: resource.PropertyMap{
-			"length": resource.NewNumberProperty(12),
-		},
+		Properties: property.NewMap(map[string]property.Value{
+			"length": property.New(12)}),
+
 		Preview: false,
 	})
 
 	require.NoError(t, err)
-	result := response.Properties["result"].StringValue()
+	result := response.Properties.Get("result").AsString()
 	assert.Len(t, result, 12)
 }
 
