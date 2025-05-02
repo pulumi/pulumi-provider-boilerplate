@@ -35,7 +35,7 @@ func TestRandomCreate(t *testing.T) {
 	response, err := prov.Create(p.CreateRequest{
 		Urn: urn("Random"),
 		Properties: property.NewMap(map[string]property.Value{
-			"length": property.New(12)}),
+			"length": property.New(12.0)}),
 
 		Preview: false,
 	})
