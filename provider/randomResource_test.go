@@ -6,6 +6,7 @@ import (
 	"github.com/blang/semver"
 	integration "github.com/pulumi/pulumi-go-provider/integration"
 	presource "github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v3/go/property"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -14,22 +15,24 @@ func TestRandomResource(t *testing.T) {
 	integration.LifeCycleTest{
 		Resource: "xyz:index:Random",
 		Create: integration.Operation{
-			Inputs: presource.NewPropertyMapFromMap(map[string]interface{}{
+			Inputs: presource.FromResourcePropertyMap(presource.NewPropertyMapFromMap(map[string]interface{}{
 				"length": 24,
-			}),
-			Hook: func(inputs, output presource.PropertyMap) {
+			})),
+
+			Hook: func(inputs, output property.Map) {
 				t.Logf("Outputs: %v", output)
-				result := output["result"].StringValue()
+				result := output.Get("result").AsString()
 				assert.Len(t, result, 24)
 			},
 		},
 		Updates: []integration.Operation{
 			{
-				Inputs: presource.NewPropertyMapFromMap(map[string]interface{}{
+				Inputs: presource.FromResourcePropertyMap(presource.NewPropertyMapFromMap(map[string]interface{}{
 					"length": 10,
-				}),
-				Hook: func(inputs, output presource.PropertyMap) {
-					result := output["result"].StringValue()
+				})),
+
+				Hook: func(inputs, output property.Map) {
+					result := output.Get("result").AsString()
 					assert.Len(t, result, 10)
 				},
 			},

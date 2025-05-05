@@ -18,6 +18,8 @@ import (
 	"context"
 	"math/rand"
 	"time"
+
+	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
 // Each resource has a controlling struct.
@@ -49,13 +51,16 @@ type RandomState struct {
 }
 
 // All resources must implement Create at a minimum.
-func (Random) Create(ctx context.Context, name string, input RandomArgs, preview bool) (string, RandomState, error) {
+func (Random) Create(ctx context.Context, req infer.CreateRequest[RandomArgs]) (infer.CreateResponse[RandomState], error) {
+	name := req.Name
+	input := req.Inputs
+	preview := req.Preview
 	state := RandomState{RandomArgs: input}
 	if preview {
-		return name, state, nil
+		return infer.CreateResponse[RandomState]{ID: name, Output: state}, nil
 	}
 	state.Result = makeRandom(input.Length)
-	return name, state, nil
+	return infer.CreateResponse[RandomState]{ID: name, Output: state}, nil
 }
 
 func makeRandom(length int) string {
