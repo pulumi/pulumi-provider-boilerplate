@@ -7,7 +7,7 @@ import (
 	"context"
 	"reflect"
 
-	"example.com/pulumi-xyz/sdk/go/xyz/internal"
+	"github.com/mynamespace/xyz/sdk/go/xyz/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

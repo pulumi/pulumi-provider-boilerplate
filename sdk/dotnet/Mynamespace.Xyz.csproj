@@ -9,6 +9,7 @@
     <PackageProjectUrl></PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <Version>0.0.1-alpha.1747260227+3c183e5d.dirty</Version>
 
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>

@@ -1,2 +1,2 @@
+pulumi-xyz==0.0.1-alpha.1747260227+3c183e5d.dirty
 pulumi>=3.0.0,<4.0.0
-pulumi-xyz==1.1.179

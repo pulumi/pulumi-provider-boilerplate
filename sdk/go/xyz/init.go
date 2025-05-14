@@ -6,8 +6,8 @@ package xyz
 import (
 	"fmt"
 
-	"example.com/pulumi-xyz/sdk/go/xyz/internal"
 	"github.com/blang/semver"
+	"github.com/mynamespace/xyz/sdk/go/xyz/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
