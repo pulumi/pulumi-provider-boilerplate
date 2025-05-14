@@ -26,20 +26,17 @@ var Version string
 const Name string = "xyz"
 
 func Provider() p.Provider {
-	// We tell the provider what resources it needs to support.
-	// In this case, a single resource and component
-	return infer.Provider(infer.Options{
-		Resources: []infer.InferredResource{
-			infer.Resource[Random](),
-		},
-		Components: []infer.InferredComponent{
-			infer.Component(NewRandomComponent),
-		},
-		Config: infer.Config[Config](),
-		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
+	p, err := infer.NewProviderBuilder().
+		WithResources(infer.Resource(Random{})).
+		WithComponents(infer.ComponentF(NewRandomComponent)).
+		WithConfig(infer.Config(&Config{})).
+		WithModuleMap(map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "index",
-		},
-	})
+		}).Build()
+	if err != nil {
+		panic(err)
+	}
+	return p
 }
 
 // Define some provider-level configuration

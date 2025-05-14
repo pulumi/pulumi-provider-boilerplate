@@ -54,7 +54,7 @@ type RandomState struct {
 func (Random) Create(ctx context.Context, req infer.CreateRequest[RandomArgs]) (infer.CreateResponse[RandomState], error) {
 	name := req.Name
 	input := req.Inputs
-	preview := req.Preview
+	preview := req.DryRun
 	state := RandomState{RandomArgs: input}
 	if preview {
 		return infer.CreateResponse[RandomState]{ID: name, Output: state}, nil

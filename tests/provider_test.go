@@ -15,6 +15,7 @@
 package tests
 
 import (
+	"context"
 	"testing"
 
 	"github.com/blang/semver"
@@ -30,14 +31,14 @@ import (
 )
 
 func TestRandomCreate(t *testing.T) {
-	prov := provider()
+	prov := provider(t)
 
 	response, err := prov.Create(p.CreateRequest{
 		Urn: urn("Random"),
 		Properties: property.NewMap(map[string]property.Value{
 			"length": property.New(12.0)}),
 
-		Preview: false,
+		DryRun: false,
 	})
 
 	require.NoError(t, err)
@@ -52,6 +53,8 @@ func urn(typ string) resource.URN {
 }
 
 // Create a test server.
-func provider() integration.Server {
-	return integration.NewServer(xyz.Name, semver.MustParse("1.0.0"), xyz.Provider())
+func provider(t *testing.T) integration.Server {
+	s, err := integration.NewServer(context.Background(), xyz.Name, semver.MustParse("1.0.0"), integration.WithProvider(xyz.Provider()))
+	require.NoError(t, err)
+	return s
 }
