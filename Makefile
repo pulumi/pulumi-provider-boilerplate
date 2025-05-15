@@ -79,17 +79,16 @@ nodejs_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 		sed -i.bak 's/$${VERSION}/$(VERSION)/g' bin/package.json && \
 		rm ./bin/package.json.bak
 
-python_sdk: PYPI_VERSION := $(shell pulumictl get version --language python)
 python_sdk: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python
 	cp README.md ${PACKDIR}/python/
 	cd ${PACKDIR}/python/ && \
-		python3 setup.py clean --all 2>/dev/null && \
 		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \
-		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
-		rm ./bin/setup.py.bak && \
-		cd ./bin && python3 setup.py build sdist
+		python3 -m venv venv && \
+		./venv/bin/python -m pip install build && \
+		cd ./bin && \
+		../venv/bin/python -m build .
 
 gen_examples: gen_go_example \
 		gen_nodejs_example \
@@ -127,15 +126,13 @@ down::
 	pulumi stack rm dev -y
 
 .PHONY: build
-build: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
+build: provider dotnet_sdk go_sdk nodejs_sdk python_sdk gen_examples
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build: build
 
 lint:
-	for DIR in "provider" "sdk" "tests" ; do \
-		pushd $$DIR && golangci-lint run -c ../.golangci.yml --timeout 10m && popd ; \
-	done
+	golangci-lint run -c .golangci.yml --fix --timeout 10m
 
 install: install_nodejs_sdk install_dotnet_sdk
 	cp $(WORKING_DIR)/bin/${PROVIDER} ${GOPATH}/bin
