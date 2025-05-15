@@ -1,4 +1,4 @@
-// Copyright 2016-2023, Pulumi Corporation.
+// Copyright 2025, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// Package main runs the provider's gRPC server.
 package main
 
 import (
-	p "github.com/pulumi/pulumi-go-provider"
+	"context"
 
 	xyz "github.com/pulumi/pulumi-xyz/provider"
 )
 
 // Serve the provider against Pulumi's Provider protocol.
-func main() { p.RunProvider(xyz.Name, xyz.Version, xyz.Provider()) }
+func main() {
+	_ = xyz.Provider().Run(context.Background(), xyz.Name, xyz.Version)
+}

@@ -1,4 +1,4 @@
-// Copyright 2016-2023, Pulumi Corporation.
+// Copyright 2025, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,12 +16,13 @@ package provider
 
 import (
 	"context"
-	"math/rand"
-	"time"
+	"math/rand/v2"
 
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
+// Random is the controller for the resource.
+//
 // Each resource has a controlling struct.
 // Resource behavior is determined by implementing methods on the controlling struct.
 // The `Create` method is mandatory, but other methods are optional.
@@ -34,6 +35,8 @@ import (
 // - WireDependencies: Control how outputs and secrets flows through values.
 type Random struct{}
 
+// RandomArgs are the inputs to the random resource's constructor.
+//
 // Each resource has an input struct, defining what arguments it accepts.
 type RandomArgs struct {
 	// Fields projected into Pulumi must be public and hava a `pulumi:"..."` tag.
@@ -42,7 +45,9 @@ type RandomArgs struct {
 	Length int `pulumi:"length"`
 }
 
-// Each resource has a state, describing the fields that exist on the created resource.
+// RandomState is what's persisted in state.
+//
+// Each resource has a state, describing the fields that exist on the resource.
 type RandomState struct {
 	// It is generally a good idea to embed args in outputs, but it isn't strictly necessary.
 	RandomArgs
@@ -50,8 +55,13 @@ type RandomState struct {
 	Result string `pulumi:"result"`
 }
 
+// Create creates a new instance of the random resource.
+//
 // All resources must implement Create at a minimum.
-func (Random) Create(ctx context.Context, req infer.CreateRequest[RandomArgs]) (infer.CreateResponse[RandomState], error) {
+func (Random) Create(
+	ctx context.Context,
+	req infer.CreateRequest[RandomArgs],
+) (infer.CreateResponse[RandomState], error) {
 	name := req.Name
 	input := req.Inputs
 	preview := req.DryRun
@@ -64,12 +74,11 @@ func (Random) Create(ctx context.Context, req infer.CreateRequest[RandomArgs]) (
 }
 
 func makeRandom(length int) string {
-	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
 	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789") // SED_SKIP
 
 	result := make([]rune, length)
 	for i := range result {
-		result[i] = charset[seededRand.Intn(len(charset))]
+		result[i] = charset[rand.IntN(len(charset))] //nolint:gosec // Intionally weak random.
 	}
 	return string(result)
 }

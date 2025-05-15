@@ -1,4 +1,4 @@
-// Copyright 2016-2023, Pulumi Corporation.
+// Copyright 2025, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,8 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
+// RandomComponent implements a custom component.
+//
 // Similar to resources, components have a controlling struct.
 // The NewRandomComponent function is responsible for creating
 // the component by composing together other resources.
@@ -29,12 +31,20 @@ type RandomComponent struct {
 	Password             pulumi.StringOutput `pulumi:"password"`
 }
 
+// RandomComponentArgs are inputs to the custom component's constructor.
+//
 // Similar to resources, components have an input struct, defining what arguments it accepts.
 type RandomComponentArgs struct {
 	Length pulumi.IntInput `pulumi:"length"`
 }
 
-func NewRandomComponent(ctx *pulumi.Context, name string, args RandomComponentArgs, opts ...pulumi.ResourceOption) (*RandomComponent, error) {
+// NewRandomComponent constructs the component.
+func NewRandomComponent(
+	ctx *pulumi.Context,
+	name string,
+	args RandomComponentArgs,
+	opts ...pulumi.ResourceOption,
+) (*RandomComponent, error) {
 	// Initialize the component state.
 	comp := &RandomComponent{
 		RandomComponentArgs: args,

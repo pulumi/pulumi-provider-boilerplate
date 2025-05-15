@@ -1,4 +1,4 @@
-// Copyright 2016-2023, Pulumi Corporation.
+// Copyright 2025, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,24 +19,27 @@ import (
 	"testing"
 
 	"github.com/blang/semver"
-	p "github.com/pulumi/pulumi-go-provider"
-	"github.com/pulumi/pulumi-go-provider/integration"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
-	"github.com/pulumi/pulumi/sdk/v3/go/property"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+	p "github.com/pulumi/pulumi-go-provider"
+	"github.com/pulumi/pulumi-go-provider/integration"
 	xyz "github.com/pulumi/pulumi-xyz/provider"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
+	"github.com/pulumi/pulumi/sdk/v3/go/property"
 )
 
 func TestRandomCreate(t *testing.T) {
+	t.Parallel()
+
 	prov := provider(t)
 
 	response, err := prov.Create(p.CreateRequest{
 		Urn: urn("Random"),
 		Properties: property.NewMap(map[string]property.Value{
-			"length": property.New(12.0)}),
+			"length": property.New(12.0),
+		}),
 
 		DryRun: false,
 	})
@@ -54,7 +57,12 @@ func urn(typ string) resource.URN {
 
 // Create a test server.
 func provider(t *testing.T) integration.Server {
-	s, err := integration.NewServer(context.Background(), xyz.Name, semver.MustParse("1.0.0"), integration.WithProvider(xyz.Provider()))
+	s, err := integration.NewServer(
+		context.Background(),
+		xyz.Name,
+		semver.MustParse("1.0.0"),
+		integration.WithProvider(xyz.Provider()),
+	)
 	require.NoError(t, err)
 	return s
 }
