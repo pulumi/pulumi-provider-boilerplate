@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/pulumi/pulumi-go-provider v1.0.0-rc.2
+	github.com/pulumi/pulumi-go-provider v1.0.0-rc1.0.20250515181609-512f1e227889
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
 	github.com/pulumi/pulumi/sdk/v3 v3.169.0
 	github.com/stretchr/testify v1.10.0
