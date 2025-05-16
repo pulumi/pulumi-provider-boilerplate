@@ -17,11 +17,17 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"os"
 
 	xyz "github.com/pulumi/pulumi-xyz/provider"
 )
 
 // Serve the provider against Pulumi's Provider protocol.
 func main() {
-	_ = xyz.Provider().Run(context.Background(), xyz.Name, xyz.Version)
+	err := xyz.Provider().Run(context.Background(), xyz.Name, xyz.Version)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error: %s", err.Error())
+		os.Exit(1)
+	}
 }

@@ -20,7 +20,7 @@ import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
-// RandomComponent implements a custom component.
+// RandomComponent represents a Pulumi component resource.
 //
 // Similar to resources, components have a controlling struct.
 // The NewRandomComponent function is responsible for creating

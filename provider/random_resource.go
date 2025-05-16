@@ -78,7 +78,7 @@ func makeRandom(length int) string {
 
 	result := make([]rune, length)
 	for i := range result {
-		result[i] = charset[rand.IntN(len(charset))] //nolint:gosec // Intionally weak random.
+		result[i] = charset[rand.IntN(len(charset))] //nolint:gosec // Intentionally weak random.
 	}
 	return string(result)
 }
