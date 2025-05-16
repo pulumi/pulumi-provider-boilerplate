@@ -54,6 +54,11 @@ jobs:
         run: make down
       - name: Generate multi-language examples from yaml IaC program
         id: examples
-        run: |
-          set -ex
-          make gen_examples
+        shell: bash
+        run: make gen_examples
+
+        # TODO: This doesn't work yet. Will be addressed in https://github.com/pulumi/home/issues/3745
+        #- name: Ensure working directory clean
+        #id: examples
+        #shell: bash
+        #run: git status --porcelain

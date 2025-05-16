@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"errors"
-	"example.com/pulumi-xyz/sdk/go/xyz/internal"
+	"github.com/mynamespace/xyz/sdk/go/xyz/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
@@ -70,6 +70,56 @@ func (i *RandomComponent) ToRandomComponentOutputWithContext(ctx context.Context
 	return pulumi.ToOutputWithContext(ctx, i).(RandomComponentOutput)
 }
 
+// RandomComponentArrayInput is an input type that accepts RandomComponentArray and RandomComponentArrayOutput values.
+// You can construct a concrete instance of `RandomComponentArrayInput` via:
+//
+//	RandomComponentArray{ RandomComponentArgs{...} }
+type RandomComponentArrayInput interface {
+	pulumi.Input
+
+	ToRandomComponentArrayOutput() RandomComponentArrayOutput
+	ToRandomComponentArrayOutputWithContext(context.Context) RandomComponentArrayOutput
+}
+
+type RandomComponentArray []RandomComponentInput
+
+func (RandomComponentArray) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*RandomComponent)(nil)).Elem()
+}
+
+func (i RandomComponentArray) ToRandomComponentArrayOutput() RandomComponentArrayOutput {
+	return i.ToRandomComponentArrayOutputWithContext(context.Background())
+}
+
+func (i RandomComponentArray) ToRandomComponentArrayOutputWithContext(ctx context.Context) RandomComponentArrayOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RandomComponentArrayOutput)
+}
+
+// RandomComponentMapInput is an input type that accepts RandomComponentMap and RandomComponentMapOutput values.
+// You can construct a concrete instance of `RandomComponentMapInput` via:
+//
+//	RandomComponentMap{ "key": RandomComponentArgs{...} }
+type RandomComponentMapInput interface {
+	pulumi.Input
+
+	ToRandomComponentMapOutput() RandomComponentMapOutput
+	ToRandomComponentMapOutputWithContext(context.Context) RandomComponentMapOutput
+}
+
+type RandomComponentMap map[string]RandomComponentInput
+
+func (RandomComponentMap) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*RandomComponent)(nil)).Elem()
+}
+
+func (i RandomComponentMap) ToRandomComponentMapOutput() RandomComponentMapOutput {
+	return i.ToRandomComponentMapOutputWithContext(context.Background())
+}
+
+func (i RandomComponentMap) ToRandomComponentMapOutputWithContext(ctx context.Context) RandomComponentMapOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(RandomComponentMapOutput)
+}
+
 type RandomComponentOutput struct{ *pulumi.OutputState }
 
 func (RandomComponentOutput) ElementType() reflect.Type {
@@ -92,7 +142,51 @@ func (o RandomComponentOutput) Password() pulumi.StringOutput {
 	return o.ApplyT(func(v *RandomComponent) pulumi.StringOutput { return v.Password }).(pulumi.StringOutput)
 }
 
+type RandomComponentArrayOutput struct{ *pulumi.OutputState }
+
+func (RandomComponentArrayOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*[]*RandomComponent)(nil)).Elem()
+}
+
+func (o RandomComponentArrayOutput) ToRandomComponentArrayOutput() RandomComponentArrayOutput {
+	return o
+}
+
+func (o RandomComponentArrayOutput) ToRandomComponentArrayOutputWithContext(ctx context.Context) RandomComponentArrayOutput {
+	return o
+}
+
+func (o RandomComponentArrayOutput) Index(i pulumi.IntInput) RandomComponentOutput {
+	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *RandomComponent {
+		return vs[0].([]*RandomComponent)[vs[1].(int)]
+	}).(RandomComponentOutput)
+}
+
+type RandomComponentMapOutput struct{ *pulumi.OutputState }
+
+func (RandomComponentMapOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*map[string]*RandomComponent)(nil)).Elem()
+}
+
+func (o RandomComponentMapOutput) ToRandomComponentMapOutput() RandomComponentMapOutput {
+	return o
+}
+
+func (o RandomComponentMapOutput) ToRandomComponentMapOutputWithContext(ctx context.Context) RandomComponentMapOutput {
+	return o
+}
+
+func (o RandomComponentMapOutput) MapIndex(k pulumi.StringInput) RandomComponentOutput {
+	return pulumi.All(o, k).ApplyT(func(vs []interface{}) *RandomComponent {
+		return vs[0].(map[string]*RandomComponent)[vs[1].(string)]
+	}).(RandomComponentOutput)
+}
+
 func init() {
 	pulumi.RegisterInputType(reflect.TypeOf((*RandomComponentInput)(nil)).Elem(), &RandomComponent{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RandomComponentArrayInput)(nil)).Elem(), RandomComponentArray{})
+	pulumi.RegisterInputType(reflect.TypeOf((*RandomComponentMapInput)(nil)).Elem(), RandomComponentMap{})
 	pulumi.RegisterOutputType(RandomComponentOutput{})
+	pulumi.RegisterOutputType(RandomComponentArrayOutput{})
+	pulumi.RegisterOutputType(RandomComponentMapOutput{})
 }

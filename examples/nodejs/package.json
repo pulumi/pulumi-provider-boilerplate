@@ -1,11 +1,11 @@
 {
 	"name": "provider-xyz",
 	"devDependencies": {
-		"@types/node": "^14"
+		"@types/node": "^18"
 	},
 	"dependencies": {
 		"typescript": "^4.0.0",
-		"@pulumi/pulumi": "3.169.0",
-		"@pulumi/xyz": "0.0.1-alpha.1699945013+97b0e04c"
+		"@pulumi/pulumi": "^3.0.0",
+		"@mynamespace/xyz": "0.0.1"
 	}
 }
