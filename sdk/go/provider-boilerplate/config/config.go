@@ -4,7 +4,7 @@
 package config
 
 import (
-	"github.com/mynamespace/xyz/sdk/go/xyz/internal"
+	"github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
@@ -12,5 +12,5 @@ import (
 var _ = internal.GetEnvOrDefault
 
 func GetItsasecret(ctx *pulumi.Context) bool {
-	return config.GetBool(ctx, "xyz:itsasecret")
+	return config.GetBool(ctx, "provider-boilerplate:itsasecret")
 }

@@ -17,7 +17,7 @@ from .. import _utilities
 
 import types
 
-__config__ = pulumi.Config('xyz')
+__config__ = pulumi.Config('provider-boilerplate')
 
 
 class _ExportableConfig(types.ModuleType):

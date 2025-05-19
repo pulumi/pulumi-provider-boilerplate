@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using Pulumi.Serialization;
 using Pulumi;
 
-namespace Mynamespace.Xyz
+namespace Mynamespace.ProviderBoilerplate
 {
-    [XyzResourceType("xyz:index:RandomComponent")]
+    [ProviderBoilerplateResourceType("provider-boilerplate:index:RandomComponent")]
     public partial class RandomComponent : global::Pulumi.ComponentResource
     {
         [Output("length")]
@@ -28,7 +28,7 @@ namespace Mynamespace.Xyz
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
         public RandomComponent(string name, RandomComponentArgs args, ComponentResourceOptions? options = null)
-            : base("xyz:index:RandomComponent", name, args ?? new RandomComponentArgs(), MakeResourceOptions(options, ""), remote: true)
+            : base("provider-boilerplate:index:RandomComponent", name, args ?? new RandomComponentArgs(), MakeResourceOptions(options, ""), remote: true)
         {
         }
 

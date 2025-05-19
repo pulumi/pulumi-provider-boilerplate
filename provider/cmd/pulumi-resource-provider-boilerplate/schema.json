@@ -1,6 +1,6 @@
 {
-  "name": "xyz",
-  "displayName": "xyz",
+  "name": "provider-boilerplate",
+  "displayName": "provider-boilerplate",
   "namespace": "mynamespace",
   "meta": {
     "moduleFormat": "(.*)"
@@ -11,7 +11,7 @@
     },
     "go": {
       "generateResourceContainerTypes": true,
-      "importBasePath": "github.com/mynamespace/xyz/sdk/go/xyz",
+      "importBasePath": "github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate",
       "respectSchemaVersion": true
     },
     "nodejs": {
@@ -40,7 +40,7 @@
     }
   },
   "resources": {
-    "xyz:index:Random": {
+    "provider-boilerplate:index:Random": {
       "properties": {
         "length": {
           "type": "integer"
@@ -63,7 +63,7 @@
         "length"
       ]
     },
-    "xyz:index:RandomComponent": {
+    "provider-boilerplate:index:RandomComponent": {
       "properties": {
         "length": {
           "type": "integer"

@@ -37,7 +37,7 @@ class ProviderArgs:
         pulumi.set(self, "itsasecret", value)
 
 
-@pulumi.type_token("pulumi:providers:xyz")
+@pulumi.type_token("pulumi:providers:provider-boilerplate")
 class Provider(pulumi.ProviderResource):
     @overload
     def __init__(__self__,
@@ -46,7 +46,7 @@ class Provider(pulumi.ProviderResource):
                  itsasecret: Optional[pulumi.Input[builtins.bool]] = None,
                  __props__=None):
         """
-        Create a Xyz resource with the given unique name, props, and options.
+        Create a Provider-boilerplate resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
@@ -57,7 +57,7 @@ class Provider(pulumi.ProviderResource):
                  args: Optional[ProviderArgs] = None,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
-        Create a Xyz resource with the given unique name, props, and options.
+        Create a Provider-boilerplate resource with the given unique name, props, and options.
         :param str resource_name: The name of the resource.
         :param ProviderArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -85,7 +85,7 @@ class Provider(pulumi.ProviderResource):
 
             __props__.__dict__["itsasecret"] = pulumi.Output.from_input(itsasecret).apply(pulumi.runtime.to_json) if itsasecret is not None else None
         super(Provider, __self__).__init__(
-            'xyz',
+            'provider-boilerplate',
             resource_name,
             __props__,
             opts)

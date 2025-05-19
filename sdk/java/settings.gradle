@@ -10,5 +10,5 @@ pluginManagement {
   }
 }
 
-rootProject.name = "com.mynamespace.xyz"
+rootProject.name = "com.mynamespace.provider-boilerplate"
 include("lib")

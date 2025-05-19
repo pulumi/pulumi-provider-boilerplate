@@ -1,5 +1,5 @@
 {
-    "name": "@mynamespace/xyz",
+    "name": "@mynamespace/provider-boilerplate",
     "version": "1.0.0-alpha.0+dev",
     "scripts": {
         "build": "tsc"
@@ -13,7 +13,7 @@
     },
     "pulumi": {
         "resource": true,
-        "name": "xyz",
+        "name": "provider-boilerplate",
         "version": "1.0.0-alpha.0+dev"
     }
 }

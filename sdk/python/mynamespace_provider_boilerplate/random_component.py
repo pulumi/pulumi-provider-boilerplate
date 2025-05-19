@@ -36,7 +36,7 @@ class RandomComponentArgs:
         pulumi.set(self, "length", value)
 
 
-@pulumi.type_token("xyz:index:RandomComponent")
+@pulumi.type_token("provider-boilerplate:index:RandomComponent")
 class RandomComponent(pulumi.ComponentResource):
     @overload
     def __init__(__self__,
@@ -89,7 +89,7 @@ class RandomComponent(pulumi.ComponentResource):
             __props__.__dict__["length"] = length
             __props__.__dict__["password"] = None
         super(RandomComponent, __self__).__init__(
-            'xyz:index:RandomComponent',
+            'provider-boilerplate:index:RandomComponent',
             resource_name,
             __props__,
             opts,
