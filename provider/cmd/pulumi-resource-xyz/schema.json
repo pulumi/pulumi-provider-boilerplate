@@ -1,0 +1,91 @@
+{
+  "name": "xyz",
+  "displayName": "xyz",
+  "namespace": "mynamespace",
+  "meta": {
+    "moduleFormat": "(.*)"
+  },
+  "language": {
+    "csharp": {
+      "respectSchemaVersion": true
+    },
+    "go": {
+      "generateResourceContainerTypes": true,
+      "importBasePath": "github.com/mynamespace/xyz/sdk/go/xyz",
+      "respectSchemaVersion": true
+    },
+    "nodejs": {
+      "respectSchemaVersion": true
+    },
+    "python": {
+      "pyproject": {
+        "enabled": true
+      },
+      "respectSchemaVersion": true
+    }
+  },
+  "config": {
+    "variables": {
+      "itsasecret": {
+        "type": "boolean"
+      }
+    }
+  },
+  "provider": {
+    "type": "object",
+    "inputProperties": {
+      "itsasecret": {
+        "type": "boolean"
+      }
+    }
+  },
+  "resources": {
+    "xyz:index:Random": {
+      "properties": {
+        "length": {
+          "type": "integer"
+        },
+        "result": {
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "required": [
+        "length",
+        "result"
+      ],
+      "inputProperties": {
+        "length": {
+          "type": "integer"
+        }
+      },
+      "requiredInputs": [
+        "length"
+      ]
+    },
+    "xyz:index:RandomComponent": {
+      "properties": {
+        "length": {
+          "type": "integer"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "required": [
+        "length",
+        "password"
+      ],
+      "inputProperties": {
+        "length": {
+          "type": "integer"
+        }
+      },
+      "requiredInputs": [
+        "length"
+      ],
+      "isComponent": true
+    }
+  }
+}

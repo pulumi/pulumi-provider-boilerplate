@@ -1,6 +1,6 @@
 {
     "name": "@mynamespace/xyz",
-    "version": "0.0.1-alpha.1747265388+9e5b4385.dirty",
+    "version": "1.0.0-alpha.0+dev",
     "scripts": {
         "build": "tsc"
     },
@@ -14,6 +14,6 @@
     "pulumi": {
         "resource": true,
         "name": "xyz",
-        "version": "0.0.1-alpha.1747265388+9e5b4385.dirty"
+        "version": "1.0.0-alpha.0+dev"
     }
 }

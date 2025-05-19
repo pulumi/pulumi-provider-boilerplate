@@ -53,7 +53,7 @@ From the templated repository:
    - replace dependencies in `provider/go.mod` to reflect your repository name
    - find and replace all instances of the boilerplate `xyz` with the `NAME` of your provider.
    - find and replace all instances of the boilerplate `abc` with the `ORG` of your provider.
-   - replace all instances of the `github.com/pulumi/pulumi-xyz` repository with the `REPOSITORY` location
+   - replace all instances of the `github.com/pulumi/pulumi-provider-boilerplate` repository with the `REPOSITORY` location
 
 #### Build the provider and install the plugin
 
