@@ -27,12 +27,12 @@ import (
 var Version string
 
 // Name controls how this provider is referenced in package names and elsewhere.
-const Name string = "xyz"
+const Name string = "provider-boilerplate"
 
 // Provider creates a new instance of the provider.
 func Provider() p.Provider {
 	p, err := infer.NewProviderBuilder().
-		WithDisplayName("xyz").
+		WithDisplayName("provider-boilerplate").
 		WithNamespace("mynamespace").
 		WithResources(infer.Resource(Random{})).
 		WithComponents(infer.ComponentF(NewRandomComponent)).
