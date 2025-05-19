@@ -8,7 +8,7 @@ on:
     - edited
 env:
   GITHUB_TOKEN: ${{ secrets.PULUMI_BOT_TOKEN }}
-  PROVIDER: docker-build
+  PROVIDER: boilerplate
   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
   PULUMI_LOCAL_NUGET: ${{ github.workspace }}/nuget
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -61,5 +61,5 @@ jobs:
         commands: run-acceptance-tests
         permission: write
         issue-type: pull-request
-        repository: pulumi/pulumi-docker-build
+        repository: pulumi/pulumi-boilerplate
     if: ${{ github.event.issue.pull_request }}
