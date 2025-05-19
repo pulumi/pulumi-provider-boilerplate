@@ -20,7 +20,7 @@ import (
 	"fmt"
 	"os"
 
-	xyz "github.com/pulumi/pulumi-xyz/provider"
+	xyz "github.com/pulumi/pulumi-provider-boilerplate/provider"
 )
 
 // Serve the provider against Pulumi's Provider protocol.
