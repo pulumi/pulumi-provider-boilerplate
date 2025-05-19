@@ -242,3 +242,5 @@ build_nodejs: # Required by CI
 generate_dotnet: sdk/dotnet # Required by CI
 build_dotnet: # Required by CI
 
+bin/pulumi-gen-${PACK}: # Required by CI
+	touch bin/pulumi-gen-${PACK}
