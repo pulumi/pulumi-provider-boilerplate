@@ -60,7 +60,7 @@ sdk/dotnet: $(SCHEMA_FILE)
 
 
 .PHONY: provider
-provider:
+provider: bin/pulumi-gen-${PACK} # Required by CI
 	cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION_GENERIC}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER)
 
 .PHONY: provider_debug
