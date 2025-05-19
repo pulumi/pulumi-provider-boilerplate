@@ -1,5 +1,5 @@
 template: native
-provider: boilerplate
+provider: provider-boilerplate
 major-version: 0
 providerDefaultBranch: main
 providerVersion: github.com/pulumi/pulumi-provider-boilerplate/provider.Version

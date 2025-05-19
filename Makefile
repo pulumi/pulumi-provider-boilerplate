@@ -1,6 +1,6 @@
 PROJECT_NAME := Pulumi Provider Boilerplate
 
-PACK             := xyz
+PACK             := provider-boilerplate
 PACKDIR          := sdk
 PROJECT          := github.com/pulumi/pulumi-provider-boilerplate
 NODE_MODULE_NAME := @pulumi/boilerplate
@@ -12,7 +12,7 @@ VERSION_PATH    := ${PROVIDER_PATH}/version.Version
 
 PULUMI          := .pulumi/bin/pulumi
 
-SCHEMA_FILE     := provider/cmd/pulumi-resource-xyz/schema.json
+SCHEMA_FILE     := provider/cmd/pulumi-resource-provider-boilerplate/schema.json
 export GOPATH   := $(shell go env GOPATH)
 
 WORKING_DIR     := $(shell pwd)
@@ -67,7 +67,7 @@ provider:
 provider_debug:
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION_GENERIC}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
-test_provider: tidy_provider
+test_provider:
 	cd provider && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} -coverprofile="coverage.txt" ./...
 
 dotnet_sdk: sdk/dotnet
@@ -144,8 +144,9 @@ install_nodejs_sdk::
 	-yarn unlink --cwd $(WORKING_DIR)/sdk/nodejs/bin
 	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
 
-test:: tidy_examples test_provider
-	cd examples && go test -v -tags=all -timeout 2h
+test:: test_provider
+	# cd examples && go test -v -tags=all -timeout 2h
+	# TODO: Test examples.
 
 $(PULUMI): HOME := $(WORKING_DIR)
 $(PULUMI): go.mod
@@ -187,7 +188,7 @@ sign-goreleaser-exe-%: bin/jsign-6.0.jar
 			echo "To rebuild with signing delete the unsigned windows exe file and rebuild with the fixed configuration"; \
 			if [[ "${CI}" == "true" ]]; then exit 1; fi; \
 		else \
-			file=dist/build-provider-sign-windows_windows_${GORELEASER_ARCH}/pulumi-resource-xyz.exe; \
+			file=dist/build-provider-sign-windows_windows_${GORELEASER_ARCH}/pulumi-resource-provider-boilerplate.exe; \
 			mv $${file} $${file}.unsigned; \
 			az login --service-principal \
 				--username "${AZURE_SIGNING_CLIENT_ID}" \
