@@ -113,7 +113,7 @@ jobs:
       with:
         allowed-changes: |-
           sdk/**/pulumi-plugin.json
-          sdk/dotnet/Pulumi.*.csproj
+          sdk/dotnet/*.*.csproj
           sdk/go/**/pulumiUtilities.go
           sdk/nodejs/package.json
           sdk/python/pyproject.toml
@@ -146,7 +146,7 @@ jobs:
 
         git add sdk
 
-        git reset     sdk/python/*/pulumi-plugin.json     sdk/python/pyproject.toml     sdk/dotnet/pulumi-plugin.json     sdk/dotnet/Pulumi.*.csproj     sdk/go/*/pulumi-plugin.json     sdk/go/*/internal/pulumiUtilities.go     sdk/nodejs/package.json
+        git reset     sdk/python/*/pulumi-plugin.json     sdk/python/pyproject.toml     sdk/dotnet/pulumi-plugin.json     sdk/dotnet/*.*.csproj     sdk/go/*/pulumi-plugin.json     sdk/go/*/internal/pulumiUtilities.go     sdk/nodejs/package.json
 
         git commit -m 'Commit ${{ matrix.language }} SDK for Renovate'
 
@@ -259,7 +259,7 @@ jobs:
       with:
         allowed-changes: |-
           sdk/**/pulumi-plugin.json
-          sdk/dotnet/Pulumi.*.csproj
+          sdk/dotnet/*.*.csproj
           sdk/go/**/pulumiUtilities.go
           sdk/nodejs/package.json
           sdk/python/pyproject.toml
@@ -292,7 +292,7 @@ jobs:
 
         git add sdk
 
-        git reset     sdk/python/*/pulumi-plugin.json     sdk/python/pyproject.toml     sdk/dotnet/pulumi-plugin.json     sdk/dotnet/Pulumi.*.csproj     sdk/go/*/pulumi-plugin.json     sdk/go/*/internal/pulumiUtilities.go     sdk/nodejs/package.json
+        git reset     sdk/python/*/pulumi-plugin.json     sdk/python/pyproject.toml     sdk/dotnet/pulumi-plugin.json     sdk/dotnet/*.*.csproj     sdk/go/*/pulumi-plugin.json     sdk/go/*/internal/pulumiUtilities.go     sdk/nodejs/package.json
 
         git commit -m 'Commit ${{ matrix.language }} SDK for Renovate'
 
