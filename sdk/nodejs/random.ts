@@ -18,7 +18,7 @@ export class Random extends pulumi.CustomResource {
     }
 
     /** @internal */
-    public static readonly __pulumiType = 'xyz:index:Random';
+    public static readonly __pulumiType = 'provider-boilerplate:index:Random';
 
     /**
      * Returns true if the given object is an instance of Random.  This is designed to work even

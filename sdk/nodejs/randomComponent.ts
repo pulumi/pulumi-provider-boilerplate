@@ -6,7 +6,7 @@ import * as utilities from "./utilities";
 
 export class RandomComponent extends pulumi.ComponentResource {
     /** @internal */
-    public static readonly __pulumiType = 'xyz:index:RandomComponent';
+    public static readonly __pulumiType = 'provider-boilerplate:index:RandomComponent';
 
     /**
      * Returns true if the given object is an instance of RandomComponent.  This is designed to work even

@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Immutable;
 
-namespace Mynamespace.Xyz
+namespace Mynamespace.ProviderBoilerplate
 {
     public static class Config
     {
@@ -30,7 +30,7 @@ namespace Mynamespace.Xyz
             }
         }
 
-        private static readonly global::Pulumi.Config __config = new global::Pulumi.Config("xyz");
+        private static readonly global::Pulumi.Config __config = new global::Pulumi.Config("provider-boilerplate");
 
         private static readonly __Value<bool?> _itsasecret = new __Value<bool?>(() => __config.GetBoolean("itsasecret"));
         public static bool? Itsasecret

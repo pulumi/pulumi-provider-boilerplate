@@ -1,9 +1,9 @@
 [project]
-  name = "mynamespace_xyz"
+  name = "mynamespace_provider_boilerplate"
   dependencies = ["parver>=0.2.1", "pulumi>=3.165.0,<4.0.0", "semver>=2.8.1", "typing-extensions>=4.11,<5; python_version < \"3.11\""]
   readme = "README.md"
   requires-python = ">=3.9"
-  version = "0.0.1a1747265388+9e5b4385.dirty"
+  version = "1.0.0a0+dev"
 
 [build-system]
   requires = ["setuptools>=61.0"]
@@ -12,4 +12,4 @@
 [tool]
   [tool.setuptools]
     [tool.setuptools.package-data]
-      mynamespace_xyz = ["py.typed", "pulumi-plugin.json"]
+      mynamespace_provider_boilerplate = ["py.typed", "pulumi-plugin.json"]
