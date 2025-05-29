@@ -10,7 +10,7 @@ replace github.com/mynamespace/provider-boilerplate => .
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/mynamespace/provider-boilerplate v0.0.0-00010101000000-000000000000
-	github.com/pulumi/pulumi-go-provider v1.0.1
+	github.com/pulumi/pulumi-go-provider v1.0.2
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
 	github.com/pulumi/pulumi/sdk/v3 v3.171.0
 	github.com/stretchr/testify v1.10.0
