@@ -5,7 +5,7 @@
 	},
 	"dependencies": {
 		"typescript": "^4.0.0",
-		"@pulumi/pulumi": "3.171.0",
+		"@pulumi/pulumi": "3.172.0",
 		"@mynamespace/xyz": "0.0.1"
 	}
 }
