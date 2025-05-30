@@ -1,5 +1,5 @@
-//go:build python
-// +build python
+//go:build python || all
+// +build python all
 
 package examples
 

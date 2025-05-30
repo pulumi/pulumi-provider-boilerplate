@@ -1,5 +1,5 @@
-//go:build yaml
-// +build yaml
+//go:build yaml || all
+// +build yaml all
 
 package examples
 
@@ -12,7 +12,7 @@ import (
 	"github.com/pulumi/providertest/pulumitest/opttest"
 )
 
-func TestYAMLExample(t *testing.T) {
+func TestYAMLExampleLifecycle(t *testing.T) {
 	pt := pulumitest.NewPulumiTest(t, "yaml",
 		opttest.AttachProviderServer("provider-boilerplate", providerFactory),
 		opttest.SkipInstall(),

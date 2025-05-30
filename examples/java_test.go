@@ -1,5 +1,5 @@
-//go:build java
-// +build java
+//go:build java || all
+// +build java all
 
 package examples
 

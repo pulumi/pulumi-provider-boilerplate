@@ -1,5 +1,5 @@
-//go:build nodejs
-// +build nodejs
+//go:build nodejs || all
+// +build nodejs all
 
 package examples
 
