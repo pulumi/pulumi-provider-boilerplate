@@ -1,6 +1,2 @@
 name: provider-boilerplate
 runtime: nodejs
-plugins:
-  providers:
-    - name: provider-boilerplate
-      path: ../../bin
