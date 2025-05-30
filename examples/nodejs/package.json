@@ -1,11 +1,11 @@
 {
-	"name": "provider-xyz",
-	"devDependencies": {
-		"@types/node": "^18"
-	},
-	"dependencies": {
-		"typescript": "^4.0.0",
-		"@pulumi/pulumi": "3.173.0",
-		"@mynamespace/xyz": "0.0.1"
-	}
+  "name": "provider-boilerplate",
+  "devDependencies": {
+    "@types/node": "^20"
+  },
+  "dependencies": {
+    "typescript": "^4.0.0",
+    "@pulumi/pulumi": "3.173.0",
+    "@mynamespace/provider-boilerplate": "1.0.0-alpha.0+dev"
+  }
 }

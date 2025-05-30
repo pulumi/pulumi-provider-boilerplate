@@ -1,19 +1,19 @@
 package main
 
 import (
-	"github.com/mynamespace/xyz/sdk/go/xyz"
+	boilerplate "github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		myRandomResource, err := xyz.NewRandom(ctx, "myRandomResource", &xyz.RandomArgs{
+		myRandomResource, err := boilerplate.NewRandom(ctx, "myRandomResource", &boilerplate.RandomArgs{
 			Length: pulumi.Int(24),
 		})
 		if err != nil {
 			return err
 		}
-		_, err = xyz.NewRandomComponent(ctx, "myRandomComponent", &xyz.RandomComponentArgs{
+		_, err = boilerplate.NewRandomComponent(ctx, "myRandomComponent", &boilerplate.RandomComponentArgs{
 			Length: pulumi.Int(24),
 		})
 		if err != nil {

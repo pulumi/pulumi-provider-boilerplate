@@ -1,17 +1,13 @@
-name: provider-xyz
+name: provider-boilerplate
 runtime: yaml
-plugins:
-  providers:
-    - name: xyz
-      path: ../../bin
 
 resources:
   myRandomResource:
-    type: xyz:Random
+    type: provider-boilerplate:Random
     properties:
       length: 24
   myRandomComponent:
-    type: xyz:RandomComponent
+    type: provider-boilerplate:RandomComponent
     properties:
       length: 24
 

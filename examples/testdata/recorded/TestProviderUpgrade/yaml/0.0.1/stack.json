@@ -1,0 +1,151 @@
+{
+  "version": 3,
+  "deployment": {
+    "manifest": {
+      "time": "2025-05-30T14:47:32.241046-07:00",
+      "magic": "ddbd0ff735ffe7afff6024a5108d8161cc4d85cd0ddbd9ddcc43a35f4b02ead1",
+      "version": "v3.169.0"
+    },
+    "secrets_providers": {
+      "type": "passphrase",
+      "state": {
+        "salt": "v1:3HkNSDWDx/4=:v1:YyfhcN2mZs7H6q45:tjon1ltzvH7TzYtn7n80R2vNdbKYKA=="
+      }
+    },
+    "resources": [
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::pulumi:pulumi:Stack::provider-boilerplate-test",
+        "custom": false,
+        "type": "pulumi:pulumi:Stack",
+        "outputs": {
+          "output": {
+            "value": "n31imZ04vLfP2Cbzp9GLnuwq"
+          }
+        },
+        "created": "2025-05-30T21:47:31.971519Z",
+        "modified": "2025-05-30T21:47:31.971519Z"
+      },
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::pulumi:providers:provider-boilerplate::default",
+        "custom": true,
+        "id": "8ebefee5-0c5c-483f-ad91-407e3909b8ee",
+        "type": "pulumi:providers:provider-boilerplate",
+        "inputs": {
+          "__internal": {
+            "pulumi-go-provider-infer": true,
+            "pulumi-go-provider-version": "1.0.2"
+          }
+        },
+        "created": "2025-05-30T21:47:31.979385Z",
+        "modified": "2025-05-30T21:47:31.979385Z"
+      },
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::provider-boilerplate:index:Random::myRandomResource",
+        "custom": true,
+        "id": "myRandomResource",
+        "type": "provider-boilerplate:index:Random",
+        "inputs": {
+          "length": 24
+        },
+        "outputs": {
+          "length": 24,
+          "result": "n31imZ04vLfP2Cbzp9GLnuwq"
+        },
+        "parent": "urn:pulumi:test::provider-boilerplate::pulumi:pulumi:Stack::provider-boilerplate-test",
+        "provider": "urn:pulumi:test::provider-boilerplate::pulumi:providers:provider-boilerplate::default::8ebefee5-0c5c-483f-ad91-407e3909b8ee",
+        "propertyDependencies": {
+          "length": []
+        },
+        "created": "2025-05-30T21:47:31.98239Z",
+        "modified": "2025-05-30T21:47:31.98239Z"
+      },
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::provider-boilerplate:index:RandomComponent::myRandomComponent",
+        "custom": false,
+        "type": "provider-boilerplate:index:RandomComponent",
+        "outputs": {
+          "length": 24,
+          "password": {
+            "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+            "plaintext": "\"REDACTED BY PROVIDERTEST\""
+          }
+        },
+        "parent": "urn:pulumi:test::provider-boilerplate::pulumi:pulumi:Stack::provider-boilerplate-test",
+        "created": "2025-05-30T21:47:31.984582Z",
+        "modified": "2025-05-30T21:47:31.984582Z"
+      },
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::pulumi:providers:random::default_4_18_2",
+        "custom": true,
+        "id": "2cf21826-def2-47bb-b564-a49a873c09d0",
+        "type": "pulumi:providers:random",
+        "inputs": {
+          "__internal": {},
+          "version": "4.18.2"
+        },
+        "outputs": {
+          "version": "4.18.2"
+        },
+        "created": "2025-05-30T21:47:32.155789Z",
+        "modified": "2025-05-30T21:47:32.155789Z"
+      },
+      {
+        "urn": "urn:pulumi:test::provider-boilerplate::provider-boilerplate:index:RandomComponent$random:index/randomPassword:RandomPassword::myRandomComponent-password",
+        "custom": true,
+        "id": "none",
+        "type": "random:index/randomPassword:RandomPassword",
+        "inputs": {
+          "length": 24
+        },
+        "outputs": {
+          "__meta": "{\"schema_version\":\"3\"}",
+          "__pulumi_raw_state_delta": {
+            "obj": {
+              "ps": {
+                "keepers": {
+                  "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+                  "plaintext": "{\"replace\":{\"raw\":null}}"
+                },
+                "overrideSpecial": {
+                  "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+                  "plaintext": "{\"replace\":{\"raw\":null}}"
+                }
+              }
+            }
+          },
+          "bcryptHash": {
+            "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+            "plaintext": "\"REDACTED BY PROVIDERTEST\""
+          },
+          "id": "none",
+          "length": 24,
+          "lower": true,
+          "minLower": 0,
+          "minNumeric": 0,
+          "minSpecial": 0,
+          "minUpper": 0,
+          "number": true,
+          "numeric": true,
+          "result": {
+            "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+            "plaintext": "\"REDACTED BY PROVIDERTEST\""
+          },
+          "special": true,
+          "upper": true
+        },
+        "parent": "urn:pulumi:test::provider-boilerplate::provider-boilerplate:index:RandomComponent::myRandomComponent",
+        "provider": "urn:pulumi:test::provider-boilerplate::pulumi:providers:random::default_4_18_2::2cf21826-def2-47bb-b564-a49a873c09d0",
+        "propertyDependencies": {
+          "length": []
+        },
+        "additionalSecretOutputs": [
+          "bcryptHash",
+          "result"
+        ],
+        "created": "2025-05-30T21:47:32.235864Z",
+        "modified": "2025-05-30T21:47:32.235864Z"
+      }
+    ],
+    "metadata": {}
+  }
+}

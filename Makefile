@@ -147,8 +147,7 @@ install_nodejs_sdk::
 	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
 
 test:: test_provider
-	# cd examples && go test -v -tags=all -timeout 2h
-	# TODO: Test examples.
+	cd examples && go test -v -tags=all -timeout 2h
 
 $(PULUMI): HOME := $(WORKING_DIR)
 $(PULUMI): go.mod
