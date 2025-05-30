@@ -1,7 +1,7 @@
 package main
 
 import (
-	boilerplate "github.com/pulumi/pulumi-provider-boilerplate/sdk/go/provider-boilerpate"
+	boilerplate "github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

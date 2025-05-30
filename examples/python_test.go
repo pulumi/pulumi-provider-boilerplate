@@ -6,5 +6,5 @@ package examples
 import "testing"
 
 func TestPython(t *testing.T) {
-	// TODO
+	// TODO: https://github.com/pulumi/providertest/issues/39
 }
