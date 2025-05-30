@@ -1,6 +1,6 @@
-name: provider-xyz
+name: provider-boilerplate
 runtime: go
 plugins:
   providers:
-    - name: xyz
+    - name: provider-boilerplate
       path: ../../bin
