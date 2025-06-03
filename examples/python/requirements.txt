@@ -1,2 +1,2 @@
-pulumi-xyz==1.1.182
+pulumi-xyz==1.1.183
 pulumi>=3.0.0,<4.0.0
