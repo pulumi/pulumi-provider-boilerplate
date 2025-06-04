@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "typescript": "^4.0.0",
-    "@pulumi/pulumi": "3.173.0",
+    "@pulumi/pulumi": "3.174.0",
     "@mynamespace/provider-boilerplate": "1.0.0-alpha.0+dev"
   }
 }
