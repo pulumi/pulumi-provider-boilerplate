@@ -1,8 +1,12 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as xyz from "@mynamespace/xyz";
+import * as boilerplate from "@mynamespace/provider-boilerplate";
 
-const myRandomResource = new xyz.Random("myRandomResource", {length: 24});
-const myRandomComponent = new xyz.RandomComponent("myRandomComponent", {length: 24});
+const myRandomResource = new boilerplate.Random("myRandomResource", {
+  length: 24,
+});
+const myRandomComponent = new boilerplate.RandomComponent("myRandomComponent", {
+  length: 24,
+});
 export const output = {
-    value: myRandomResource.result,
+  value: myRandomResource.result,
 };

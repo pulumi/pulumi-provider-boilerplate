@@ -1,5 +1,5 @@
-//go:build dotnet
-// +build dotnet
+//go:build dotnet || all
+// +build dotnet all
 
 package examples
 
