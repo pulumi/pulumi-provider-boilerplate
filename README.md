@@ -84,10 +84,10 @@ Now that you have completed all of the above steps, you have a working provider 
 
 You now have:
 
-1. A `provider/` folder containing the building and implementation logic
+1. A `provider/` folder containing the building and implementation logic.
     1. `cmd/pulumi-resource-provider-boilerplate/main.go` - holds the provider's sample implementation logic.
-2. `deployment-templates` - a set of files to help you around deployment and publication
-3. `sdk` - holds the generated code libraries created by `pulumi gen-sdk`
+2. `Makefile` - targets to help with building and publishing the provider. Run `make ci-mgmt` to regenerate CI workflows.
+3. `sdk` - holds the generated code libraries created by `pulumi gen-sdk`.
 4. `examples` a folder of Pulumi programs to try locally and/or use in CI.
 5. A `Makefile` and this `README`.
 
