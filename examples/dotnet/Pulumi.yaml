@@ -1,6 +1,2 @@
 name: provider-boilerplate
 runtime: dotnet
-plugins:
-  providers:
-    - name: provider-boilerplate
-      path: ../../bin
