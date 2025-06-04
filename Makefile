@@ -172,6 +172,7 @@ AZURE_SIGNING_KEY_VAULT_URI ?=
 SKIP_SIGNING ?=
 
 bin/jsign-6.0.jar:
+	mkdir -p bin
 	wget https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar --output-document=bin/jsign-6.0.jar
 
 sign-goreleaser-exe-amd64: GORELEASER_ARCH := amd64_v1
