@@ -38,6 +38,8 @@ $(SCHEMA_FILE): provider $(PULUMI)
 # does not require the ability to build all SDKs.
 #
 # To build the SDKs, use `make build_sdks`
+#
+# Required by CI (weekly-pulumi-update)
 codegen: $(SCHEMA_FILE) sdk/dotnet sdk/go sdk/nodejs sdk/python sdk/java
 
 .PHONY: sdk/%
@@ -215,8 +217,8 @@ ci-mgmt: .ci-mgmt.yaml
 	go run github.com/pulumi/ci-mgmt/provider-ci@master generate
 .PHONY: ci-mgmt
 
-.PHONY: codegen
-codegen: # Required by CI
+.PHONY:local_generate
+local_generate: # Required by CI
 
 .PHONY: generate_schema
 generate_schema: ${SCHEMA_PATH} # Required by CI
