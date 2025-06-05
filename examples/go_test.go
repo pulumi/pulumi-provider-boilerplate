@@ -19,7 +19,7 @@ func TestGoExampleLifecycle(t *testing.T) {
 
 	module := filepath.Join(cwd, "..")
 	pt := pulumitest.NewPulumiTest(t, "go",
-		opttest.GoModReplacement("github.com/mynamespace/provider-boilerplate", module),
+		opttest.GoModReplacement("github.com/pulumi/pulumi-provider-boilerplate", module),
 		opttest.AttachProviderServer("provider-boilerplate", providerFactory),
 		opttest.SkipInstall(),
 	)

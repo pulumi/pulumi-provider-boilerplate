@@ -12,10 +12,10 @@ from .random_component import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import mynamespace_provider_boilerplate.config as __config
+    import pulumi_provider_boilerplate.config as __config
     config = __config
 else:
-    config = _utilities.lazy_import('mynamespace_provider_boilerplate.config')
+    config = _utilities.lazy_import('pulumi_provider_boilerplate.config')
 
 _utilities.register(
     resource_modules="""
@@ -23,7 +23,7 @@ _utilities.register(
  {
   "pkg": "provider-boilerplate",
   "mod": "index",
-  "fqn": "mynamespace_provider_boilerplate",
+  "fqn": "pulumi_provider_boilerplate",
   "classes": {
    "provider-boilerplate:index:Random": "Random",
    "provider-boilerplate:index:RandomComponent": "RandomComponent"
@@ -36,7 +36,7 @@ _utilities.register(
  {
   "pkg": "provider-boilerplate",
   "token": "pulumi:providers:provider-boilerplate",
-  "fqn": "mynamespace_provider_boilerplate",
+  "fqn": "pulumi_provider_boilerplate",
   "class": "Provider"
  }
 ]

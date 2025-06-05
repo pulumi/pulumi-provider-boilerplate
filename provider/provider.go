@@ -32,8 +32,8 @@ const Name string = "provider-boilerplate"
 // Provider creates a new instance of the provider.
 func Provider() p.Provider {
 	p, err := infer.NewProviderBuilder().
-		WithDisplayName("provider-boilerplate").
-		WithNamespace("mynamespace").
+		WithDisplayName("pulumi-provider-boilerplate").
+		WithNamespace("pulumi").
 		WithResources(infer.Resource(Random{})).
 		WithComponents(infer.ComponentF(NewRandomComponent)).
 		WithConfig(infer.Config(&Config{})).
