@@ -94,9 +94,6 @@ python_sdk: sdk/python
 		cd ./bin && \
 		../venv/bin/python -m build .
 
-bin/pulumi-java-gen::
-	echo pulumi-java-gen is no longer necessary
-
 java_sdk:: PACKAGE_VERSION := $(VERSION_GENERIC)
 java_sdk:: sdk/java
 	cd sdk/java/ && \
@@ -230,19 +227,19 @@ build_go: # Required by CI
 
 .PHONY: build_java install_java_sdk
 generate_java: sdk/java # Required by CI
-build_java: # Required by CI
+build_java: java_sdk # Required by CI
 
 .PHONY: build_python install_python_sdk
 generate_python: sdk/python # Required by CI
-build_python: # Required by CI
+build_python: python_sdk # Required by CI
 
 .PHONY: build_nodejs install_nodejs_sdk
 generate_nodejs: sdk/nodejs # Required by CI
-build_nodejs: # Required by CI
+build_nodejs: nodejs_sdk # Required by CI
 
 .PHONY: build_dotnet install_dotnet_sdk
 generate_dotnet: sdk/dotnet # Required by CI
-build_dotnet: # Required by CI
+build_dotnet: dotnet_sdk # Required by CI
 
 bin/pulumi-gen-${PACK}: # Required by CI
 	touch bin/pulumi-gen-${PACK}
