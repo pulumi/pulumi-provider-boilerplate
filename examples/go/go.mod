@@ -4,10 +4,10 @@ go 1.24
 
 toolchain go1.24.2
 
-replace github.com/mynamespace/provider-boilerplate => ../../
+replace github.com/pulumi/pulumi-provider-boilerplate => ../../
 
 require (
-	github.com/mynamespace/provider-boilerplate v0.0.0-00010101000000-000000000000
+	github.com/pulumi/pulumi-provider-boilerplate v0.0.0-00010101000000-000000000000
 	github.com/pulumi/pulumi/sdk/v3 v3.173.0
 )
 
