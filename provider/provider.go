@@ -33,7 +33,7 @@ const Name string = "provider-boilerplate"
 func Provider() p.Provider {
 	p, err := infer.NewProviderBuilder().
 		WithDisplayName("provider-boilerplate").
-		WithNamespace("mynamespace").
+		WithNamespace("pulumi").
 		WithResources(infer.Resource(Random{})).
 		WithComponents(infer.ComponentF(NewRandomComponent)).
 		WithConfig(infer.Config(&Config{})).

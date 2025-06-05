@@ -10,5 +10,5 @@ pluginManagement {
   }
 }
 
-rootProject.name = "com.mynamespace.provider-boilerplate"
+rootProject.name = "com.pulumi.provider-boilerplate"
 include("lib")

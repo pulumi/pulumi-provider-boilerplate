@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"errors"
-	"github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate/internal"
+	"github.com/pulumi/provider-boilerplate/sdk/go/provider-boilerplate/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
 

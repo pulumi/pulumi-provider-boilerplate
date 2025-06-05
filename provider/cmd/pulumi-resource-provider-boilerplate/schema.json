@@ -1,7 +1,7 @@
 {
   "name": "provider-boilerplate",
   "displayName": "provider-boilerplate",
-  "namespace": "mynamespace",
+  "namespace": "pulumi",
   "meta": {
     "moduleFormat": "(.*)"
   },
@@ -11,7 +11,7 @@
     },
     "go": {
       "generateResourceContainerTypes": true,
-      "importBasePath": "github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate",
+      "importBasePath": "github.com/pulumi/provider-boilerplate/sdk/go/provider-boilerplate",
       "respectSchemaVersion": true
     },
     "nodejs": {

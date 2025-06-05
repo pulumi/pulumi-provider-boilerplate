@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
-using Pulumi;
 
-namespace Mynamespace.ProviderBoilerplate
+namespace Pulumi.ProviderBoilerplate
 {
     [ProviderBoilerplateResourceType("provider-boilerplate:index:RandomComponent")]
     public partial class RandomComponent : global::Pulumi.ComponentResource

@@ -4,7 +4,7 @@
 package config
 
 import (
-	"github.com/mynamespace/provider-boilerplate/sdk/go/provider-boilerplate/internal"
+	"github.com/pulumi/provider-boilerplate/sdk/go/provider-boilerplate/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
 )
