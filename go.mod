@@ -4,9 +4,6 @@ go 1.24
 
 toolchain go1.24.1
 
-// Play nicely with the generated SDK's fake module path.
-replace github.com/pulumi/pulumi-provider-boilerplate => .
-
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/pulumi/providertest v0.3.1
