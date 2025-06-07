@@ -658,14 +658,11 @@ jobs:
       with:
         repository: ${{ github.repository }}
         base-ref: ${{ github.sha }}
-        source: sdk
-        path: sdk
+        source: sdk/go/pulumi-provider-boilerplate
+        path: sdk/go/pulumi-provider-boilerplate
         version: ${{ steps.version.outputs.version }}
         additive: false
-        files: |-
-          go.*
-          go/**
-          !*.tar.gz
+        files: "**"
   dispatch_docs_build:
     runs-on: ubuntu-latest
     needs: publish_go_sdk

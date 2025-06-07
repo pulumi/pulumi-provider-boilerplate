@@ -61,6 +61,14 @@ sdk/dotnet: $(SCHEMA_FILE)
 	$(PULUMI) package gen-sdk --language dotnet $(SCHEMA_FILE) --version "${VERSION_GENERIC}"
 
 
+sdk/go: ${SCHEMA_FILE}
+	rm -rf $@
+	$(PULUMI) package gen-sdk --language go ${SCHEMA_FILE} --version "${VERSION_GENERIC}"
+	cp go.mod ${PACKDIR}/go/pulumi-${PACK}/go.mod
+	cd ${PACKDIR}/go/pulumi-${PACK} && \
+		go mod edit -module=github.com/pulumi/pulumi-${PACK}/${PACKDIR}/go/pulumi-${PACK} && \
+		go mod tidy
+
 .PHONY: provider
 provider: bin/${PROVIDER} bin/pulumi-gen-${PACK} # Required by CI
 

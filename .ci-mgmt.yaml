@@ -4,6 +4,7 @@ major-version: 0
 providerDefaultBranch: main
 providerVersion: github.com/pulumi/pulumi-provider-boilerplate/provider.Version
 parallel: 3
+sdkModuleDir: sdk/go/pulumi-provider-boilerplate
 # For some reason this is required. If it's omitted all of the env keys get duplicated.
 envOverride:
   FOO: BAR
