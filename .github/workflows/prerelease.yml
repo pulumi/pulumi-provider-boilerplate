@@ -658,11 +658,8 @@ jobs:
       with:
         repository: ${{ github.repository }}
         base-ref: ${{ github.sha }}
-        source: sdk
-        path: sdk
+        source: sdk/go/pulumi-provider-boilerplate
+        path: sdk/go/pulumi-provider-boilerplate
         version: ${{ steps.version.outputs.version }}
         additive: false
-        files: |-
-          go.*
-          go/**
-          !*.tar.gz
+        files: "**"
