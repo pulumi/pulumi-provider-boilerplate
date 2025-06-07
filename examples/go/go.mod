@@ -8,7 +8,7 @@ replace github.com/pulumi/pulumi-provider-boilerplate => ../../
 
 require (
 	github.com/pulumi/pulumi-provider-boilerplate v0.0.1
-	github.com/pulumi/pulumi/sdk/v3 v3.173.0
+	github.com/pulumi/pulumi/sdk/v3 v3.175.0
 )
 
 require (
