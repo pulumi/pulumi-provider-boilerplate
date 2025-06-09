@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/pulumi/providertest v0.3.1
-	github.com/pulumi/pulumi-go-provider v1.0.2
+	github.com/pulumi/pulumi-go-provider v1.1.0
 	github.com/pulumi/pulumi-random/sdk/v4 v4.18.2
 	github.com/pulumi/pulumi/sdk/v3 v3.175.0
 	github.com/stretchr/testify v1.10.0
@@ -82,7 +82,6 @@ require (
 	github.com/segmentio/encoding v0.3.6 // indirect
 	github.com/sergi/go-diff v1.3.2-0.20230802210424-5b0b94c5c0d3 // indirect
 	github.com/skeema/knownhosts v1.3.0 // indirect
-	github.com/spf13/cast v1.4.1 // indirect
 	github.com/spf13/cobra v1.8.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/texttheater/golang-levenshtein v1.0.1 // indirect

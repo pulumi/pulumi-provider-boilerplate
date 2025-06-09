@@ -175,8 +175,8 @@ github.com/pulumi/inflector v0.1.1 h1:dvlxlWtXwOJTUUtcYDvwnl6Mpg33prhK+7mzeF+Sob
 github.com/pulumi/inflector v0.1.1/go.mod h1:HUFCjcPTz96YtTuUlwG3i3EZG4WlniBvR9bd+iJxCUY=
 github.com/pulumi/providertest v0.3.1 h1:vlftr7TZlObh81mL88IhhF0/9ZbLrZZos4NAvR4HUUw=
 github.com/pulumi/providertest v0.3.1/go.mod h1:fFHUP4/9DRyYnHWiRnwcynMtM/a7hHR/QcJfcuZKO3A=
-github.com/pulumi/pulumi-go-provider v1.0.2 h1:RY04JiiSytT4ivgbkkn80+j4P0/R6qRCxsBIHCGkddU=
-github.com/pulumi/pulumi-go-provider v1.0.2/go.mod h1:bWvFWytb2ULBefjDW/YG+GcjHbzVojwtl1RW5afMvR0=
+github.com/pulumi/pulumi-go-provider v1.1.0 h1:TNrLoQ7LrT6Z2xPbspJKXE3pKZsz+pCVo62zKFGxjBI=
+github.com/pulumi/pulumi-go-provider v1.1.0/go.mod h1:bWvFWytb2ULBefjDW/YG+GcjHbzVojwtl1RW5afMvR0=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.2 h1:78KvcYUlwYyFWc+VYirpg/pN5d+iwzRw7ozmmJ6MWYE=
 github.com/pulumi/pulumi-random/sdk/v4 v4.18.2/go.mod h1:e5V6HNKin7XkaJ73ZyDuXJ2O472TVBI0K2EyfKm9obw=
 github.com/pulumi/pulumi/pkg/v3 v3.175.0 h1:MsL2cnpGWivS/DLZ7MbJr0zMNg4P+pUprCEXvGoKBd4=
