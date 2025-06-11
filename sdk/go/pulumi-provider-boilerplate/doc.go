@@ -1,2 +1,2 @@
-// Package pulumiproviderboilerplate exports types, functions, subpackages for provisioning pulumiproviderboilerplate resources.
+// An example built with pulumi-go-provider.
 package pulumiproviderboilerplate

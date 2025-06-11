@@ -33,6 +33,8 @@ const Name string = "provider-boilerplate"
 func Provider() p.Provider {
 	p, err := infer.NewProviderBuilder().
 		WithDisplayName("pulumi-provider-boilerplate").
+		WithDescription("An example built with pulumi-go-provider.").
+		WithHomepage("https://www.pulumi.com").
 		WithNamespace("pulumi").
 		WithResources(infer.Resource(Random{})).
 		WithComponents(infer.ComponentF(NewRandomComponent)).
