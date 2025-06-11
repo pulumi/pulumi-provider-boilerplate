@@ -1,6 +1,8 @@
 {
   "name": "provider-boilerplate",
   "displayName": "pulumi-provider-boilerplate",
+  "description": "An example built with pulumi-go-provider.",
+  "homepage": "https://www.pulumi.com",
   "namespace": "pulumi",
   "meta": {
     "moduleFormat": "(.*)"
