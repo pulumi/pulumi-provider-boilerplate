@@ -5,7 +5,7 @@ go 1.24.2
 replace github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate => ../../sdk/go/pulumi-provider-boilerplate
 
 require (
-	github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate v0.0.2
+	github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate v0.0.3
 	github.com/pulumi/pulumi/sdk/v3 v3.175.0
 )
 
