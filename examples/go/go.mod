@@ -6,7 +6,7 @@ replace github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boi
 
 require (
 	github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate v0.0.3
-	github.com/pulumi/pulumi/sdk/v3 v3.175.0
+	github.com/pulumi/pulumi/sdk/v3 v3.176.0
 )
 
 require (
