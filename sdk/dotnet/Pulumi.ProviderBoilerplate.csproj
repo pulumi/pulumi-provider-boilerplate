@@ -6,7 +6,7 @@
     <Company>Pulumi Corp.</Company>
     <Description>An example built with pulumi-go-provider.</Description>
     <PackageLicenseExpression></PackageLicenseExpression>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://www.pulumi.com</PackageProjectUrl>
     <RepositoryUrl></RepositoryUrl>
     <PackageIcon>logo.png</PackageIcon>
     <Version>1.0.0-alpha.0+dev</Version>
