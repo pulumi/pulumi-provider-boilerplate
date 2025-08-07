@@ -36,9 +36,6 @@ env:
   PULUMI_GO_DEP_ROOT: ${{ github.workspace }}/..
   PUBLISH_REPO_USERNAME: ${{ secrets.OSSRH_USERNAME }}
   PUBLISH_REPO_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-  SIGNING_KEY_ID: ${{ secrets.JAVA_SIGNING_KEY_ID }}
-  SIGNING_KEY: ${{ secrets.JAVA_SIGNING_KEY }}
-  SIGNING_PASSWORD: ${{ secrets.JAVA_SIGNING_PASSWORD }}
   GOVERSION: "1.21.x"
   NODEVERSION: "20.x"
   PYTHONVERSION: "3.11.8"
@@ -602,6 +599,9 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         PYPI_PUBLISH_ARTIFACTS: all
+        SIGNING_KEY_ID: ${{ secrets.JAVA_SIGNING_KEY_ID }}
+        SIGNING_KEY: ${{ secrets.JAVA_SIGNING_KEY }}
+        SIGNING_PASSWORD: ${{ secrets.JAVA_SIGNING_PASSWORD }}
     - if: failure() && github.event_name == 'push'
       name: Notify Slack
       uses: 8398a7/action-slack@1750b5085f3ec60384090fb7c52965ef822e869e # v3.18.0

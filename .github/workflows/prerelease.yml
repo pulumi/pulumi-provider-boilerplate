@@ -27,9 +27,6 @@ env:
   PULUMI_GO_DEP_ROOT: ${{ github.workspace }}/..
   PUBLISH_REPO_USERNAME: ${{ secrets.OSSRH_USERNAME }}
   PUBLISH_REPO_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-  SIGNING_KEY_ID: ${{ secrets.JAVA_SIGNING_KEY_ID }}
-  SIGNING_KEY: ${{ secrets.JAVA_SIGNING_KEY }}
-  SIGNING_PASSWORD: ${{ secrets.JAVA_SIGNING_PASSWORD }}
   GOVERSION: "1.21.x"
   NODEVERSION: "20.x"
   PYTHONVERSION: "3.11.8"
@@ -629,6 +626,9 @@ jobs:
       uses: gradle/gradle-build-action@ac2d340dc04d9e1113182899e983b5400c17cda1 # v3.5.0
       env:
         PACKAGE_VERSION: ${{ env.PROVIDER_VERSION }}
+        SIGNING_KEY_ID: ${{ secrets.JAVA_SIGNING_KEY_ID }}
+        SIGNING_KEY: ${{ secrets.JAVA_SIGNING_KEY }}
+        SIGNING_PASSWORD: ${{ secrets.JAVA_SIGNING_PASSWORD }}
       with:
         arguments: publishToSonatype closeAndReleaseSonatypeStagingRepository
         build-root-directory: ./sdk/java
