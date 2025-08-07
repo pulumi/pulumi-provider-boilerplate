@@ -18,6 +18,29 @@ export GOPATH   := $(shell go env GOPATH)
 WORKING_DIR     := $(shell pwd)
 TESTPARALLELISM := 4
 
+prepare:
+	@if test -z "${NAME}"; then echo "NAME not set"; exit 1; fi
+	@if test -z "${REPOSITORY}"; then echo "REPOSITORY not set"; exit 1; fi
+	@if test -z "${ORG}"; then echo "ORG not set"; exit 1; fi
+	@if test ! -d "provider/cmd/pulumi-resource-provider-boilerplate"; then "Project already prepared"; exit 1; fi # SED_SKIP
+
+	# SED needs to not fail when encountering unicode characters
+	LC_CTYPE=C 
+	LANG=C
+
+	mv "provider/cmd/pulumi-resource-provider-boilerplate" provider/cmd/pulumi-resource-${NAME} # SED_SKIP
+	
+	# In MacOS the -i parameter needs an empty  to execute in place.
+	if [[ "${OS}" == "Darwin" ]]; then \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; ; \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s/[xX]yz/${NAME}/g' {} \; ; \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '' '/SED_SKIP/!s/[aA]bc/${ORG}/g' {} \; ; \
+	else \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s,github.com/pulumi/pulumi-[x]yz,${REPOSITORY},g' {} \; ; \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s/[xX]yz/${NAME}/g' {} \; ; \
+		find . \( -path './.git' -o -path './sdk' \) -prune -o -not -name 'go.sum' -type f -exec sed -i '/SED_SKIP/!s/[aA]bc/${ORG}/g' {} \; ; \
+	fi
+
 # Override during CI using `make [TARGET] PROVIDER_VERSION=""` or by setting a PROVIDER_VERSION environment variable
 # Local & branch builds will just used this fixed default version unless specified
 PROVIDER_VERSION ?= 1.0.0-alpha.0+dev
