@@ -2,6 +2,7 @@ template: native
 provider: provider-boilerplate
 major-version: 0
 providerDefaultBranch: main
+publishRegistry: false
 providerVersion: github.com/pulumi/pulumi-provider-boilerplate/provider.Version
 parallel: 3
 sdkModuleDir: sdk/go/pulumi-provider-boilerplate
