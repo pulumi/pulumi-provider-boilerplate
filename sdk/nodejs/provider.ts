@@ -31,7 +31,7 @@ export class Provider extends pulumi.ProviderResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         {
-            resourceInputs["itsasecret"] = pulumi.output(args ? args.itsasecret : undefined).apply(JSON.stringify);
+            resourceInputs["itsasecret"] = pulumi.output(args?.itsasecret).apply(JSON.stringify);
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
