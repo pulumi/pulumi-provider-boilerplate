@@ -6,7 +6,10 @@ jobs:
   command-dispatch-for-testing:
     name: command-dispatch-for-testing
     runs-on: ubuntu-latest
-    steps:
+    steps:    
+    - id: esc-secrets
+      name: Map environment to ESC outputs
+      uses: ./.github/actions/esc-action
     - name: Checkout Repo
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
@@ -18,9 +21,9 @@ jobs:
           release
         issue-type: pull-request
         permission: write
-        reaction-token: ${{ secrets.GITHUB_TOKEN }}
+        reaction-token: ${{ steps.esc-secrets.outputs.GITHUB_TOKEN }}
         repository: pulumi/pulumi-provider-boilerplate
-        token: ${{ secrets.PULUMI_BOT_TOKEN }}
+        token: ${{ steps.esc-secrets.outputs.PULUMI_BOT_TOKEN }}
 name: command-dispatch
 on:
   issue_comment:

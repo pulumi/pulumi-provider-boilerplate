@@ -6,7 +6,10 @@ jobs:
   warn_codegen:
     name: warn_codegen
     runs-on: ubuntu-latest
-    steps:
+    steps:    
+    - id: esc-secrets
+      name: Map environment to ESC outputs
+      uses: ./.github/actions/esc-action
     - name: Checkout Repo
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       with:
@@ -27,7 +30,7 @@ jobs:
       name: Send codegen warning as comment on PR
       uses: thollander/actions-comment-pull-request@24bffb9b452ba05a4f3f77933840a6a841d1b32b # v3.0.1
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ steps.esc-secrets.outputs.GITHUB_TOKEN }}
         message: >
           Hello and thank you for your pull request! :heart: :sparkles:
 
