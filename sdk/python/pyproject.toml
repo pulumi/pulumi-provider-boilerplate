@@ -5,6 +5,8 @@
   readme = "README.md"
   requires-python = ">=3.9"
   version = "1.0.0a0+dev"
+  [project.urls]
+    Homepage = "https://www.pulumi.com"
 
 [build-system]
   requires = ["setuptools>=61.0"]
