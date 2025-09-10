@@ -30,6 +30,9 @@ jobs:
   prerequisites:
     runs-on: ubuntu-latest
     name: prerequisites
+    permissions:
+      id-token: write # For ESC secrets.
+      pull-requests: write # For schema check comment.
     steps:
     - name: Checkout Repo
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
