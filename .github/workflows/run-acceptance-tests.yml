@@ -39,9 +39,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}
+        ref: ${{ env.PR_COMMIT_SHA }}    
     - id: esc-secrets
-      name: Fetch secrets from ESC
+      name: Map environment to ESC outputs
       uses: ./.github/actions/esc-action
     - name: Create URL to the run output
       id: vars
@@ -65,9 +65,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}
+        ref: ${{ env.PR_COMMIT_SHA }}    
     - id: esc-secrets
-      name: Fetch secrets from ESC
+      name: Map environment to ESC outputs
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -233,9 +233,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}
+        ref: ${{ env.PR_COMMIT_SHA }}    
     - id: esc-secrets
-      name: Fetch secrets from ESC
+      name: Map environment to ESC outputs
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -395,9 +395,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}
+        ref: ${{ env.PR_COMMIT_SHA }}    
     - id: esc-secrets
-      name: Fetch secrets from ESC
+      name: Map environment to ESC outputs
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -505,9 +505,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}
+        ref: ${{ env.PR_COMMIT_SHA }}    
     - id: esc-secrets
-      name: Fetch secrets from ESC
+      name: Map environment to ESC outputs
       uses: ./.github/actions/esc-action
     - name: Mark workflow as successful
       uses: guibranco/github-status-action-v2@0849440ec82c5fa69b2377725b9b7852a3977e76 # v1.1.13
