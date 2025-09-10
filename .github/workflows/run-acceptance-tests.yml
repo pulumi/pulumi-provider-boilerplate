@@ -39,9 +39,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}    
+        ref: ${{ env.PR_COMMIT_SHA }}
     - id: esc-secrets
-      name: Map environment to ESC outputs
+      name: Fetch secrets from ESC
       uses: ./.github/actions/esc-action
     - name: Create URL to the run output
       id: vars
@@ -65,9 +65,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}    
+        ref: ${{ env.PR_COMMIT_SHA }}
     - id: esc-secrets
-      name: Map environment to ESC outputs
+      name: Fetch secrets from ESC
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -233,9 +233,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}    
+        ref: ${{ env.PR_COMMIT_SHA }}
     - id: esc-secrets
-      name: Map environment to ESC outputs
+      name: Fetch secrets from ESC
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -256,7 +256,7 @@ jobs:
     - name: Install Pulumi CLI
       uses: pulumi/actions@cc7494be991dba0978f7ffafaf995b0449a0998e # v6.5.0
     - name: Setup Node
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
       with:
         node-version: ${{ env.NODEVERSION }}
         registry-url: https://registry.npmjs.org
@@ -395,9 +395,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}    
+        ref: ${{ env.PR_COMMIT_SHA }}
     - id: esc-secrets
-      name: Map environment to ESC outputs
+      name: Fetch secrets from ESC
       uses: ./.github/actions/esc-action
     - id: version
       name: Set Provider Version
@@ -418,7 +418,7 @@ jobs:
     - name: Install Pulumi CLI
       uses: pulumi/actions@cc7494be991dba0978f7ffafaf995b0449a0998e # v6.5.0
     - name: Setup Node
-      uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
       with:
         node-version: ${{ env.NODEVERSION }}
         registry-url: https://registry.npmjs.org
@@ -505,9 +505,9 @@ jobs:
       with:
         lfs: true
         persist-credentials: false
-        ref: ${{ env.PR_COMMIT_SHA }}    
+        ref: ${{ env.PR_COMMIT_SHA }}
     - id: esc-secrets
-      name: Map environment to ESC outputs
+      name: Fetch secrets from ESC
       uses: ./.github/actions/esc-action
     - name: Mark workflow as successful
       uses: guibranco/github-status-action-v2@0849440ec82c5fa69b2377725b9b7852a3977e76 # v1.1.13
