@@ -8,6 +8,6 @@ parallel: 3
 sdkModuleDir: sdk/go/pulumi-provider-boilerplate
 esc:
   enabled: true
-  environment: imports/github-secrets
-env:
+# For some reason this is required. If it's omitted all of the env keys get duplicated.
+envOverride:
   FOO: BAR
