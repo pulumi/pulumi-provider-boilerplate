@@ -19,8 +19,8 @@ export class RandomComponent extends pulumi.ComponentResource {
         return obj['__pulumiType'] === RandomComponent.__pulumiType;
     }
 
-    public readonly length!: pulumi.Output<number>;
-    public /*out*/ readonly password!: pulumi.Output<string>;
+    declare public readonly length: pulumi.Output<number>;
+    declare public /*out*/ readonly password: pulumi.Output<string>;
 
     /**
      * Create a RandomComponent resource with the given unique name, arguments, and options.
@@ -33,10 +33,10 @@ export class RandomComponent extends pulumi.ComponentResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.length === undefined) && !opts.urn) {
+            if (args?.length === undefined && !opts.urn) {
                 throw new Error("Missing required property 'length'");
             }
-            resourceInputs["length"] = args ? args.length : undefined;
+            resourceInputs["length"] = args?.length;
             resourceInputs["password"] = undefined /*out*/;
         } else {
             resourceInputs["length"] = undefined /*out*/;
