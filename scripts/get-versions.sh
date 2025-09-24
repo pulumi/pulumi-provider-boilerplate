@@ -9,9 +9,7 @@ gomod="./go.mod"
 
 if [[ ! -f "$gomod" ]]; then
   echo "missing $gomod" >&2
-  export GO_VERSION="latest"
-  export PULUMI_VERSION="latest"
-  exit 0
+  exit 1
 fi
 
 raw_version=$(awk -v module="$module_path" '
@@ -28,8 +26,7 @@ raw_version=$(awk -v module="$module_path" '
 
 if [[ -z "${raw_version:-}" ]]; then
   echo "failed to determine Pulumi version from $gomod" >&2
-  # default to latest
-  raw_version="latest"
+  exit 1
 fi
 
 echo "PULUMI_VERSION=$raw_version"
@@ -46,8 +43,7 @@ fi
 
 if [[ -z "${go_version:-}" ]]; then
   echo "failed to determine Go version from $gomod" >&2
-  # default to latest
-  go_version="latest"
+  exit 1
 fi
 
 echo "GO_VERSION=$go_version"
