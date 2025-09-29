@@ -29,8 +29,8 @@ if [[ -z "${raw_version:-}" ]]; then
   exit 1
 fi
 
-echo "PULUMI_VERSION=$raw_version"
-export PULUMI_VERSION=$raw_version
+echo "MISE_PULUMI_VERSION=$raw_version"
+export MISE_PULUMI_VERSION=$raw_version
 
 # Prefer the toolchain directive if present, otherwise fall back to the `go` version line
 go_toolchain=$(awk '/^toolchain[[:space:]]+go[0-9]/{ print $2; exit }' "$gomod")
@@ -46,5 +46,5 @@ if [[ -z "${go_version:-}" ]]; then
   exit 1
 fi
 
-echo "GO_VERSION=$go_version"
-export GO_VERSION=$go_version
+echo "MISE_GO_VERSION=$go_version"
+export MISE_GO_VERSION=$go_version
