@@ -20,6 +20,7 @@ pulumi = "{{ get_env(name='MISE_PULUMI_VERSION', default='latest') }}"
 "github:pulumi/pulumictl" = 'latest'
 "github:pulumi/schema-tools" = "latest"
 gradle = '7.6'
+golangci-lint = "1.64.8" # See note about about overrides if you need to customize this.
 
 [settings]
 experimental = true # Required for Go binaries (e.g. pulumictl).
