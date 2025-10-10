@@ -1,6 +1,7 @@
 {
     "name": "@pulumi/provider-boilerplate",
     "version": "1.0.0-alpha.0+dev",
+    "homepage": "https://www.pulumi.com",
     "scripts": {
         "build": "tsc"
     },
