@@ -25,13 +25,13 @@ url = "https://github.com/pulumi/schema-tools/releases/download/v0.6.0/schema-to
 url_api = ""
 
 [[tools.go]]
-version = "1.24.1"
+version = "1.24.10"
 backend = "core:go"
 
 [tools.go.platforms.linux-x64]
-checksum = "sha256:cb2396bae64183cdccf81a9a6df0aea3bce9511fc21469fb89a0c00470088073"
-size = 78503123
-url = "https://dl.google.com/go/go1.24.1.linux-amd64.tar.gz"
+checksum = "sha256:dd52b974e3d9c5a7bbfb222c685806def6be5d6f7efd10f9caa9ca1fa2f47955"
+size = 78693970
+url = "https://dl.google.com/go/go1.24.10.linux-amd64.tar.gz"
 
 [[tools.gradle]]
 version = "7.6.6"
@@ -65,13 +65,13 @@ version = "1.22.22"
 backend = "npm:yarn"
 
 [[tools.pulumi]]
-version = "3.175.0"
+version = "3.206.0"
 backend = "aqua:pulumi/pulumi"
 
 [tools.pulumi.platforms.linux-x64]
-checksum = "sha512:72bd9e201c81554ebf1edc72dc216a912d2c762d474a4c5d7ac0cbf896b7671bb065d7a8202006ef1bddd2f8b9c30cc541d8e3ca5c5d15d636bbabcd2c858664"
-size = 91289993
-url = "https://github.com/pulumi/pulumi/releases/download/v3.175.0/pulumi-v3.175.0-linux-x64.tar.gz"
+checksum = "sha256:e950bb0afdeac2aaf5b7edc95380cc8c93f7d43c1d6268a76a01792630cbdee0"
+size = 94509673
+url = "https://github.com/pulumi/pulumi/releases/download/v3.206.0/pulumi-v3.206.0-linux-x64.tar.gz"
 
 [[tools.python]]
 version = "3.11.8"
