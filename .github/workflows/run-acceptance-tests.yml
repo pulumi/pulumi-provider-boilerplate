@@ -82,7 +82,7 @@ jobs:
       with:
         repo: pulumi/schema-tools
     - name: Build codegen binaries
-      run: make codegen
+      run: make -d codegen
     - name: Build Schema
       run: make generate_schema
     - if: github.event_name == 'pull_request'
