@@ -12,7 +12,8 @@ import (
 
 func TestPython(t *testing.T) {
 	pt := pulumitest.NewPulumiTest(t, "python",
-		opttest.YarnLink("@pulumi/provider-boilerplate"),
+		opttest.SkipInstall(),
+		opttest.PythonLink("../sdk/python"),
 		opttest.AttachProviderServer("provider-boilerplate", providerFactory),
 	)
 
