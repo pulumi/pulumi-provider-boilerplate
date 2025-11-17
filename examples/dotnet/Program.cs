@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pulumi;
-using Boilerplate = Mynamespace.ProviderBoilerplate;
+using Boilerplate = Pulumi.ProviderBoilerplate;
 
 return await Deployment.RunAsync(() => 
 {
@@ -15,12 +15,6 @@ return await Deployment.RunAsync(() =>
         Length = 24,
     });
 
-    return new Dictionary<string, object?>
-    {
-        ["output"] = 
-        {
-            { "value", myRandomResource.Result },
-        },
-    };
+    return new Dictionary<string, object?>{};
 });
 

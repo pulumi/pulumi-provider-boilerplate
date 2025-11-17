@@ -1,5 +1,5 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as boilerplate from "@mynamespace/provider-boilerplate";
+import * as boilerplate from "@pulumi/provider-boilerplate";
 
 const myRandomResource = new boilerplate.Random("myRandomResource", {
   length: 24,
