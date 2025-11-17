@@ -1,6 +1,9 @@
 name: Setup Tools
 description: Installs all tools (Go, Node, Python, .NET, Java, Pulumi, etc.) using mise
 
+env:
+  FOO: BAR
+
 inputs:
   cache:
     description: Enable caching

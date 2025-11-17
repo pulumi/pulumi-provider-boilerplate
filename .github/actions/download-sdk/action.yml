@@ -1,9 +1,12 @@
 name: Download SDK
 description: Downloads and extracts SDK artifacts for a specific language
 
+env:
+  FOO: BAR
+
 inputs:
   language:
-    description: 'The SDK language to download (nodejs, python, dotnet, java)'
+    description: "The SDK language to download (nodejs, python, dotnet, java)"
     required: true
 
 runs:

@@ -1,6 +1,9 @@
 name: Download Provider Binary
 description: Downloads the provider binary artifact and restores executable permissions
 
+env:
+  FOO: BAR
+
 runs:
   using: "composite"
   steps:
