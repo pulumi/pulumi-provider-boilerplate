@@ -3,8 +3,19 @@
 
 package examples
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/pulumi/providertest/pulumitest"
+	"github.com/pulumi/providertest/pulumitest/opttest"
+)
 
 func TestDotnet(t *testing.T) {
-	// TODO
+	pt := pulumitest.NewPulumiTest(t, "dotnet",
+		opttest.AttachProviderServer("provider-boilerplate", providerFactory),
+	)
+
+	pt.Preview(t)
+	pt.Up(t)
+	pt.Destroy(t)
 }

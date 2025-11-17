@@ -3,8 +3,20 @@
 
 package examples
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/pulumi/providertest/pulumitest"
+	"github.com/pulumi/providertest/pulumitest/opttest"
+)
 
 func TestPython(t *testing.T) {
-	// TODO: https://github.com/pulumi/providertest/issues/39
+	pt := pulumitest.NewPulumiTest(t, "python",
+		opttest.YarnLink("@pulumi/provider-boilerplate"),
+		opttest.AttachProviderServer("provider-boilerplate", providerFactory),
+	)
+
+	pt.Preview(t)
+	pt.Up(t)
+	pt.Destroy(t)
 }
