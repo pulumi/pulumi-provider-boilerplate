@@ -2,6 +2,7 @@
 
 env:
   FOO: BAR
+  PULUMI_PULUMI_ENABLE_JOURNALING: "true"
 
 jobs:
   command-dispatch-for-testing:
