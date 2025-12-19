@@ -27,6 +27,7 @@ golangci-lint = "1.64.8" # See note about about overrides if you need to customi
 [settings]
 experimental = true # Required for Go binaries (e.g. pulumictl).
 lockfile = false
+http_retries = 3
 
 [plugins]
 vfox-pulumi = "https://github.com/pulumi/vfox-pulumi"
