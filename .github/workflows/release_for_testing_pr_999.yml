@@ -3,6 +3,7 @@
 name: release-for-testing-pr-999
 on:
   workflow_dispatch: {}
+  pull_request: {}
 env:
   PROVIDER: provider-boilerplate
   PULUMI_LOCAL_NUGET: ${{ github.workspace }}/nuget
