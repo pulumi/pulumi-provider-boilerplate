@@ -196,34 +196,13 @@ sign-goreleaser-exe-arm64: GORELEASER_ARCH := arm64
 # Set the shell to bash to allow for the use of bash syntax.
 sign-goreleaser-exe-%: SHELL:=/bin/bash
 sign-goreleaser-exe-%: bin/jsign-6.0.jar
-	@# Only sign windows binary if fully configured.
-	@# Test variables set by joining with | between and looking for || showing at least one variable is empty.
-	@# Move the binary to a temporary location and sign it there to avoid the target being up-to-date if signing fails.
-	@set -e; \
-	if [[ "${SKIP_SIGNING}" != "true" ]]; then \
-		if [[ "|${AZURE_SIGNING_CLIENT_ID}|${AZURE_SIGNING_CLIENT_SECRET}|${AZURE_SIGNING_TENANT_ID}|${AZURE_SIGNING_KEY_VAULT_URI}|" == *"||"* ]]; then \
-			echo "Can't sign windows binaries as required configuration not set: AZURE_SIGNING_CLIENT_ID, AZURE_SIGNING_CLIENT_SECRET, AZURE_SIGNING_TENANT_ID, AZURE_SIGNING_KEY_VAULT_URI"; \
-			echo "To rebuild with signing delete the unsigned windows exe file and rebuild with the fixed configuration"; \
-			if [[ "${CI}" == "true" ]]; then exit 1; fi; \
-		else \
-			file=dist/build-provider-sign-windows_windows_${GORELEASER_ARCH}/pulumi-resource-provider-boilerplate.exe; \
-			mv $${file} $${file}.unsigned; \
-			az login --service-principal \
-				--username "${AZURE_SIGNING_CLIENT_ID}" \
-				--password "${AZURE_SIGNING_CLIENT_SECRET}" \
-				--tenant "${AZURE_SIGNING_TENANT_ID}" \
-				--output none; \
-			ACCESS_TOKEN=$$(az account get-access-token --resource "https://vault.azure.net" | jq -r .accessToken); \
-			java -jar bin/jsign-6.0.jar \
-				--storetype AZUREKEYVAULT \
-				--keystore "PulumiCodeSigning" \
-				--url "${AZURE_SIGNING_KEY_VAULT_URI}" \
-				--storepass "$${ACCESS_TOKEN}" \
-				$${file}.unsigned; \
-			mv $${file}.unsigned $${file}; \
-			az logout; \
-		fi; \
-	fi
+    SKIP_SIGNING=${SKIP_SIGNING} \
+	AZURE_SIGNING_CLIENT_ID=${AZURE_SIGNING_CLIENT_ID} \
+	AZURE_SIGNING_CLIENT_SECRET=${AZURE_SIGNING_CLIENT_SECRET} \
+	AZURE_SIGNING_TENANT_ID=${AZURE_SIGNING_TENANT_ID} \
+	AZURE_SIGNING_KEY_VAULT_URI=${AZURE_SIGNING_KEY_VAULT_URI} \
+	GORELEASER_ARCH=${GORELEASER_ARCH} \
+	 scripts/sign-windows-binary.sh
 
 # To make an immediately observable change to .ci-mgmt.yaml:
 #
