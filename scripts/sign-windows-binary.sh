@@ -13,7 +13,7 @@ fi
 if [[ "|$AZURE_SIGNING_CLIENT_ID|$AZURE_SIGNING_CLIENT_SECRET|$AZURE_SIGNING_TENANT_ID|$AZURE_SIGNING_KEY_VAULT_URI|" == *"||"* ]]; then
     >&2 echo "Can't sign windows binaries as required configuration not set: AZURE_SIGNING_CLIENT_ID, AZURE_SIGNING_CLIENT_SECRET, AZURE_SIGNING_TENANT_ID, AZURE_SIGNING_KEY_VAULT_URI";
     >&2 echo "To rebuild with signing delete the unsigned windows exe file and rebuild with the fixed configuration"; 
-    if [[ "${CI}" == "true" ]]; then 
+    if [[ "$CI" == "true" ]]; then
         >&2 echo "Signing windows binary is required in CI";
         exit 1;
     fi

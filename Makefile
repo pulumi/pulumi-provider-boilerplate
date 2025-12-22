@@ -196,13 +196,14 @@ sign-goreleaser-exe-arm64: GORELEASER_ARCH := arm64
 # Set the shell to bash to allow for the use of bash syntax.
 sign-goreleaser-exe-%: SHELL:=/bin/bash
 sign-goreleaser-exe-%: bin/jsign-6.0.jar
-    SKIP_SIGNING=${SKIP_SIGNING} \
+	SKIP_SIGNING=${SKIP_SIGNING} \
 	AZURE_SIGNING_CLIENT_ID=${AZURE_SIGNING_CLIENT_ID} \
 	AZURE_SIGNING_CLIENT_SECRET=${AZURE_SIGNING_CLIENT_SECRET} \
 	AZURE_SIGNING_TENANT_ID=${AZURE_SIGNING_TENANT_ID} \
 	AZURE_SIGNING_KEY_VAULT_URI=${AZURE_SIGNING_KEY_VAULT_URI} \
 	GORELEASER_ARCH=${GORELEASER_ARCH} \
-	 scripts/sign-windows-binary.sh
+	CI=${CI} \
+		scripts/sign-windows-binary.sh
 
 # To make an immediately observable change to .ci-mgmt.yaml:
 #
