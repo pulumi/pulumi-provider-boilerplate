@@ -227,15 +227,6 @@ jobs:
       uses: ./.github/actions/setup-tools
       with:
         github_token: ${{ steps.app-auth.outputs.token }}
-    - name: Clear GitHub Actions Ubuntu runner disk space
-      uses: jlumbroso/free-disk-space@54081f138730dfa15788a46383842cd2f914a1be # v1.3.1
-      with:
-        tool-cache: false
-        dotnet: false
-        android: true
-        haskell: true
-        swap-storage: true
-        large-packages: false
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@61815dcd50bd041e203e49132bacad1fd04d2708 # v5.1.1
       with:
@@ -257,6 +248,6 @@ jobs:
         SKIP_SIGNING: ${{ steps.esc-secrets.outputs.AZURE_SIGNING_CLIENT_ID == '' && steps.esc-secrets.outputs.AZURE_SIGNING_CLIENT_SECRET == '' && steps.esc-secrets.outputs.AZURE_SIGNING_TENANT_ID == '' && steps.esc-secrets.outputs.AZURE_SIGNING_KEY_VAULT_URI == '' }}
         GITHUB_TOKEN: ${{ steps.esc-secrets.outputs.PULUMI_BOT_TOKEN }}
       with:
-        args: -p 3 release --clean --timeout 60m0s --skip=publish
+        args: -p 3 release --clean --timeout 60m0s --skip=publish --snapshot
         version: latest
   
