@@ -26,9 +26,9 @@ file="dist/build-provider-sign-windows_windows_$GORELEASER_ARCH/pulumi-resource-
 mv "$file" "$file.unsigned";
 
 >&2 echo "Logging in to Azure";
-az login --service-principal
-    --username "$AZURE_SIGNING_CLIENT_ID"
-    --password "$AZURE_SIGNING_CLIENT_SECRET"
+az login --service-principal \
+    --username "$AZURE_SIGNING_CLIENT_ID" \
+    --password "$AZURE_SIGNING_CLIENT_SECRET" \
     --tenant "$AZURE_SIGNING_TENANT_ID";
 
 if [[ $? -ne 0 ]]; then
