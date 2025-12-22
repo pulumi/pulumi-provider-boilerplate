@@ -1,6 +1,6 @@
 # Delete once PR #999 is merged
 
-name: release
+name: release-for-testing-pr-999
 on:
   workflow_dispatch: {}
 env:
