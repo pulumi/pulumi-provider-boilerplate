@@ -8,7 +8,7 @@ replace github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boi
 
 require (
 	github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate v0.0.99
-	github.com/pulumi/pulumi/sdk/v3 v3.212.0
+	github.com/pulumi/pulumi/sdk/v3 v3.214.0
 )
 
 require (
