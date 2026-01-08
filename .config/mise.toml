@@ -24,6 +24,9 @@ pulumi = "{{ get_env(name='PULUMI_VERSION_MISE', default='latest') }}"
 golangci-lint = "1.64.8" # See note about about overrides if you need to customize this.
 "npm:yarn" = "1.22.22"
 
+# Workaround for https://github.com/jdx/mise/discussions/6678
+"vfox-pulumi:pulumi/pulumi-xyz" = "1.1.354"
+
 [settings]
 experimental = true # Required for Go binaries (e.g. pulumictl).
 lockfile = false
