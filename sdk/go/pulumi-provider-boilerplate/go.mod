@@ -2,8 +2,6 @@ module github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boil
 
 go 1.24.7
 
-toolchain go1.24.10
-
 require (
 	github.com/blang/semver v3.5.1+incompatible
 	github.com/pulumi/pulumi/sdk/v3 v3.212.0
