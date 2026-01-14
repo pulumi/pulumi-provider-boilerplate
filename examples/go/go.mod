@@ -2,8 +2,6 @@ module github.com/pulumi/pulumi-provider-boilerplate/examples/go
 
 go 1.24.7
 
-toolchain go1.24.10
-
 replace github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate => ../../sdk/go/pulumi-provider-boilerplate
 
 require (
