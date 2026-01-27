@@ -41,5 +41,5 @@ jobs:
         install-mode: none # Handled by mise.
         working-directory: .
     name: lint
-    if: github.event_name == 'repository_dispatch' ||
-      github.event.pull_request.head.repo.full_name == github.repository
+    if: github.actor != 'github-merge-queue[bot]' && (github.event_name == 'repository_dispatch' ||
+      github.event.pull_request.head.repo.full_name == github.repository)
