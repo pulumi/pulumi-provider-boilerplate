@@ -24,10 +24,11 @@ import (
 
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/integration"
-	xyz "github.com/pulumi/pulumi-provider-boilerplate/provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/pulumi/pulumi/sdk/v3/go/property"
+
+	xyz "github.com/pulumi/pulumi-provider-boilerplate/provider"
 )
 
 func TestRandomCreate(t *testing.T) {
