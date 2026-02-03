@@ -59,7 +59,7 @@ type RandomState struct {
 //
 // All resources must implement Create at a minimum.
 func (Random) Create(
-	ctx context.Context,
+	_ context.Context,
 	req infer.CreateRequest[RandomArgs],
 ) (infer.CreateResponse[RandomState], error) {
 	name := req.Name
