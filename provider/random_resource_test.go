@@ -43,7 +43,7 @@ func TestRandomResource(t *testing.T) {
 				"length": 24,
 			})),
 
-			Hook: func(inputs, output property.Map) {
+			Hook: func(_, output property.Map) {
 				t.Logf("Outputs: %v", output)
 				result := output.Get("result").AsString()
 				assert.Len(t, result, 24)
@@ -55,7 +55,7 @@ func TestRandomResource(t *testing.T) {
 					"length": 10,
 				})),
 
-				Hook: func(inputs, output property.Map) {
+				Hook: func(_, output property.Map) {
 					result := output.Get("result").AsString()
 					assert.Len(t, result, 10)
 				},
