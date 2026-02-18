@@ -23,6 +23,7 @@ java = 'corretto-11'
 "aqua:gradle/gradle-distributions" = '7.6.6'
 golangci-lint = "1.64.8" # See note about about overrides if you need to customize this.
 "npm:yarn" = "1.22.22"
+"wait-for-gh-rate-limit" = "1.1.1"
 
 [settings]
 experimental = true # Required for Go binaries (e.g. pulumictl).
