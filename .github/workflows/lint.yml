@@ -51,7 +51,7 @@ jobs:
         cache_save: false # A different job handles caching our tools.
     - name: prepare workspace
       continue-on-error: true
-      run: make prepare_local_workspace
+      run: make prepare
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
