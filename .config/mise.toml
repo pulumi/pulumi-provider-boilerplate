@@ -19,6 +19,7 @@ java = 'corretto-11'
 "github:pulumi/pulumi" = "{{ env.PULUMI_VERSION_MISE }}"
 "github:pulumi/pulumictl" = '0.0.50'
 "github:pulumi/schema-tools" = "0.6.0"
+"go:github.com/pulumi/upgrade-provider" = "1c85aa79bad096152d90cc69b2e06209598c9280"
 "aqua:gradle/gradle-distributions" = '7.6.6'
 golangci-lint = "1.64.8" # See note about about overrides if you need to customize this.
 "npm:yarn" = "1.22.22"
