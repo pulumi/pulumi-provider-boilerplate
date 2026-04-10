@@ -179,28 +179,32 @@ install_nodejs_sdk::
 test:: test_provider
 	cd examples && go test -v -tags=all -timeout 2h
 
-# Set these variables to enable signing of the windows binary
+# Set these variables to enable signing of the windows binary with Azure Trusted Signing.
 AZURE_SIGNING_CLIENT_ID ?=
 AZURE_SIGNING_CLIENT_SECRET ?=
 AZURE_SIGNING_TENANT_ID ?=
-AZURE_SIGNING_KEY_VAULT_URI ?=
+AZURE_SIGNING_ACCOUNT_ENDPOINT ?=
+AZURE_SIGNING_ACCOUNT_NAME ?=
+AZURE_SIGNING_CERT_PROFILE_NAME ?=
 SKIP_SIGNING ?=
 
-bin/jsign-6.0.jar:
+bin/jsign-7.4.jar:
 	mkdir -p bin
-	wget https://github.com/ebourg/jsign/releases/download/6.0/jsign-6.0.jar --output-document=bin/jsign-6.0.jar
+	wget https://github.com/ebourg/jsign/releases/download/7.4/jsign-7.4.jar --output-document=bin/jsign-7.4.jar
 
 sign-goreleaser-exe-amd64: GORELEASER_ARCH := amd64_v1
 sign-goreleaser-exe-arm64: GORELEASER_ARCH := arm64
 
 # Set the shell to bash to allow for the use of bash syntax.
 sign-goreleaser-exe-%: SHELL:=/bin/bash
-sign-goreleaser-exe-%: bin/jsign-6.0.jar
+sign-goreleaser-exe-%: bin/jsign-7.4.jar
 	SKIP_SIGNING=${SKIP_SIGNING} \
 	AZURE_SIGNING_CLIENT_ID=${AZURE_SIGNING_CLIENT_ID} \
 	AZURE_SIGNING_CLIENT_SECRET=${AZURE_SIGNING_CLIENT_SECRET} \
 	AZURE_SIGNING_TENANT_ID=${AZURE_SIGNING_TENANT_ID} \
-	AZURE_SIGNING_KEY_VAULT_URI=${AZURE_SIGNING_KEY_VAULT_URI} \
+	AZURE_SIGNING_ACCOUNT_ENDPOINT=${AZURE_SIGNING_ACCOUNT_ENDPOINT} \
+	AZURE_SIGNING_ACCOUNT_NAME=${AZURE_SIGNING_ACCOUNT_NAME} \
+	AZURE_SIGNING_CERT_PROFILE_NAME=${AZURE_SIGNING_CERT_PROFILE_NAME} \
 	GORELEASER_ARCH=${GORELEASER_ARCH} \
 	CI=${CI} \
 		scripts/sign-windows-binary.sh
