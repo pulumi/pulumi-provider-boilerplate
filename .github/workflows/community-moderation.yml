@@ -11,13 +11,13 @@ jobs:
         persist-credentials: false
     - id: schema_changed
       name: Check for diff in schema
-      uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+      uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
       with:
         filters: "changed: 'provider/cmd/**/schema.json'"
     - id: sdk_changed
       if: steps.schema_changed.outputs.changed == 'false'
       name: Check for diff in sdk/**
-      uses: dorny/paths-filter@d1c1ffe0248fe513906c8e24db8ea791d46f8590 # v3.0.3
+      uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
       with:
         filters: "changed: 'sdk/**'"
     - if: steps.sdk_changed.outputs.changed == 'true' &&
