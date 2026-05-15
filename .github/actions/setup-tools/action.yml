@@ -14,7 +14,7 @@ runs:
   using: "composite"
   steps:
     - name: Setup mise
-      uses: jdx/mise-action@8d3b0ba20a9cea7b883d922ea958553c941ab082
+      uses: jdx/mise-action@43db152e9b8a8416d4b9070a7057d9bf84c447da
       env:
         MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: 30s
       with:
