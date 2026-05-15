@@ -56,7 +56,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
         run: gh pr checkout "$PR_NUMBER"
       - name: Setup mise
-        uses: jdx/mise-action@8d3b0ba20a9cea7b883d922ea958553c941ab082
+        uses: jdx/mise-action@93ca8a4cef410a93642d35fc79bc9e08a145a17e
         env:
           MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: 30s
         with:
@@ -79,7 +79,7 @@ jobs:
           (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude review')) ||
           (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude review'))
         id: claude-review
-        uses: anthropics/claude-code-action@f4fb5c6cdccc1ee7af63692f5d08d56efaa64cc8 # v1
+        uses: anthropics/claude-code-action@86eb26bf0139bdd75acd15ea5f00f45ee0a284c2 # v1
         with:
           anthropic_api_key: ${{ steps.esc-secrets.outputs.ANTHROPIC_API_KEY }}
           prompt: |
@@ -101,7 +101,7 @@ jobs:
           !contains(github.event.comment.body, '@claude review') &&
           !contains(github.event.review.body, '@claude review')
         id: claude-action
-        uses: anthropics/claude-code-action@f4fb5c6cdccc1ee7af63692f5d08d56efaa64cc8 # v1
+        uses: anthropics/claude-code-action@86eb26bf0139bdd75acd15ea5f00f45ee0a284c2 # v1
         with:
           anthropic_api_key: ${{ steps.esc-secrets.outputs.ANTHROPIC_API_KEY }}
           # This allows claude to read github action logs
