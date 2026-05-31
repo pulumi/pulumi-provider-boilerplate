@@ -42,7 +42,7 @@ jobs:
         private-key: ${{ steps.esc-secrets.outputs.PULUMI_PROVIDER_AUTOMATION_PRIVATE_KEY }}
         owner: ${{ github.repository_owner }}
     - name: Setup mise
-      uses: jdx/mise-action@8d3b0ba20a9cea7b883d922ea958553c941ab082
+      uses: jdx/mise-action@e47eed9a5f11d7b1c4e4a27e094fdee05dfb6db3
       env:
         MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: 30s
       with:
