@@ -56,7 +56,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
         run: gh pr checkout "$PR_NUMBER"
       - name: Setup mise
-        uses: jdx/mise-action@8d3b0ba20a9cea7b883d922ea958553c941ab082
+        uses: jdx/mise-action@f4342fcf272dbfde9f0de9617dffa5ebae2e5bb4
         env:
           MISE_FETCH_REMOTE_VERSIONS_TIMEOUT: 30s
         with:
