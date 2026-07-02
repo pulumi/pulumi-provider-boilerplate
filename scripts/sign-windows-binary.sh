@@ -26,6 +26,9 @@ file="dist/build-provider-sign-windows_windows_$GORELEASER_ARCH/pulumi-resource-
 mv "$file" "$file.unsigned";
 
 >&2 echo "Logging in to Azure";
+AZURE_CONFIG_DIR=$(mktemp -d)
+export AZURE_CONFIG_DIR
+trap 'rm -rf "$AZURE_CONFIG_DIR"' EXIT
 az login --service-principal \
     --username "$AZURE_SIGNING_CLIENT_ID" \
     --password "$AZURE_SIGNING_CLIENT_SECRET" \
@@ -59,11 +62,5 @@ java -jar bin/jsign-7.4.jar \
 
 >&2 echo "Moving $file.unsigned to $file";
 mv "$file.unsigned" "$file";
-
->&2 echo "Logging out from Azure";
-
-if ! az logout; then
-    >&2 echo "Failed to logout from Azure, ignoring error";
-fi
 
 >&2 echo "Signing of windows binary complete";
