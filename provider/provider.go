@@ -36,6 +36,7 @@ func Provider() p.Provider {
 		WithDescription("An example built with pulumi-go-provider.").
 		WithHomepage("https://www.pulumi.com").
 		WithNamespace("pulumi").
+		WithGoImportPath("github.com/pulumi/pulumi-provider-boilerplate/sdk/go/pulumi-provider-boilerplate").
 		WithResources(infer.Resource(Random{})).
 		WithComponents(infer.ComponentF(NewRandomComponent)).
 		WithConfig(infer.Config(&Config{})).
