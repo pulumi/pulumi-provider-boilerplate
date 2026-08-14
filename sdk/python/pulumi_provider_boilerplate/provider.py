@@ -19,7 +19,7 @@ __all__ = ['ProviderArgs', 'Provider']
 @pulumi.input_type
 class ProviderArgs:
     def __init__(__self__, *,
-                 itsasecret: Optional[pulumi.Input[_builtins.bool]] = None):
+                 itsasecret: pulumi.Input[Optional[_builtins.bool]] = None):
         """
         The set of arguments for constructing a Provider resource.
         """
@@ -28,11 +28,11 @@ class ProviderArgs:
 
     @_builtins.property
     @pulumi.getter
-    def itsasecret(self) -> Optional[pulumi.Input[_builtins.bool]]:
+    def itsasecret(self) -> pulumi.Input[Optional[_builtins.bool]]:
         return pulumi.get(self, "itsasecret")
 
     @itsasecret.setter
-    def itsasecret(self, value: Optional[pulumi.Input[_builtins.bool]]):
+    def itsasecret(self, value: pulumi.Input[Optional[_builtins.bool]]):
         pulumi.set(self, "itsasecret", value)
 
 
@@ -42,10 +42,11 @@ class Provider(pulumi.ProviderResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 itsasecret: Optional[pulumi.Input[_builtins.bool]] = None,
+                 itsasecret: pulumi.Input[Optional[_builtins.bool]] = None,
                  __props__=None):
         """
         Create a Provider-boilerplate resource with the given unique name, props, and options.
+
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
         """
@@ -57,6 +58,7 @@ class Provider(pulumi.ProviderResource):
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Create a Provider-boilerplate resource with the given unique name, props, and options.
+
         :param str resource_name: The name of the resource.
         :param ProviderArgs args: The arguments to use to populate this resource's properties.
         :param pulumi.ResourceOptions opts: Options for the resource.
@@ -72,7 +74,7 @@ class Provider(pulumi.ProviderResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
-                 itsasecret: Optional[pulumi.Input[_builtins.bool]] = None,
+                 itsasecret: pulumi.Input[Optional[_builtins.bool]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
