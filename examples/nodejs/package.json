@@ -1,10 +1,10 @@
 {
   "name": "provider-boilerplate",
   "devDependencies": {
-    "@types/node": "^20"
+    "@types/node": "^24.0.0"
   },
   "dependencies": {
-    "typescript": "^4.0.0",
+    "typescript": "^7.0.0",
     "@pulumi/pulumi": "3.261.0"
   }
 }
