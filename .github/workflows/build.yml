@@ -364,6 +364,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     name: publish
+    # Only the default branch is allowed to publish: this job assumes a role with write access to
+    # the production plugin CDN, and feature-** branches are unprotected.
+    if: github.ref_name == github.event.repository.default_branch
     permissions:
       contents: read
       id-token: write # For ESC secrets.
