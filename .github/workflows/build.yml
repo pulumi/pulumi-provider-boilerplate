@@ -43,7 +43,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
@@ -186,7 +186,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
@@ -266,7 +266,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
@@ -316,7 +316,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
@@ -394,7 +394,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
@@ -480,7 +480,7 @@ jobs:
         lfs: true    
     - id: esc-auth
       name: Authenticate with Pulumi Cloud
-      uses: pulumi/auth-actions@141415910c3beb54e03b48e9057c204c97b956f2
+      uses: pulumi/auth-actions@159c3e431aab767d4519b96f3f784d7d3d725622
       with:
         export-environment-variables: "false"
         organization: pulumi
