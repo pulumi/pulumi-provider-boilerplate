@@ -2,9 +2,7 @@
 
 name: prerelease
 on:
-  push:
-    tags:
-    - v*.*.*-**
+  workflow_call: {}
 env:
   PROVIDER: provider-boilerplate
   TRAVIS_OS_NAME: linux
@@ -23,6 +21,7 @@ env:
 
 jobs:
   prerequisites:
+    if: github.repository == 'pulumi/pulumi-provider-boilerplate'
     runs-on: ubuntu-latest
     name: prerequisites
     permissions:
