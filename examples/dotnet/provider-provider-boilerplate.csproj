@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Pulumi" Version="3.11*" />
+		<PackageReference Include="Pulumi" Version="3.12*" />
 		<PackageReference Include="Pulumi.ProviderBoilerplate" Version="0.0.17*" />
 	</ItemGroup>
 
